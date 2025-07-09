@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "ng build --configuration=production",
-    "dev": "next dev",
+    "dev": "ng serve",
     "lint": "ng lint",
     "start": "npx http-server ./dist"
   },
@@ -72,6 +72,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.0.6",
+    "@angular/cli": "^20.0.6",
     "@angular/compiler-cli": "^20.0.6",
     "@types/node": "^22",
     "@types/react": "^19",

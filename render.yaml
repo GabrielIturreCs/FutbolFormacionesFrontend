@@ -1,11 +1,9 @@
 services:
   - type: web
     name: futbol-formaciones-frontend
-    env: node
+    env: static
     buildCommand: npm install && npm run build
-    startCommand: npm run start
+    staticPublishPath: ./dist/futbol-equipos-app
     envVars:
       - key: NODE_VERSION
-        value: 20
-    plan: free
-    autoDeploy: true
+        value: 18.17.0
