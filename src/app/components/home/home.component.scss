@@ -1,0 +1,219 @@
+.hero-section {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.stat-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.campo-container {
+  background: linear-gradient(45deg, #4a7c59 0%, #2d5a27 100%);
+  min-height: 70vh;
+}
+
+.campo-futbol {
+  width: 100%;
+  max-width: 800px;
+  height: 500px;
+  background: linear-gradient(90deg, #2d5a27 0%, #4a7c59 50%, #2d5a27 100%);
+  border: 4px solid var(--linea-blanca);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  
+  // Líneas del campo
+  .linea-central {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--linea-blanca);
+    transform: translateX(-50%);
+  }
+  
+  .circulo-central {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    border: 3px solid var(--linea-blanca);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      background: var(--linea-blanca);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  
+  .area-izquierda, .area-derecha {
+    position: absolute;
+    top: 20%;
+    width: 120px;
+    height: 60%;
+    border: 3px solid var(--linea-blanca);
+  }
+  
+  .area-izquierda {
+    left: 0;
+    border-left: none;
+  }
+  
+  .area-derecha {
+    right: 0;
+    border-right: none;
+  }
+  
+  .area-pequena-izquierda, .area-pequena-derecha {
+    position: absolute;
+    top: 35%;
+    width: 60px;
+    height: 30%;
+    border: 3px solid var(--linea-blanca);
+  }
+  
+  .area-pequena-izquierda {
+    left: 0;
+    border-left: none;
+  }
+  
+  .area-pequena-derecha {
+    right: 0;
+    border-right: none;
+  }
+  
+  .arco-izquierdo, .arco-derecho {
+    position: absolute;
+    top: 42%;
+    width: 8px;
+    height: 16%;
+    background: var(--linea-blanca);
+  }
+  
+  .arco-izquierdo {
+    left: -4px;
+  }
+  
+  .arco-derecho {
+    right: -4px;
+  }
+}
+
+.jugador {
+  position: absolute;
+  width: 60px;
+  height: 80px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 20;
+  }
+  
+  .jugador-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    margin: 0 auto 5px;
+    border: 3px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .jugador-nombre {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70px;
+    margin: 0 auto;
+  }
+}
+
+.jugador-rojo .jugador-avatar {
+  background: var(--equipo-rojo);
+}
+
+.jugador-azul .jugador-avatar {
+  background: var(--equipo-azul);
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .campo-futbol {
+    height: 400px;
+    max-width: 95%;
+  }
+  
+  .jugador {
+    width: 50px;
+    height: 70px;
+    
+    .jugador-avatar {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+    }
+    
+    .jugador-nombre {
+      font-size: 10px;
+      max-width: 60px;
+    }
+  }
+  
+  .circulo-central {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 576px) {
+  .campo-futbol {
+    height: 300px;
+  }
+  
+  .jugador {
+    width: 40px;
+    height: 60px;
+    
+    .jugador-avatar {
+      width: 35px;
+      height: 35px;
+      font-size: 16px;
+    }
+    
+    .jugador-nombre {
+      font-size: 9px;
+      max-width: 50px;
+    }
+  }
+}
