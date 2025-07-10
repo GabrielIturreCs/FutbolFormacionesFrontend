@@ -150,7 +150,7 @@ interface Formacion {
                              [title]="jugador.jugadorId.nombre + ' - ' + jugador.jugadorId.goles + ' goles'">
                           <div class="player-number">{{ jugador.numero || jugador.jugadorId.numero || '?' }}</div>
                           <div class="player-avatar">
-                            <img *ngIf="jugador.jugadorId.fotoUrl" [src]="jugador.jugadorId.fotoUrl" alt="Foto" class="jugador-foto-campo" />
+                            <img *ngIf="jugador.jugadorId.fotoUrl" [src]="getFotoUrl(jugador.jugadorId)" alt="Foto" class="jugador-foto-campo" />
                             <i *ngIf="!jugador.jugadorId.fotoUrl" class="bi bi-person-circle jugador-foto-campo"></i>
                           </div>
                           <div class="player-name">{{ jugador.jugadorId.nombre }}</div>
@@ -175,7 +175,7 @@ interface Formacion {
                              [title]="jugador.jugadorId.nombre + ' - ' + jugador.jugadorId.goles + ' goles'">
                           <div class="player-number">{{ jugador.numero || jugador.jugadorId.numero || '?' }}</div>
                           <div class="player-avatar">
-                            <img *ngIf="jugador.jugadorId.fotoUrl" [src]="jugador.jugadorId.fotoUrl" alt="Foto" class="jugador-foto-campo" />
+                            <img *ngIf="jugador.jugadorId.fotoUrl" [src]="getFotoUrl(jugador.jugadorId)" alt="Foto" class="jugador-foto-campo" />
                             <i *ngIf="!jugador.jugadorId.fotoUrl" class="bi bi-person-circle jugador-foto-campo"></i>
                           </div>
                           <div class="player-name">{{ jugador.jugadorId.nombre }}</div>
@@ -332,5 +332,12 @@ export class VerFormacionComponent implements OnInit {
 
   editarFormacion(): void {
     this.router.navigate(['/editar-formacion', this.formacionId]);
+  }
+
+  getFotoUrl(jugador: any): string {
+    // Si tiene fotoUrl (Cloudinary), úsala. Si no, usa el avatar por defecto
+    return jugador && jugador.fotoUrl && jugador.fotoUrl.startsWith('http')
+      ? jugador.fotoUrl
+      : 'assets/img/avatar-default.png';
   }
 }

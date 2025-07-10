@@ -693,9 +693,9 @@ export class GestionJugadoresComponent implements OnInit {
   }
 
   getFotoUrl(jugador: Jugador): string {
-    if (!jugador.fotoUrl) return 'assets/img/avatar-default.png'; // Cambia por tu ícono por defecto
-    if (jugador.fotoUrl.startsWith('http')) return jugador.fotoUrl;
-    // Si la URL es relativa, anteponer el dominio del backend
-    return this.configService.getApiUrl() + jugador.fotoUrl;
+    // Si tiene fotoUrl (Cloudinary), úsala. Si no, usa el avatar por defecto
+    return jugador.fotoUrl && jugador.fotoUrl.startsWith('http')
+      ? jugador.fotoUrl
+      : 'assets/img/avatar-default.png';
   }
 }
