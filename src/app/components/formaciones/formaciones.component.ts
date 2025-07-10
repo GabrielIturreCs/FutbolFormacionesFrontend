@@ -391,6 +391,15 @@ export class FormacionesComponent implements OnInit {
     return asistenciasLocal + asistenciasVisitante;
   }
 
+  // Función robusta para obtener la URL de la foto del jugador
+  getFotoUrl(jugador: any): string {
+    if (!jugador) return '';
+    if (jugador.fotoUrl && jugador.fotoUrl.startsWith('http')) {
+      return jugador.fotoUrl;
+    }
+    return '';
+  }
+
   get formacionesActivas(): Formacion[] {
     return this.formaciones.filter(f => f.activa);
   }

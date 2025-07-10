@@ -150,8 +150,8 @@ interface Formacion {
                              [title]="jugador.jugadorId.nombre + ' - ' + jugador.jugadorId.goles + ' goles'">
                           <div class="player-number">{{ jugador.numero || jugador.jugadorId.numero || '?' }}</div>
                           <div class="player-avatar">
-                            <img *ngIf="jugador.jugadorId.fotoUrl" [src]="getFotoUrl(jugador.jugadorId)" alt="Foto" class="jugador-foto-campo" />
-                            <i *ngIf="!jugador.jugadorId.fotoUrl" class="bi bi-person-circle jugador-foto-campo"></i>
+                            <img *ngIf="getFotoUrl(jugador.jugadorId)" [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
+                            <i *ngIf="!getFotoUrl(jugador.jugadorId)" class="bi bi-person-circle jugador-foto-campo"></i>
                           </div>
                           <div class="player-name">{{ jugador.jugadorId.nombre }}</div>
                           <div class="player-stats">
@@ -175,8 +175,8 @@ interface Formacion {
                              [title]="jugador.jugadorId.nombre + ' - ' + jugador.jugadorId.goles + ' goles'">
                           <div class="player-number">{{ jugador.numero || jugador.jugadorId.numero || '?' }}</div>
                           <div class="player-avatar">
-                            <img *ngIf="jugador.jugadorId.fotoUrl" [src]="getFotoUrl(jugador.jugadorId)" alt="Foto" class="jugador-foto-campo" />
-                            <i *ngIf="!jugador.jugadorId.fotoUrl" class="bi bi-person-circle jugador-foto-campo"></i>
+                            <img *ngIf="getFotoUrl(jugador.jugadorId)" [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
+                            <i *ngIf="!getFotoUrl(jugador.jugadorId)" class="bi bi-person-circle jugador-foto-campo"></i>
                           </div>
                           <div class="player-name">{{ jugador.jugadorId.nombre }}</div>
                           <div class="player-stats">
@@ -334,10 +334,12 @@ export class VerFormacionComponent implements OnInit {
     this.router.navigate(['/editar-formacion', this.formacionId]);
   }
 
+  // Función robusta para obtener la URL de la foto del jugador
   getFotoUrl(jugador: any): string {
-    // Si tiene fotoUrl (Cloudinary), úsala. Si no, usa el avatar por defecto
-    return jugador && jugador.fotoUrl && jugador.fotoUrl.startsWith('http')
-      ? jugador.fotoUrl
-      : 'assets/img/avatar-default.png';
+    if (!jugador) return '';
+    if (jugador.fotoUrl && jugador.fotoUrl.startsWith('http')) {
+      return jugador.fotoUrl;
+    }
+    return '';
   }
 }

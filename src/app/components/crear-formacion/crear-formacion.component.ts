@@ -514,12 +514,18 @@ export class CrearFormacionComponent implements OnInit {
     return jugador ? jugador.nombre : 'Jugador';
   }
 
-  // Mejorar getFotoUrl para soportar ambos modelos
-  getFotoUrl(jugadorId: string): string {
-    let jugador = this.jugadores.find(j => (j as any)._id === jugadorId || (j as any).id === jugadorId);
-    return jugador && jugador.fotoUrl && jugador.fotoUrl.startsWith('http')
-      ? jugador.fotoUrl
-      : '';
+  // Función robusta para obtener la URL de la foto del jugador
+  getFotoUrl(jugador: any): string {
+    if (!jugador) return '';
+    // Soporta ambos modelos: jugador puede ser un string (id) o un objeto
+    let obj = jugador;
+    if (typeof jugador === 'string' && this.jugadores) {
+      obj = this.jugadores.find(j => j._id === jugador || j.id === jugador);
+    }
+    if (obj && obj.fotoUrl && obj.fotoUrl.startsWith('http')) {
+      return obj.fotoUrl;
+    }
+    return '';
   }
 
   // FUNCIONES DE DRAG AND DROP MEJORADAS
