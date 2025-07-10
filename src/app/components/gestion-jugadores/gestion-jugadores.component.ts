@@ -460,6 +460,7 @@ export class GestionJugadoresComponent implements OnInit {
   accionConfirmar: (() => void) | null = null;
   fotoFile: File | null = null;
   fotoPreview: string | null = null;
+  error: string | null = null;
 
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
@@ -537,11 +538,11 @@ export class GestionJugadoresComponent implements OnInit {
   }
 
   guardarJugador(): void {
+    this.error = null;
     if (!this.jugadorForm.nombre.trim() || !this.jugadorForm.equipo) {
       alert('Nombre y equipo son obligatorios');
       return;
     }
-
     const guardar = (fotoUrl?: string) => {
       const jugadorData = { ...this.jugadorForm, fotoUrl: fotoUrl || this.jugadorForm.fotoUrl };
       if (this.esEdicion && this.jugadorSeleccionado) {
@@ -572,7 +573,6 @@ export class GestionJugadoresComponent implements OnInit {
           });
       }
     };
-
     if (this.fotoFile) {
       const formData = new FormData();
       formData.append('foto', this.fotoFile);
@@ -582,8 +582,12 @@ export class GestionJugadoresComponent implements OnInit {
             guardar(res.url);
           },
           error: (error) => {
-            console.error('Error subiendo foto:', error);
-            alert('Error al subir la foto');
+            let msg = 'Error al subir la foto';
+            if (error?.error?.error) {
+              msg = error.error.error;
+            }
+            this.error = msg;
+            alert(msg);
             guardar();
           }
         });
