@@ -31,10 +31,13 @@
 
 // Fondo de césped futbolero
 .campo-container {
-  background: repeating-linear-gradient(90deg, #2d5a27 0 40px, #4a7c59 40px 80px);
+  /* Eliminar fondo de rayas para evitar relleno extra */
+  background: none;
   border-radius: 18px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   border: 2px solid #fff;
+  padding: 0;
+  margin: 0;
 }
 
 // Campo de fútbol principal
@@ -196,8 +199,9 @@
   &:hover {
     transform: translate(-50%, -50%) scale(1.1);
     z-index: 20;
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.28);
-    background: rgba(255,255,255,0.18);
+    /* Eliminar cualquier sombra/fondo debajo del jugador */
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+    background: rgba(255,255,255,0.05);
     
     .jugador-nombre {
       opacity: 1;
