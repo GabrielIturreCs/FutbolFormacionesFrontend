@@ -1,4 +1,4 @@
-// Estilos para el componente Ver Formación - COPIANDO EXACTAMENTE el diseño de formaciones
+// Estilos para el componente Ver Formación - TAMAÑO CORREGIDO
 
 // Tarjetas de estadísticas - MISMO ESTILO
 .stat-card {
@@ -44,37 +44,31 @@
     }
   }
   
-  // Campo de fútbol - COPIANDO EXACTAMENTE el diseño de campo-mini pero más grande
+  // Campo de fútbol - TAMAÑO CORREGIDO IGUAL A LAS OTRAS CANCHAS
   .football-field {
     position: relative;
     width: 100%;
-    height: 600px;
-    background: linear-gradient(135deg, #28a745, #20c997);
-    border: 4px solid #fff;
+    max-width: 800px; // ✅ MISMO TAMAÑO QUE home.component
+    height: 500px;    // ✅ MISMO TAMAÑO QUE home.component
+    background: linear-gradient(90deg, #2d5a27 0%, #4a7c59 50%, #2d5a27 100%);
+    border: 4px solid #ffffff;
     border-radius: 15px;
     overflow: hidden;
-    margin: 0;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    margin: 0 auto; // ✅ CENTRADO
+    box-shadow: 
+      0 10px 30px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     
     &:hover {
       transform: scale(1.01);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-    }
-    
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/></svg>') repeat;
-      opacity: 0.3;
+      box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
   }
   
-  // Líneas del campo - COPIANDO el estilo de campo-mini
+  // Líneas del campo - MISMO ESTILO
   .field-lines {
     position: absolute;
     top: 0;
@@ -84,16 +78,31 @@
     pointer-events: none;
     z-index: 1;
   
+    // Línea central
+    .center-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 3px;
+      height: 100%;
+      background: #ffffff;
+      transform: translateX(-50%);
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+  
+    // Círculo central
     .center-circle {
       position: absolute;
-      top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      top: 50%;
       width: 120px;
       height: 120px;
-      border: 3px solid rgba(255,255,255,0.9);
+      border: 3px solid #ffffff;
       border-radius: 50%;
-      box-shadow: 0 0 10px rgba(255,255,255,0.3);
+      transform: translate(-50%, -50%);
+      box-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.3),
+        inset 0 0 10px rgba(255, 255, 255, 0.1);
       
       &::after {
         content: '';
@@ -102,66 +111,51 @@
         top: 50%;
         width: 8px;
         height: 8px;
-        background: rgba(255,255,255,0.9);
+        background: #ffffff;
         border-radius: 50%;
         transform: translate(-50%, -50%);
-        box-shadow: 0 0 5px rgba(255,255,255,0.8);
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
       }
     }
   
-    .center-line {
+    // Áreas grandes
+    .penalty-area-left, .penalty-area-right {
       position: absolute;
-      top: 0;
-      left: 50%;
-      width: 3px;
-      height: 100%;
-      background: rgba(255,255,255,0.9);
-      transform: translateX(-50%);
-      box-shadow: 0 0 5px rgba(255,255,255,0.5);
+      top: 20%;
+      width: 120px;
+      height: 60%;
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     }
   
     .penalty-area-left {
-      position: absolute;
-      top: 20%;
       left: 0;
-      width: 25%;
-      height: 60%;
-      border: 3px solid rgba(255,255,255,0.9);
       border-left: none;
-      box-shadow: 0 0 5px rgba(255,255,255,0.3);
     }
   
     .penalty-area-right {
-      position: absolute;
-      top: 20%;
       right: 0;
-      width: 25%;
-      height: 60%;
-      border: 3px solid rgba(255,255,255,0.9);
       border-right: none;
-      box-shadow: 0 0 5px rgba(255,255,255,0.3);
+    }
+  
+    // Áreas pequeñas
+    .goal-area-left, .goal-area-right {
+      position: absolute;
+      top: 35%;
+      width: 60px;
+      height: 30%;
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
     }
   
     .goal-area-left {
-      position: absolute;
-      top: 35%;
       left: 0;
-      width: 10%;
-      height: 30%;
-      border: 3px solid rgba(255,255,255,0.9);
       border-left: none;
-      box-shadow: 0 0 5px rgba(255,255,255,0.3);
     }
   
     .goal-area-right {
-      position: absolute;
-      top: 35%;
       right: 0;
-      width: 10%;
-      height: 30%;
-      border: 3px solid rgba(255,255,255,0.9);
       border-right: none;
-      box-shadow: 0 0 5px rgba(255,255,255,0.3);
     }
   }
   
@@ -219,48 +213,84 @@
     }
   }
   
-  // Jugadores - MEJORADOS con el estilo de formaciones
+  // Jugadores - MISMO ESTILO QUE home.component
   .player {
     position: absolute;
-    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 80px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translate(-50%, -50%);
     z-index: 10;
-  
+    
     &:hover {
       transform: translate(-50%, -50%) scale(1.15);
       z-index: 20;
+      
+      .player-number {
+        box-shadow: 
+          0 8px 25px rgba(0, 0, 0, 0.4),
+          0 0 20px rgba(255, 255, 255, 0.3);
+      }
+      
+      .player-name {
+        background: rgba(0, 0, 0, 0.9);
+        transform: scale(1.05);
+      }
+    }
+  
+    &:active {
+      transform: translate(-50%, -50%) scale(0.95);
     }
   
     .player-number {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
-      font-size: 1rem;
+      color: white;
+      font-size: 24px;
       margin: 0 auto 5px;
       border: 3px solid white;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
       transition: all 0.3s ease;
+      position: relative;
+      font-weight: bold;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, rgba(255,255,255,0.3), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
     }
   
     .player-name {
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-align: center;
-      max-width: 80px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       background: rgba(0, 0, 0, 0.8);
       color: white;
-      padding: 2px 8px;
-      border-radius: 12px;
-      margin: 0 auto 3px;
+      padding: 3px 10px;
+      border-radius: 15px;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 70px;
+      margin: 0 auto;
+      transition: all 0.3s ease;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(5px);
     }
   
     .player-stats {
@@ -271,26 +301,29 @@
       padding: 1px 6px;
       border-radius: 10px;
       margin: 0 auto;
-      max-width: 80px;
+      max-width: 70px;
       box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
     }
   }
   
-  .local-player {
-    .player-number {
-      background: #007bff;
-      color: white;
+  // Colores de equipos
+  .local-player .player-number {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    
+    &:hover::before {
+      opacity: 1;
     }
   }
   
-  .visitor-player {
-    .player-number {
-      background: #dc3545;
-      color: white;
+  .visitor-player .player-number {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    
+    &:hover::before {
+      opacity: 1;
     }
   }
   
-  // Botones personalizados - COPIANDO de formaciones
+  // Botones personalizados
   .btn-custom {
     border-radius: 25px;
     font-weight: 600;
@@ -326,7 +359,7 @@
     }
   }
   
-  // Responsive - COPIANDO de formaciones
+  // Responsive - MISMO QUE home.component
   @media (max-width: 768px) {
     .stat-card {
       margin-bottom: 1rem;
@@ -342,18 +375,24 @@
     
     .football-field {
       height: 400px;
+      max-width: 95%;
+      border-radius: 10px;
     }
     
     .player {
+      width: 50px;
+      height: 70px;
+      
       .player-number {
-        width: 30px;
-        height: 30px;
-        font-size: 0.8rem;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
       }
       
       .player-name {
-        font-size: 0.7rem;
+        font-size: 10px;
         max-width: 60px;
+        padding: 2px 8px;
       }
       
       .player-stats {
@@ -362,32 +401,37 @@
       }
     }
     
-    .field-lines .center-circle {
+    .center-circle {
       width: 80px;
       height: 80px;
     }
     
-    .team .team-info {
-      font-size: 0.8rem;
-      padding: 6px 12px;
+    .btn-custom {
+      padding: 10px 20px;
+      font-size: 0.9rem;
     }
   }
   
   @media (max-width: 576px) {
     .football-field {
       height: 300px;
+      border-radius: 8px;
     }
     
     .player {
+      width: 40px;
+      height: 60px;
+      
       .player-number {
-        width: 25px;
-        height: 25px;
-        font-size: 0.7rem;
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
       }
       
       .player-name {
-        font-size: 0.6rem;
+        font-size: 9px;
         max-width: 50px;
+        padding: 1px 6px;
       }
       
       .player-stats {
@@ -396,13 +440,19 @@
       }
     }
     
-    .field-lines .center-circle {
+    .center-circle {
       width: 60px;
       height: 60px;
     }
+    
+    .btn-custom {
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+    }
   }
   
-  // Animaciones - COPIANDO de formaciones
+  // Animaciones
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -418,20 +468,6 @@
     animation: fadeInUp 0.6s ease-out;
   }
   
-  // Efectos adicionales
-  .football-field {
-    transition: all 0.3s ease;
-  }
-  
-  .player {
-    transition: all 0.2s ease;
-  }
-  
-  .football-field:hover .player {
-    transform: translate(-50%, -50%) scale(1.05);
-  }
-  
-  // Animación de pulso para jugadores
   @keyframes pulse {
     0% { transform: translate(-50%, -50%) scale(1); }
     50% { transform: translate(-50%, -50%) scale(1.05); }

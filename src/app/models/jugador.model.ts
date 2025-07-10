@@ -7,6 +7,7 @@ export interface Jugador {
     y: number
   }
   numero?: number
+  fotoUrl?: string
 }
 
 export interface Equipo {

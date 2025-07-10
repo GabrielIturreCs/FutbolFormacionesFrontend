@@ -49,29 +49,30 @@ export class JugadorService {
       ...jugador,
       id: this.generarId(),
       posicion: this.generarPosicionAleatoria(jugador.equipo),
+      fotoUrl: jugador.fotoUrl || undefined
     };
     equiposActuales[jugador.equipo].push(nuevoJugador);
     this.equiposSubject.next(equiposActuales);
     this.guardarDatos();
   }
 
-  editarJugador(id: string, nuevoNombre: string): void {
-    const equiposActuales = this.equiposSubject.value
-
+  editarJugador(id: string, nuevoNombre: string, fotoUrl?: string): void {
+    const equiposActuales = this.equiposSubject.value;
     // Buscar en equipo rojo
-    const jugadorRojo = equiposActuales.rojo.find((j) => j.id === id)
+    const jugadorRojo = equiposActuales.rojo.find((j) => j.id === id);
     if (jugadorRojo) {
-      jugadorRojo.nombre = nuevoNombre
+      jugadorRojo.nombre = nuevoNombre;
+      if (fotoUrl !== undefined) jugadorRojo.fotoUrl = fotoUrl;
     } else {
       // Buscar en equipo azul
-      const jugadorAzul = equiposActuales.azul.find((j) => j.id === id)
+      const jugadorAzul = equiposActuales.azul.find((j) => j.id === id);
       if (jugadorAzul) {
-        jugadorAzul.nombre = nuevoNombre
+        jugadorAzul.nombre = nuevoNombre;
+        if (fotoUrl !== undefined) jugadorAzul.fotoUrl = fotoUrl;
       }
     }
-
-    this.equiposSubject.next(equiposActuales)
-    this.guardarDatos()
+    this.equiposSubject.next(equiposActuales);
+    this.guardarDatos();
   }
 
   eliminarJugador(id: string): void {

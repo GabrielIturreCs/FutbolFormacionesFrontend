@@ -18,6 +18,7 @@ interface Jugador {
     y: number;
   };
   activo: boolean;
+  fotoUrl?: string; // Added fotoUrl to the interface
 }
 
 @Component({
@@ -126,7 +127,8 @@ interface Jugador {
                         <div class="jugador-avatar me-3" 
                              [class.equipo-rojo]="jugador.equipo === 'rojo'"
                              [class.equipo-azul]="jugador.equipo === 'azul'">
-                          <i class="bi bi-person-fill"></i>
+                          <img *ngIf="jugador.fotoUrl" [src]="jugador.fotoUrl" alt="Foto" class="jugador-foto-small" />
+                          <i *ngIf="!jugador.fotoUrl" class="bi bi-person-fill"></i>
                         </div>
                         <div>
                           <strong>{{ jugador.nombre }}</strong>

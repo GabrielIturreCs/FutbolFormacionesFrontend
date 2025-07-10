@@ -71,7 +71,8 @@ import { FormsModule } from '@angular/forms';
                  (dragstart)="onDragStart($event, jugador)"
                  (click)="editarJugador(jugador)">
               <div class="jugador-avatar">
-                <i class="bi bi-person-fill"></i>
+                <img *ngIf="jugador.fotoUrl" [src]="jugador.fotoUrl" alt="Foto" class="jugador-foto" />
+                <i *ngIf="!jugador.fotoUrl" class="bi bi-person-fill"></i>
               </div>
               <div class="jugador-nombre">{{ jugador.nombre }}</div>
             </div>
@@ -84,7 +85,8 @@ import { FormsModule } from '@angular/forms';
                  (dragstart)="onDragStart($event, jugador)"
                  (click)="editarJugador(jugador)">
               <div class="jugador-avatar">
-                <i class="bi bi-person-fill"></i>
+                <img *ngIf="jugador.fotoUrl" [src]="jugador.fotoUrl" alt="Foto" class="jugador-foto" />
+                <i *ngIf="!jugador.fotoUrl" class="bi bi-person-fill"></i>
               </div>
               <div class="jugador-nombre">{{ jugador.nombre }}</div>
             </div>

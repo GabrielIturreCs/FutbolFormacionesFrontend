@@ -111,6 +111,15 @@
   }
 }
 
+.jugador-foto-small {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1.5px solid #1e824c;
+  background: #fff;
+}
+
 .badge {
   font-weight: 500;
   padding: 0.5rem 0.75rem;

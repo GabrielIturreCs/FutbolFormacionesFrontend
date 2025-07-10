@@ -5,11 +5,12 @@ import { RouterModule } from "@angular/router"
 import { JugadorService } from "../../services/jugador.service"
 import type { Jugador } from "../../models/jugador.model"
 import { Subscription } from "rxjs"
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: "app-equipo-form",
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, HttpClientModule],
   template: `
     <div class="container py-4">
       <div class="row">
@@ -36,6 +37,17 @@ import { Subscription } from "rxjs"
             </div>
             <div class="card-body">
               <form (ngSubmit)="agregarJugador()" #jugadorForm="ngForm">
+                <div class="text-center mb-4">
+                  <div class="foto-preview-wrapper mx-auto mb-2">
+                    <img *ngIf="fotoPreview" [src]="fotoPreview" class="foto-preview" alt="Foto jugador" />
+                    <div *ngIf="!fotoPreview" class="foto-preview placeholder">
+                      <i class="bi bi-person-circle"></i>
+                    </div>
+                  </div>
+                  <button *ngIf="fotoPreview" type="button" class="btn btn-sm btn-outline-danger mt-1" (click)="quitarFoto()">
+                    Quitar foto
+                  </button>
+                </div>
                 <div class="mb-3">
                   <label for="nombreJugador" class="form-label fw-bold">Nombre del Jugador</label>
                   <input 
@@ -50,6 +62,12 @@ import { Subscription } from "rxjs"
                   <div *ngIf="nombreInput.invalid && nombreInput.touched" class="text-danger mt-1">
                     El nombre es requerido
                   </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Foto del Jugador (opcional)</label>
+                  <input type="file" accept="image/jpeg,image/png" class="form-control" (change)="onFotoSelected($event)">
+                  <div *ngIf="errorFoto" class="text-danger mt-1">{{ errorFoto }}</div>
+                  <div *ngIf="subiendoFoto" class="text-info mt-1">Subiendo imagen...</div>
                 </div>
                 
                 <div class="mb-4">
@@ -94,7 +112,7 @@ import { Subscription } from "rxjs"
                   <button 
                     type="submit" 
                     class="btn btn-primary btn-lg btn-custom"
-                    [disabled]="jugadorForm.invalid">
+                    [disabled]="jugadorForm.invalid || subiendoFoto">
                     <i class="bi bi-plus-circle-fill me-2"></i>
                     Agregar Jugador
                   </button>
@@ -255,11 +273,17 @@ import { Subscription } from "rxjs"
 export class EquipoFormComponent implements OnInit, OnDestroy {
   equipoRojo: Jugador[] = []
   equipoAzul: Jugador[] = []
-  nuevoJugador = { nombre: "", equipo: "" as "rojo" | "azul" }
-  jugadorEditando: any = { id: "", nombre: "" }
-  private subscription: Subscription = new Subscription()
+  nuevoJugador: any = { nombre: '', equipo: '', fotoUrl: '' };
+  jugadorEditando: any = { id: '', nombre: '' };
+  private subscription: Subscription = new Subscription();
 
-  constructor(private jugadorService: JugadorService) {}
+  // Para la foto
+  fotoFile: File | null = null;
+  fotoPreview: string | null = null;
+  subiendoFoto: boolean = false;
+  errorFoto: string = '';
+
+  constructor(private jugadorService: JugadorService, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.subscription.add(
@@ -274,30 +298,101 @@ export class EquipoFormComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe()
   }
 
-  agregarJugador(): void {
-    if (this.nuevoJugador.nombre.trim() && this.nuevoJugador.equipo) {
-      this.jugadorService.agregarJugador({
-        nombre: this.nuevoJugador.nombre.trim(),
-        equipo: this.nuevoJugador.equipo,
-      })
+  onFotoSelected(event: any): void {
+    this.errorFoto = '';
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      this.errorFoto = 'Solo se permiten imágenes JPG o PNG';
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      this.errorFoto = 'La imagen no puede superar los 2MB';
+      return;
+    }
+    this.fotoFile = file;
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.fotoPreview = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
 
-      // Limpiar formulario
-      this.nuevoJugador = { nombre: "", equipo: "" as "rojo" | "azul" }
+  quitarFoto(): void {
+    this.fotoFile = null;
+    this.fotoPreview = null;
+    this.nuevoJugador.fotoUrl = '';
+  }
+
+  agregarJugador(): void {
+    if (this.fotoFile) {
+      this.subiendoFoto = true;
+      const formData = new FormData();
+      formData.append('foto', this.fotoFile);
+      this.http.post<{ url: string }>('/api/jugadores/upload-foto', formData).subscribe({
+        next: (res) => {
+          this.nuevoJugador.fotoUrl = res.url;
+          this.subiendoFoto = false;
+          this.guardarJugador();
+        },
+        error: (err) => {
+          this.errorFoto = err.error?.error || 'Error al subir la imagen';
+          this.subiendoFoto = false;
+        }
+      });
+    } else {
+      this.guardarJugador();
     }
   }
 
+  guardarJugador(): void {
+    this.jugadorService.agregarJugador({
+      nombre: this.nuevoJugador.nombre,
+      equipo: this.nuevoJugador.equipo,
+      fotoUrl: this.nuevoJugador.fotoUrl || undefined
+    });
+    this.nuevoJugador = { nombre: '', equipo: '', fotoUrl: '' };
+    this.fotoFile = null;
+    this.fotoPreview = null;
+    this.errorFoto = '';
+  }
+
   editarJugadorEnLista(jugador: Jugador): void {
-    this.jugadorEditando = { ...jugador }
+    this.jugadorEditando = { ...jugador };
+    this.nuevoJugador = { nombre: jugador.nombre, equipo: jugador.equipo, fotoUrl: jugador.fotoUrl };
     const modal = new (window as any).bootstrap.Modal(document.getElementById("editarJugadorModal"))
     modal.show()
   }
 
   guardarEdicion(): void {
-    if (this.jugadorEditando.nombre.trim()) {
-      this.jugadorService.editarJugador(this.jugadorEditando.id, this.jugadorEditando.nombre.trim())
-      const modal = (window as any).bootstrap.Modal.getInstance(document.getElementById("editarJugadorModal"))
-      modal.hide()
+    if (this.fotoFile) {
+      this.subiendoFoto = true;
+      const formData = new FormData();
+      formData.append('foto', this.fotoFile);
+      this.http.post<{ url: string }>('/api/jugadores/upload-foto', formData).subscribe({
+        next: (res) => {
+          this.nuevoJugador.fotoUrl = res.url;
+          this.subiendoFoto = false;
+          this.guardarEdicionFinal();
+        },
+        error: (err) => {
+          this.errorFoto = err.error?.error || 'Error al subir la imagen';
+          this.subiendoFoto = false;
+        }
+      });
+    } else {
+      this.guardarEdicionFinal();
     }
+  }
+
+  guardarEdicionFinal(): void {
+    this.jugadorService.editarJugador(this.jugadorEditando.id, this.nuevoJugador.nombre, this.nuevoJugador.fotoUrl || undefined);
+    this.nuevoJugador = { nombre: '', equipo: '', fotoUrl: '' };
+    this.fotoFile = null;
+    this.fotoPreview = null;
+    this.errorFoto = '';
+    const modal = (window as any).bootstrap.Modal.getInstance(document.getElementById("editarJugadorModal"));
+    modal.hide();
   }
 
   eliminarJugador(id: string): void {
