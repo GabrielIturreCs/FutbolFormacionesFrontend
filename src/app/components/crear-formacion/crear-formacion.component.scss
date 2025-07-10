@@ -1,5 +1,4 @@
-// Estilos para el componente Crear Formación
-
+// Estilos para el componente Home - Campo de Fútbol
 .hero-section {
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   position: relative;
@@ -17,57 +16,30 @@
   }
 }
 
-.card {
-  border: none;
+.stat-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   
-  .card-header {
-    background: linear-gradient(135deg, #007bff, #6610f2);
-    color: white;
-    border: none;
-    padding: 1rem 1.5rem;
-    
-    h5 {
-      margin: 0;
-      font-weight: 600;
-    }
-  }
-}
-
-.form-control {
-  border-radius: 10px;
-  border: 1px solid #dee2e6;
-  padding: 0.75rem 1rem;
-  transition: all 0.3s ease;
-  
-  &:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    border-color: #80bdff;
-    transform: translateY(-1px);
-  }
-}
-
-.form-control-color {
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  border: 2px solid #dee2e6;
-  cursor: pointer;
-  
   &:hover {
-    border-color: #007bff;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   }
 }
 
-// Campo de fútbol
+// Contenedor del campo
 .campo-container {
+  background: linear-gradient(45deg, var(--campo-verde-claro) 0%, var(--campo-verde) 100%);
+  min-height: 70vh;
   display: flex;
   justify-content: center;
-  margin: 2rem 0;
+  align-items: center;
+  padding: 2rem 0;
 }
 
+// Campo de fútbol principal
 .campo-futbol {
   width: 100%;
   max-width: 800px;
@@ -78,6 +50,7 @@
   position: relative;
   cursor: crosshair;
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   
   &::before {
     content: '';
@@ -96,245 +69,191 @@
   position: absolute;
   top: 0;
   left: 50%;
-  width: 2px;
+  width: 3px;
   height: 100%;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.9);
   transform: translateX(-50%);
+  z-index: 1;
 }
 
 .circulo-central {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 60px;
-  height: 60px;
-  border: 2px solid rgba(255,255,255,0.8);
+  width: 120px;
+  height: 120px;
+  border: 3px solid rgba(255,255,255,0.9);
   border-radius: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
+// Áreas grandes (18 yardas)
 .area-izquierda, .area-derecha {
   position: absolute;
   top: 20%;
-  width: 25%;
+  width: 120px;
   height: 60%;
-  border: 2px solid rgba(255,255,255,0.8);
+  border: 3px solid rgba(255,255,255,0.9);
+  z-index: 1;
 }
 
 .area-izquierda {
   left: 0;
-  border-right: none;
+  border-left: none;
 }
 
 .area-derecha {
   right: 0;
-  border-left: none;
+  border-right: none;
 }
 
+// Áreas pequeñas (6 yardas)
 .area-pequena-izquierda, .area-pequena-derecha {
   position: absolute;
   top: 35%;
-  width: 15%;
+  width: 60px;
   height: 30%;
-  border: 2px solid rgba(255,255,255,0.8);
+  border: 3px solid rgba(255,255,255,0.9);
+  z-index: 1;
 }
 
 .area-pequena-izquierda {
   left: 0;
-  border-right: none;
+  border-left: none;
 }
 
 .area-pequena-derecha {
   right: 0;
-  border-left: none;
+  border-right: none;
 }
 
+// Arcos/Porterías
 .arco-izquierdo, .arco-derecho {
   position: absolute;
-  top: 40%;
-  width: 8%;
-  height: 20%;
-  border: 2px solid rgba(255,255,255,0.8);
-  border-radius: 0 50% 50% 0;
+  top: 42%;
+  width: 8px;
+  height: 16%;
+  background: rgba(255,255,255,0.9);
+  z-index: 1;
 }
 
 .arco-izquierdo {
-  left: 0;
-  border-left: none;
+  left: -4px;
+  border-radius: 0 8px 8px 0;
 }
 
 .arco-derecho {
-  right: 0;
-  border-right: none;
-  transform: scaleX(-1);
+  right: -4px;
+  border-radius: 8px 0 0 8px;
 }
 
-// Jugadores en el campo
+// Estilos de los jugadores
 .jugador {
   position: absolute;
-  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 80px;
   cursor: pointer;
   transition: all 0.3s ease;
+  transform: translate(-50%, -50%);
   z-index: 10;
   
   &:hover {
     transform: translate(-50%, -50%) scale(1.1);
     z-index: 20;
-  }
-  
-  &.jugador-local {
-    .jugador-avatar {
-      border: 3px solid #fff;
+    
+    .jugador-nombre {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-5px);
     }
   }
   
-  &.jugador-visitante {
-    .jugador-avatar {
-      border: 3px solid #fff;
-    }
+  &.dragging {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(0.9);
   }
-}
-
-.jugador-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.2rem;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-}
-
-.jugador-nombre {
-  position: absolute;
-  top: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.8);
-  color: white;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.jugador:hover .jugador-nombre {
-  opacity: 1;
-}
-
-.jugador-numero {
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255,255,255,0.9);
-  color: #333;
-  padding: 2px 6px;
-  border-radius: 8px;
-  font-size: 0.7rem;
-  font-weight: bold;
-  min-width: 20px;
-  text-align: center;
-}
-
-// Panel de jugadores
-.jugadores-lista {
-  max-height: 300px;
-  overflow-y: auto;
   
-  .jugador-item {
+  // Avatar circular del jugador
+  .jugador-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0.75rem;
-    border: 1px solid #dee2e6;
-    border-radius: 10px;
-    margin-bottom: 0.5rem;
-    cursor: pointer;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    margin: 0 auto 5px;
+    border: 3px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
-    
-    &:hover {
-      background-color: #f8f9fa;
-      transform: translateX(5px);
-    }
-    
-    .jugador-info {
-      strong {
-        display: block;
-        margin-bottom: 0.25rem;
-      }
-      
-      small {
-        color: #6c757d;
-      }
-    }
-    
-    .jugador-stats {
-      .badge {
-        font-size: 0.7rem;
-      }
-    }
   }
-}
-
-.jugadores-formacion {
-  max-height: 200px;
-  overflow-y: auto;
   
-  .jugador-formacion-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-    
-    .jugador-info {
-      strong {
-        display: block;
-        font-size: 0.9rem;
-      }
-      
-      small {
-        color: #6c757d;
-        font-size: 0.8rem;
-      }
-    }
+  // Nombre del jugador
+  .jugador-nombre {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 15;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 }
 
-// Botones
-.btn {
+// Colores por equipo
+.jugador-rojo {
+  .jugador-avatar {
+    background: var(--equipo-rojo);
+    border-color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.jugador-azul {
+  .jugador-avatar {
+    background: var(--equipo-azul);
+    border-color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+// Estilos para botones personalizados
+.btn-custom {
   border-radius: 25px;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
+  padding: 12px 30px;
+  font-weight: 600;
   transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
   }
   
-  &.btn-sm {
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
-    border-radius: 20px;
-  }
-  
-  &.btn-lg {
-    padding: 0.75rem 1.5rem;
-    font-size: 1.1rem;
-  }
-  
-  &.active {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
+  &:active {
+    transform: translateY(-1px);
   }
 }
 
@@ -343,11 +262,23 @@
   border-radius: 15px;
   border: none;
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
 }
 
 .modal-header {
   border-bottom: 1px solid rgba(0,0,0,0.1);
   padding: 1.5rem;
+  background: linear-gradient(135deg, #007bff, #6610f2);
+  color: white;
+  
+  .modal-title {
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .btn-close {
+    filter: invert(1);
+  }
 }
 
 .modal-body {
@@ -359,7 +290,21 @@
   padding: 1.5rem;
 }
 
-// Responsive
+// Form controls
+.form-control {
+  border-radius: 10px;
+  border: 1px solid #dee2e6;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    border-color: #80bdff;
+    transform: translateY(-1px);
+  }
+}
+
+// Responsive Design
 @media (max-width: 768px) {
   .hero-section {
     padding: 2rem 0 !important;
@@ -367,26 +312,78 @@
     h1 {
       font-size: 2rem !important;
     }
+    
+    .lead {
+      font-size: 1rem;
+    }
   }
   
+  .campo-futbol {
+    height: 400px;
+    max-width: 95%;
+  }
+  
+  .jugador {
+    width: 50px;
+    height: 70px;
+    
+    .jugador-avatar {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+    }
+    
+    .jugador-nombre {
+      font-size: 10px;
+      top: -25px;
+      padding: 2px 6px;
+    }
+  }
+  
+  .circulo-central {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .area-izquierda, .area-derecha {
+    width: 100px;
+  }
+  
+  .area-pequena-izquierda, .area-pequena-derecha {
+    width: 50px;
+  }
+}
+
+@media (max-width: 576px) {
   .campo-futbol {
     height: 300px;
   }
   
-  .jugador-avatar {
-    width: 30px;
-    height: 30px;
-    font-size: 1rem;
+  .jugador {
+    width: 40px;
+    height: 60px;
+    
+    .jugador-avatar {
+      width: 35px;
+      height: 35px;
+      font-size: 16px;
+    }
+    
+    .jugador-nombre {
+      font-size: 9px;
+      top: -20px;
+      padding: 1px 4px;
+    }
   }
   
-  .jugador-nombre {
-    font-size: 0.7rem;
-    top: -20px;
+  .circulo-central {
+    width: 60px;
+    height: 60px;
   }
   
-  .jugador-numero {
-    font-size: 0.6rem;
-    bottom: -15px;
+  .btn-custom {
+    padding: 8px 20px;
+    font-size: 0.9rem;
   }
 }
 
@@ -406,15 +403,28 @@
   animation: fadeInUp 0.6s ease-out;
 }
 
-// Efectos de arrastre
+// Efectos adicionales
 .jugador {
-  &.dragging {
-    opacity: 0.5;
-    transform: scale(0.8);
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+  }
+  
+  &:hover::before {
+    width: 70px;
+    height: 70px;
   }
 }
 
-// Estados de validación
+// Estados de validación para formularios
 .form-control.ng-invalid.ng-touched {
   border-color: #dc3545;
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
@@ -423,4 +433,4 @@
 .form-control.ng-valid.ng-touched {
   border-color: #28a745;
   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
-} 
+}

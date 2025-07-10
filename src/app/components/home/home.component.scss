@@ -37,6 +37,7 @@
     background: var(--linea-blanca);
     transform: translateX(-50%);
   }
+  
   .circulo-central {
     position: absolute;
     left: 50%;
@@ -46,6 +47,7 @@
     border: 3px solid var(--linea-blanca);
     border-radius: 50%;
     transform: translate(-50%, -50%);
+    
     &::after {
       content: '';
       position: absolute;
@@ -58,6 +60,7 @@
       transform: translate(-50%, -50%);
     }
   }
+  
   .area-izquierda, .area-derecha {
     position: absolute;
     top: 20%;
@@ -65,14 +68,17 @@
     height: 60%;
     border: 3px solid var(--linea-blanca);
   }
+  
   .area-izquierda {
     left: 0;
     border-left: none;
   }
+  
   .area-derecha {
     right: 0;
     border-right: none;
   }
+  
   .area-pequena-izquierda, .area-pequena-derecha {
     position: absolute;
     top: 35%;
@@ -80,14 +86,17 @@
     height: 30%;
     border: 3px solid var(--linea-blanca);
   }
+  
   .area-pequena-izquierda {
     left: 0;
     border-left: none;
   }
+  
   .area-pequena-derecha {
     right: 0;
     border-right: none;
   }
+  
   .arco-izquierdo, .arco-derecho {
     position: absolute;
     top: 42%;
@@ -95,9 +104,11 @@
     height: 16%;
     background: var(--linea-blanca);
   }
+  
   .arco-izquierdo {
     left: -4px;
   }
+  
   .arco-derecho {
     right: -4px;
   }
@@ -111,10 +122,12 @@
   transition: all 0.3s ease;
   transform: translate(-50%, -50%);
   z-index: 10;
+  
   &:hover {
     transform: translate(-50%, -50%) scale(1.1);
     z-index: 20;
   }
+  
   .jugador-avatar {
     width: 50px;
     height: 50px;
@@ -128,6 +141,7 @@
     border: 3px solid white;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   }
+  
   .jugador-nombre {
     background: rgba(0, 0, 0, 0.8);
     color: white;
@@ -152,24 +166,44 @@
   background: var(--equipo-azul);
 }
 
+// Estilos para botones personalizados
+.btn-custom {
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-custom:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+// Responsive Design
 @media (max-width: 768px) {
   .campo-futbol {
     height: 400px;
     max-width: 95%;
   }
+  
   .jugador {
     width: 50px;
     height: 70px;
+    
     .jugador-avatar {
       width: 40px;
       height: 40px;
       font-size: 20px;
     }
+    
     .jugador-nombre {
       font-size: 10px;
       max-width: 60px;
     }
   }
+  
   .circulo-central {
     width: 80px;
     height: 80px;
@@ -180,14 +214,17 @@
   .campo-futbol {
     height: 300px;
   }
+  
   .jugador {
     width: 40px;
     height: 60px;
+    
     .jugador-avatar {
       width: 35px;
       height: 35px;
       font-size: 16px;
     }
+    
     .jugador-nombre {
       font-size: 9px;
       max-width: 50px;

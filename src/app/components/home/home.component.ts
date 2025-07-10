@@ -11,127 +11,127 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
-  <div class="container-fluid p-0">
+    <div class="container-fluid p-0">
     <!-- Sección Hero con estadísticas -->
-    <div class="hero-section text-center py-4 bg-dark text-white">
-      <div class="container">
-        <h1 class="display-4 fw-bold mb-3">
-          <i class="bi bi-dribbble text-warning me-3"></i>
-          Campo de Fútbol
-        </h1>
-        <p class="lead">Gestiona tus equipos y visualiza la formación en tiempo real</p>
+      <div class="hero-section text-center py-4 bg-dark text-white">
+        <div class="container">
+          <h1 class="display-4 fw-bold mb-3">
+            <i class="bi bi-dribbble text-warning me-3"></i>
+            Campo de Fútbol
+          </h1>
+          <p class="lead">Gestiona tus equipos y visualiza la formación en tiempo real</p>
         <!-- Estadísticas de equipos -->
-        <div class="row mt-4">
-          <div class="col-md-4">
-            <div class="stat-card bg-danger text-white rounded p-3">
-              <i class="bi bi-people-fill fs-2"></i>
-              <h3>{{ equipoRojo.length }}</h3>
-              <p class="mb-0">Jugadores Rojos</p>
+          <div class="row mt-4">
+            <div class="col-md-4">
+              <div class="stat-card bg-danger text-white rounded p-3">
+                <i class="bi bi-people-fill fs-2"></i>
+                <h3>{{ equipoRojo.length }}</h3>
+                <p class="mb-0">Jugadores Rojos</p>
+              </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="stat-card bg-primary text-white rounded p-3">
-              <i class="bi bi-people-fill fs-2"></i>
-              <h3>{{ equipoAzul.length }}</h3>
-              <p class="mb-0">Jugadores Azules</p>
+            <div class="col-md-4">
+              <div class="stat-card bg-primary text-white rounded p-3">
+                <i class="bi bi-people-fill fs-2"></i>
+                <h3>{{ equipoAzul.length }}</h3>
+                <p class="mb-0">Jugadores Azules</p>
+              </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="stat-card bg-success text-white rounded p-3">
-              <i class="bi bi-trophy-fill fs-2"></i>
-              <h3>{{ equipoRojo.length + equipoAzul.length }}</h3>
-              <p class="mb-0">Total Jugadores</p>
+            <div class="col-md-4">
+              <div class="stat-card bg-success text-white rounded p-3">
+                <i class="bi bi-trophy-fill fs-2"></i>
+                <h3>{{ equipoRojo.length + equipoAzul.length }}</h3>
+                <p class="mb-0">Total Jugadores</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     <!-- Contenedor de la cancha -->
-    <div class="campo-container py-4">
-      <div class="container">
+      <div class="campo-container py-4">
+        <div class="container">
         <!-- CANCHA DE FÚTBOL -->
-        <div class="campo-futbol mx-auto position-relative"
-             (dragover)="onDragOver($event)"
-             (drop)="onDrop($event)">
+          <div class="campo-futbol mx-auto position-relative" 
+               (dragover)="onDragOver($event)" 
+               (drop)="onDrop($event)">
           <!-- LÍNEAS Y ELEMENTOS DEL CAMPO -->
-          <div class="linea-central"></div>
-          <div class="circulo-central"></div>
-          <div class="area-izquierda"></div>
-          <div class="area-derecha"></div>
-          <div class="area-pequena-izquierda"></div>
-          <div class="area-pequena-derecha"></div>
-          <div class="arco-izquierdo"></div>
-          <div class="arco-derecho"></div>
+            <div class="linea-central"></div>
+            <div class="circulo-central"></div>
+            <div class="area-izquierda"></div>
+            <div class="area-derecha"></div>
+            <div class="area-pequena-izquierda"></div>
+            <div class="area-pequena-derecha"></div>
+            <div class="arco-izquierdo"></div>
+            <div class="arco-derecho"></div>
           <!-- JUGADORES DEL EQUIPO ROJO -->
-          <div *ngFor="let jugador of equipoRojo"
-               class="jugador jugador-rojo"
-               [style.left.%]="jugador.posicion.x"
-               [style.top.%]="jugador.posicion.y"
-               [attr.draggable]="true"
-               (dragstart)="onDragStart($event, jugador)"
-               (click)="editarJugador(jugador)">
-            <div class="jugador-avatar">
-              <i class="bi bi-person-fill"></i>
+            <div *ngFor="let jugador of equipoRojo" 
+                 class="jugador jugador-rojo"
+                 [style.left.%]="jugador.posicion.x"
+                 [style.top.%]="jugador.posicion.y"
+                 [attr.draggable]="true"
+                 (dragstart)="onDragStart($event, jugador)"
+                 (click)="editarJugador(jugador)">
+              <div class="jugador-avatar">
+                <i class="bi bi-person-fill"></i>
+              </div>
+              <div class="jugador-nombre">{{ jugador.nombre }}</div>
             </div>
-            <div class="jugador-nombre">{{ jugador.nombre }}</div>
-          </div>
           <!-- JUGADORES DEL EQUIPO AZUL -->
-          <div *ngFor="let jugador of equipoAzul"
-               class="jugador jugador-azul"
-               [style.left.%]="jugador.posicion.x"
-               [style.top.%]="jugador.posicion.y"
-               [attr.draggable]="true"
-               (dragstart)="onDragStart($event, jugador)"
-               (click)="editarJugador(jugador)">
-            <div class="jugador-avatar">
-              <i class="bi bi-person-fill"></i>
+            <div *ngFor="let jugador of equipoAzul" 
+                 class="jugador jugador-azul"
+                 [style.left.%]="jugador.posicion.x"
+                 [style.top.%]="jugador.posicion.y"
+                 [attr.draggable]="true"
+                 (dragstart)="onDragStart($event, jugador)"
+                 (click)="editarJugador(jugador)">
+              <div class="jugador-avatar">
+                <i class="bi bi-person-fill"></i>
+              </div>
+              <div class="jugador-nombre">{{ jugador.nombre }}</div>
             </div>
-            <div class="jugador-nombre">{{ jugador.nombre }}</div>
           </div>
-        </div>
         <!-- Botones de acción -->
-        <div class="text-center mt-4">
-          <a routerLink="/equipo-form" class="btn btn-primary btn-lg btn-custom me-3">
-            <i class="bi bi-person-plus-fill me-2"></i>
-            Agregar Jugadores
-          </a>
-          <button class="btn btn-outline-danger btn-lg btn-custom" (click)="limpiarTodo()">
-            <i class="bi bi-trash-fill me-2"></i>
-            Limpiar Todo
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal para editar jugador -->
-  <div class="modal fade" id="editarJugadorModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Editar Jugador</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Nombre del jugador:</label>
-            <input type="text" class="form-control" [(ngModel)]="jugadorEditando.nombre"
-                   (keyup.enter)="guardarEdicion()">
+          <div class="text-center mt-4">
+            <a routerLink="/equipo-form" class="btn btn-primary btn-lg btn-custom me-3">
+              <i class="bi bi-person-plus-fill me-2"></i>
+              Agregar Jugadores
+            </a>
+            <button class="btn btn-outline-danger btn-lg btn-custom" (click)="limpiarTodo()">
+              <i class="bi bi-trash-fill me-2"></i>
+              Limpiar Todo
+            </button>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-danger me-2" (click)="eliminarJugadorActual()">
-            <i class="bi bi-trash-fill me-1"></i>
-            Eliminar
-          </button>
-          <button type="button" class="btn btn-primary" (click)="guardarEdicion()">
-            <i class="bi bi-check-lg me-1"></i>
-            Guardar
-          </button>
+      </div>
+    </div>
+    <!-- Modal para editar jugador -->
+    <div class="modal fade" id="editarJugadorModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Jugador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nombre del jugador:</label>
+              <input type="text" class="form-control" [(ngModel)]="jugadorEditando.nombre" 
+                     (keyup.enter)="guardarEdicion()">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger me-2" (click)="eliminarJugadorActual()">
+              <i class="bi bi-trash-fill me-1"></i>
+              Eliminar
+            </button>
+            <button type="button" class="btn btn-primary" (click)="guardarEdicion()">
+              <i class="bi bi-check-lg me-1"></i>
+              Guardar
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   `,
   styleUrls: ["./home.component.scss"],
 })

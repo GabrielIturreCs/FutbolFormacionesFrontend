@@ -69,15 +69,15 @@ interface Formacion {
                 <div class="card-body">
                   <div class="mb-3">
                     <label class="form-label">Nombre de la Formación *</label>
-                    <input type="text" class="form-control" 
-                           [(ngModel)]="formacion.nombre" 
+                    <input type="text" class="form-control"
+                           [(ngModel)]="formacion.nombre"
                            name="nombre" required
                            placeholder="Ej: Final 2024, Amistoso vs Azul">
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Descripción</label>
-                    <textarea class="form-control" 
-                              [(ngModel)]="formacion.descripcion" 
+                    <textarea class="form-control"
+                              [(ngModel)]="formacion.descripcion"
                               name="descripcion"
                               rows="3"
                               placeholder="Descripción opcional de la formación"></textarea>
@@ -97,14 +97,14 @@ interface Formacion {
                       <h6>Equipo Local</h6>
                       <div class="mb-3">
                         <label class="form-label">Nombre</label>
-                        <input type="text" class="form-control" 
-                               [(ngModel)]="formacion.equipos.local.nombre" 
+                        <input type="text" class="form-control"
+                               [(ngModel)]="formacion.equipos.local.nombre"
                                name="localNombre" required>
                       </div>
                       <div class="mb-3">
                         <label class="form-label">Color</label>
-                        <input type="color" class="form-control form-control-color" 
-                               [(ngModel)]="formacion.equipos.local.color" 
+                        <input type="color" class="form-control form-control-color"
+                               [(ngModel)]="formacion.equipos.local.color"
                                name="localColor" required>
                       </div>
                     </div>
@@ -112,14 +112,14 @@ interface Formacion {
                       <h6>Equipo Visitante</h6>
                       <div class="mb-3">
                         <label class="form-label">Nombre</label>
-                        <input type="text" class="form-control" 
-                               [(ngModel)]="formacion.equipos.visitante.nombre" 
+                        <input type="text" class="form-control"
+                               [(ngModel)]="formacion.equipos.visitante.nombre"
                                name="visitanteNombre" required>
                       </div>
                       <div class="mb-3">
                         <label class="form-label">Color</label>
-                        <input type="color" class="form-control form-control-color" 
-                               [(ngModel)]="formacion.equipos.visitante.color" 
+                        <input type="color" class="form-control form-control-color"
+                               [(ngModel)]="formacion.equipos.visitante.color"
                                name="visitanteColor" required>
                       </div>
                     </div>
@@ -136,13 +136,13 @@ interface Formacion {
                 <div class="card-header d-flex justify-content-between align-items-center">
                   <h5><i class="bi bi-pitch me-2"></i>Campo de Fútbol</h5>
                   <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-primary btn-sm" 
+                    <button type="button" class="btn btn-outline-primary btn-sm"
                             (click)="seleccionarEquipo('local')"
                             [class.active]="equipoSeleccionado === 'local'">
                       <i class="bi bi-person-fill me-1"></i>
                       {{ formacion.equipos.local.nombre || 'Local' }}
                     </button>
-                    <button type="button" class="btn btn-outline-primary btn-sm" 
+                    <button type="button" class="btn btn-outline-primary btn-sm"
                             (click)="seleccionarEquipo('visitante')"
                             [class.active]="equipoSeleccionado === 'visitante'">
                       <i class="bi bi-person-fill me-1"></i>
@@ -152,7 +152,7 @@ interface Formacion {
                 </div>
                 <div class="card-body">
                   <div class="campo-container">
-                    <div class="campo-futbol" 
+                    <div class="campo-futbol"
                          (click)="agregarJugadorEnPosicion($event)"
                          (dragover)="onDragOver($event)"
                          (drop)="onDrop($event)">
@@ -168,7 +168,7 @@ interface Formacion {
                       <div class="arco-derecho"></div>
                       
                       <!-- Jugadores del equipo local -->
-                      <div *ngFor="let jugador of formacion.equipos.local.jugadores; let i = index" 
+                      <div *ngFor="let jugador of formacion.equipos.local.jugadores; let i = index"
                            class="jugador jugador-local"
                            [style.left.%]="jugador.posicion.x"
                            [style.top.%]="jugador.posicion.y"
@@ -183,7 +183,7 @@ interface Formacion {
                       </div>
                       
                       <!-- Jugadores del equipo visitante -->
-                      <div *ngFor="let jugador of formacion.equipos.visitante.jugadores; let i = index" 
+                      <div *ngFor="let jugador of formacion.equipos.visitante.jugadores; let i = index"
                            class="jugador jugador-visitante"
                            [style.left.%]="jugador.posicion.x"
                            [style.top.%]="jugador.posicion.y"
@@ -222,14 +222,15 @@ interface Formacion {
                     <span class="input-group-text">
                       <i class="bi bi-search"></i>
                     </span>
-                    <input type="text" class="form-control" 
+                    <input type="text" class="form-control"
                            placeholder="Buscar jugador..."
                            [(ngModel)]="filtroJugadores"
-                           name="filtroJugadores">
+                           name="filtroJugadores"
+                           (input)="filtrarJugadores()">
                   </div>
                   
                   <div class="jugadores-lista">
-                    <div *ngFor="let jugador of jugadoresFiltrados" 
+                    <div *ngFor="let jugador of jugadoresFiltrados"
                          class="jugador-item"
                          (click)="seleccionarJugador(jugador)">
                       <div class="jugador-info">
@@ -256,13 +257,13 @@ interface Formacion {
                     <div class="col-6">
                       <h6>{{ formacion.equipos.local.nombre || 'Local' }}</h6>
                       <div class="jugadores-formacion">
-                        <div *ngFor="let jugador of formacion.equipos.local.jugadores" 
+                        <div *ngFor="let jugador of formacion.equipos.local.jugadores"
                              class="jugador-formacion-item">
                           <div class="jugador-info">
                             <strong>{{ getJugadorNombre(jugador.jugadorId) }}</strong>
                             <small class="text-muted">#{{ jugador.numero || '?' }}</small>
                           </div>
-                          <button type="button" class="btn btn-sm btn-outline-danger" 
+                          <button type="button" class="btn btn-sm btn-outline-danger"
                                   (click)="removerJugador(jugador, 'local')">
                             <i class="bi bi-trash"></i>
                           </button>
@@ -272,13 +273,13 @@ interface Formacion {
                     <div class="col-6">
                       <h6>{{ formacion.equipos.visitante.nombre || 'Visitante' }}</h6>
                       <div class="jugadores-formacion">
-                        <div *ngFor="let jugador of formacion.equipos.visitante.jugadores" 
+                        <div *ngFor="let jugador of formacion.equipos.visitante.jugadores"
                              class="jugador-formacion-item">
                           <div class="jugador-info">
                             <strong>{{ getJugadorNombre(jugador.jugadorId) }}</strong>
                             <small class="text-muted">#{{ jugador.numero || '?' }}</small>
                           </div>
-                          <button type="button" class="btn btn-sm btn-outline-danger" 
+                          <button type="button" class="btn btn-sm btn-outline-danger"
                                   (click)="removerJugador(jugador, 'visitante')">
                             <i class="bi bi-trash"></i>
                           </button>
@@ -321,8 +322,8 @@ interface Formacion {
           <div class="modal-body">
             <div class="mb-3">
               <label class="form-label">Número</label>
-              <input type="number" class="form-control" 
-                     [(ngModel)]="jugadorEditando.numero" 
+              <input type="number" class="form-control"
+                     [(ngModel)]="jugadorEditando.numero"
                      min="1" max="99">
             </div>
           </div>
@@ -354,8 +355,13 @@ export class CrearFormacionComponent implements OnInit {
   filtroJugadores = '';
   equipoSeleccionado: 'local' | 'visitante' = 'local';
   esEdicion = false;
-  jugadorEditando: JugadorFormacion & { numero?: number } = { jugadorId: '', posicion: { x: 0, y: 0 }, numero: undefined };
+  jugadorEditando: JugadorFormacion & { numero?: number } = { 
+    jugadorId: '', 
+    posicion: { x: 0, y: 0 }, 
+    numero: undefined 
+  };
   equipoEditando: 'local' | 'visitante' = 'local';
+  private jugadorArrastrado: { jugador: JugadorFormacion; equipo: 'local' | 'visitante' } | null = null;
 
   constructor(
     private http: HttpClient,
@@ -416,23 +422,41 @@ export class CrearFormacionComponent implements OnInit {
   }
 
   agregarJugadorEnPosicion(event: MouseEvent): void {
-    const rect = (event.target as HTMLElement).getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
-    
-    // Abrir modal para seleccionar jugador
-    this.mostrarModalSeleccionJugador(x, y);
+    // Solo procesar si el click es directamente en el campo
+    if ((event.target as HTMLElement).classList.contains('campo-futbol')) {
+      const rect = (event.target as HTMLElement).getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      
+      // Limitar posiciones dentro del campo
+      const posicionX = Math.max(5, Math.min(95, x));
+      const posicionY = Math.max(5, Math.min(95, y));
+      
+      this.mostrarModalSeleccionJugador(posicionX, posicionY);
+    }
   }
 
   mostrarModalSeleccionJugador(x: number, y: number): void {
-    // Implementar modal de selección de jugador
-    const jugadorSeleccionado = this.jugadoresFiltrados[0]; // Por ahora selecciona el primero
+    // Por simplicidad, usar el primer jugador disponible
+    // En una implementación real, mostrarías un modal de selección
+    const jugadorSeleccionado = this.jugadoresFiltrados[0];
     if (jugadorSeleccionado) {
       this.agregarJugador(jugadorSeleccionado, x, y);
+    } else {
+      alert('No hay jugadores disponibles. Agrega jugadores primero.');
     }
   }
 
   agregarJugador(jugador: Jugador, x: number, y: number): void {
+    // Verificar si el jugador ya está en algún equipo
+    const yaEnLocal = this.formacion.equipos.local.jugadores.some(j => j.jugadorId === jugador._id);
+    const yaEnVisitante = this.formacion.equipos.visitante.jugadores.some(j => j.jugadorId === jugador._id);
+    
+    if (yaEnLocal || yaEnVisitante) {
+      alert('Este jugador ya está en la formación');
+      return;
+    }
+
     const nuevoJugador: JugadorFormacion = {
       jugadorId: jugador._id,
       posicion: { x, y },
@@ -454,6 +478,7 @@ export class CrearFormacionComponent implements OnInit {
   }
 
   editarJugador(jugador: JugadorFormacion, equipo: 'local' | 'visitante'): void {
+    event?.stopPropagation(); // Evitar que se active el click del campo
     this.jugadorEditando = { ...jugador, numero: jugador.numero };
     this.equipoEditando = equipo;
     const modal = new (window as any).bootstrap.Modal(document.getElementById('editarJugadorModal'));
@@ -466,7 +491,7 @@ export class CrearFormacionComponent implements OnInit {
     );
     
     if (jugadorIndex !== -1) {
-      this.formacion.equipos[this.equipoEditando].jugadores[jugadorIndex] = this.jugadorEditando;
+      this.formacion.equipos[this.equipoEditando].jugadores[jugadorIndex] = { ...this.jugadorEditando };
     }
     
     const modal = (window as any).bootstrap.Modal.getInstance(document.getElementById('editarJugadorModal'));
@@ -478,8 +503,13 @@ export class CrearFormacionComponent implements OnInit {
     return jugador ? jugador.nombre : 'Jugador';
   }
 
+  // FUNCIONES DE DRAG AND DROP MEJORADAS
   onDragStart(event: DragEvent, jugador: JugadorFormacion, equipo: 'local' | 'visitante'): void {
+    this.jugadorArrastrado = { jugador, equipo };
     event.dataTransfer?.setData('text/plain', JSON.stringify({ jugador, equipo }));
+    
+    // Agregar clase visual de arrastre
+    (event.target as HTMLElement).classList.add('dragging');
   }
 
   onDragOver(event: DragEvent): void {
@@ -488,22 +518,38 @@ export class CrearFormacionComponent implements OnInit {
 
   onDrop(event: DragEvent): void {
     event.preventDefault();
-    const data = event.dataTransfer?.getData('text/plain');
-    if (data) {
-      const { jugador, equipo }: { jugador: JugadorFormacion; equipo: 'local' | 'visitante' } = JSON.parse(data);
-      const rect = (event.target as HTMLElement).getBoundingClientRect();
+    
+    if (this.jugadorArrastrado) {
+      const campo = (event.target as HTMLElement).closest('.campo-futbol') as HTMLElement;
+      if (!campo) return;
+      
+      const rect = campo.getBoundingClientRect();
       const x = ((event.clientX - rect.left) / rect.width) * 100;
       const y = ((event.clientY - rect.top) / rect.height) * 100;
       
+      // Limitar posiciones dentro del campo
+      const posicionX = Math.max(5, Math.min(95, x));
+      const posicionY = Math.max(5, Math.min(95, y));
+      
       // Actualizar posición del jugador
-      const jugadorIndex = this.formacion.equipos[equipo].jugadores.findIndex(
-        (j: JugadorFormacion) => j.jugadorId === jugador.jugadorId
+      const jugadorIndex = this.formacion.equipos[this.jugadorArrastrado.equipo].jugadores.findIndex(
+        (j: JugadorFormacion) => j.jugadorId === this.jugadorArrastrado!.jugador.jugadorId
       );
       
       if (jugadorIndex !== -1) {
-        this.formacion.equipos[equipo].jugadores[jugadorIndex].posicion = { x, y };
+        this.formacion.equipos[this.jugadorArrastrado.equipo].jugadores[jugadorIndex].posicion = { 
+          x: posicionX, 
+          y: posicionY 
+        };
       }
+      
+      this.jugadorArrastrado = null;
     }
+    
+    // Remover clases de arrastre
+    document.querySelectorAll('.jugador.dragging').forEach(el => {
+      el.classList.remove('dragging');
+    });
   }
 
   guardarFormacion(): void {
@@ -512,31 +558,24 @@ export class CrearFormacionComponent implements OnInit {
       return;
     }
 
-    if (this.esEdicion) {
-      this.http.put<any>(`${this.configService.getApiUrl()}/api/formaciones/${this.formacion._id}`, this.formacion)
-        .subscribe({
-          next: () => {
-            alert('Formación actualizada exitosamente');
-            window.location.href = '/formaciones';
-          },
-          error: (error) => {
-            console.error('Error actualizando formación:', error);
-            alert('Error al actualizar formación');
-          }
-        });
-    } else {
-      this.http.post<any>(this.configService.getFullApiUrl('/formaciones'), this.formacion)
-        .subscribe({
-          next: () => {
-            alert('Formación creada exitosamente');
-            window.location.href = '/formaciones';
-          },
-          error: (error) => {
-            console.error('Error creando formación:', error);
-            alert('Error al crear formación');
-          }
-        });
-    }
+    const url = this.esEdicion 
+      ? `${this.configService.getApiUrl()}/api/formaciones/${this.formacion._id}`
+      : this.configService.getFullApiUrl('/formaciones');
+    
+    const request = this.esEdicion 
+      ? this.http.put<any>(url, this.formacion)
+      : this.http.post<any>(url, this.formacion);
+
+    request.subscribe({
+      next: () => {
+        alert(`Formación ${this.esEdicion ? 'actualizada' : 'creada'} exitosamente`);
+        window.location.href = '/formaciones';
+      },
+      error: (error) => {
+        console.error(`Error ${this.esEdicion ? 'actualizando' : 'creando'} formación:`, error);
+        alert(`Error al ${this.esEdicion ? 'actualizar' : 'crear'} formación`);
+      }
+    });
   }
 
   formacionValida(): boolean {
@@ -548,4 +587,4 @@ export class CrearFormacionComponent implements OnInit {
       this.formacion.equipos.visitante.color
     );
   }
-} 
+}
