@@ -99,8 +99,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   color: white;
+  overflow: hidden;
+  position: relative;
   
   &.equipo-rojo {
     background: linear-gradient(135deg, #ff6b6b, #ee5a52);
@@ -109,6 +111,23 @@
   &.equipo-azul {
     background: linear-gradient(135deg, #4ecdc4, #44a08d);
   }
+}
+
+.jugador-avatar img.jugador-foto-campo,
+.jugador-avatar i.jugador-foto-campo {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 1.8rem;
+  line-height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  top: 2px;
+  left: 2px;
 }
 
 .badge {

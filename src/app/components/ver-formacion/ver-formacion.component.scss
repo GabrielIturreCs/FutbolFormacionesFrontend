@@ -276,21 +276,23 @@
     }
   
     .player-name {
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 3px 10px;
-      border-radius: 15px;
-      font-size: 11px;
+      display: block;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      font-size: 0.95rem;
       font-weight: 600;
       text-align: center;
+      border-radius: 12px;
+      padding: 2px 8px;
+      margin: 2px auto 0 auto;
+      max-width: 90px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 70px;
-      margin: 0 auto;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(5px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      z-index: 2;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
   
     .player-stats {
