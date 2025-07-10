@@ -533,25 +533,19 @@ export class CrearFormacionComponent implements OnInit {
     return jugador ? jugador.nombre : 'Jugador';
   }
 
-  // ✅ FUNCIÓN CORREGIDA PARA OBTENER LA URL DE LA FOTO
+  // Función robusta para obtener la URL del jugador (igual que en gestión jugadores)
   getFotoUrl(jugadorId: string): string {
     if (!jugadorId || !this.jugadores) {
       return 'assets/img/avatar-default.png';
     }
-
     // Buscar el jugador por ID en la lista de jugadores
     const jugador = this.jugadores.find(j => j._id === jugadorId);
-    
     if (!jugador) {
       return 'assets/img/avatar-default.png';
     }
-
-    // Si tiene fotoUrl de Cloudinary, usarla
-    if (jugador.fotoUrl && jugador.fotoUrl.startsWith('http')) {
+    if (jugador.fotoUrl && typeof jugador.fotoUrl === 'string' && jugador.fotoUrl.startsWith('http')) {
       return jugador.fotoUrl;
     }
-
-    // Si no tiene foto, usar avatar por defecto
     return 'assets/img/avatar-default.png';
   }
 

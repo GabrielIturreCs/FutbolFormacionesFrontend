@@ -342,12 +342,12 @@ export class VerFormacionComponent implements OnInit {
     this.router.navigate(['/editar-formacion', this.formacionId]);
   }
 
-  // Función robusta para obtener la URL de la foto del jugador
-  getFotoUrl(jugador: any): string {
-    if (!jugador) return '';
-    if (jugador.fotoUrl && jugador.fotoUrl.startsWith('http')) {
+  // Función robusta para obtener la URL de la foto del jugador (igual que en gestión jugadores)
+  getFotoUrl(jugador: Jugador | any): string {
+    if (!jugador) return 'assets/img/avatar-default.png';
+    if (jugador.fotoUrl && typeof jugador.fotoUrl === 'string' && jugador.fotoUrl.startsWith('http')) {
       return jugador.fotoUrl;
     }
-    return '';
+    return 'assets/img/avatar-default.png';
   }
 }

@@ -300,4 +300,13 @@ export class TopGoleadoresComponent implements OnInit {
   get promedioGoles(): number {
     return this.goleadores.length > 0 ? this.totalGoles / this.goleadores.length : 0;
   }
-} 
+
+  // Función robusta para obtener la URL de la foto del jugador (igual que en gestión jugadores)
+  getFotoUrl(jugador: Jugador | any): string {
+    if (!jugador) return 'assets/img/avatar-default.png';
+    if (jugador.fotoUrl && typeof jugador.fotoUrl === 'string' && jugador.fotoUrl.startsWith('http')) {
+      return jugador.fotoUrl;
+    }
+    return 'assets/img/avatar-default.png';
+  }
+}
