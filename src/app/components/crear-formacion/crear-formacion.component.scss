@@ -187,18 +187,17 @@
   
   // Avatar circular del jugador
   .jugador-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
     display: flex;
-    align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 24px;
-    margin: 0 auto 5px;
-    border: 3px solid white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
+    align-items: center;
+    margin-bottom: 4px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #e9ecef;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
   }
   
   // Nombre del jugador
@@ -303,6 +302,64 @@
   }
 }
 
+// Lista de jugadores
+.jugadores-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.jugador-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: background 0.2s;
+  
+  &:hover {
+    background: #e2e6ea;
+  }
+}
+
+// Estilos para fotos de jugadores
+.jugador-foto-campo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  font-size: 44px;
+  color: #adb5bd;
+  background: #e9ecef;
+}
+
+.jugador-avatar-mini {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #e9ecef;
+  border: 1.5px solid #fff;
+  margin-right: 10px;
+}
+
+.jugador-foto-mini {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  font-size: 28px;
+  color: #adb5bd;
+  background: #e9ecef;
+}
+
 // Responsive Design
 @media (max-width: 768px) {
   .hero-section {
@@ -351,6 +408,14 @@
   .area-pequena-izquierda, .area-pequena-derecha {
     width: 50px;
   }
+  
+  .campo-container {
+    padding: 1rem 0;
+  }
+  
+  .jugadores-lista {
+    max-height: 200px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -383,6 +448,23 @@
   .btn-custom {
     padding: 8px 20px;
     font-size: 0.9rem;
+  }
+  
+  .jugador-foto-campo {
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+  }
+  
+  .jugador-avatar-mini {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .jugador-foto-mini {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
   }
 }
 

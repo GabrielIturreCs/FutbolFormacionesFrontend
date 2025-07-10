@@ -12,6 +12,7 @@ interface Jugador {
   equipo: string;
   goles: number;
   asistencias: number;
+  fotoUrl?: string; // Agregado campo fotoUrl
 }
 
 interface JugadorFormacion {
@@ -176,7 +177,8 @@ interface Formacion {
                            (dragstart)="onDragStart($event, jugador, 'local')"
                            (click)="editarJugador(jugador, 'local')">
                         <div class="jugador-avatar" [style.background-color]="formacion.equipos.local.color">
-                          <i class="bi bi-person-fill"></i>
+                          <img *ngIf="getFotoUrl(jugador.jugadorId)" [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
+                          <i *ngIf="!getFotoUrl(jugador.jugadorId)" class="bi bi-person-fill jugador-foto-campo"></i>
                         </div>
                         <div class="jugador-nombre">{{ getJugadorNombre(jugador.jugadorId) }}</div>
                         <div class="jugador-numero">{{ jugador.numero || '?' }}</div>
@@ -191,7 +193,8 @@ interface Formacion {
                            (dragstart)="onDragStart($event, jugador, 'visitante')"
                            (click)="editarJugador(jugador, 'visitante')">
                         <div class="jugador-avatar" [style.background-color]="formacion.equipos.visitante.color">
-                          <i class="bi bi-person-fill"></i>
+                          <img *ngIf="getFotoUrl(jugador.jugadorId)" [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
+                          <i *ngIf="!getFotoUrl(jugador.jugadorId)" class="bi bi-person-fill jugador-foto-campo"></i>
                         </div>
                         <div class="jugador-nombre">{{ getJugadorNombre(jugador.jugadorId) }}</div>
                         <div class="jugador-numero">{{ jugador.numero || '?' }}</div>
@@ -233,6 +236,10 @@ interface Formacion {
                     <div *ngFor="let jugador of jugadoresFiltrados"
                          class="jugador-item"
                          (click)="seleccionarJugador(jugador)">
+                      <div class="jugador-avatar-mini">
+                        <img *ngIf="jugador.fotoUrl && jugador.fotoUrl.startsWith('http')" [src]="jugador.fotoUrl" class="jugador-foto-mini" alt="Foto" />
+                        <i *ngIf="!jugador.fotoUrl || !jugador.fotoUrl.startsWith('http')" class="bi bi-person-circle jugador-foto-mini"></i>
+                      </div>
                       <div class="jugador-info">
                         <strong>{{ jugador.nombre }}</strong>
                         <small class="text-muted">#{{ jugador.numero || 'N/A' }}</small>
@@ -507,6 +514,14 @@ export class CrearFormacionComponent implements OnInit {
   getJugadorNombre(jugadorId: string): string {
     const jugador = this.jugadores.find(j => j._id === jugadorId);
     return jugador ? jugador.nombre : 'Jugador';
+  }
+
+  // Añadir función para obtener la foto del jugador
+  getFotoUrl(jugadorId: string): string {
+    const jugador = this.jugadores.find(j => j._id === jugadorId);
+    return jugador && jugador.fotoUrl && jugador.fotoUrl.startsWith('http')
+      ? jugador.fotoUrl
+      : '';
   }
 
   // FUNCIONES DE DRAG AND DROP MEJORADAS
