@@ -177,6 +177,7 @@ interface Formacion {
                            (dragstart)="onDragStart($event, jugador, 'local')"
                            (click)="editarJugador(jugador, 'local')">
                         <div class="jugador-avatar" [style.background-color]="formacion.equipos.local.color">
+                          <!-- ✅ CORREGIDO: Usar la función mejorada -->
                           <ng-container *ngIf="getFotoUrl(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono">
                             <img [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
                           </ng-container>
@@ -197,8 +198,13 @@ interface Formacion {
                            (dragstart)="onDragStart($event, jugador, 'visitante')"
                            (click)="editarJugador(jugador, 'visitante')">
                         <div class="jugador-avatar" [style.background-color]="formacion.equipos.visitante.color">
-                          <img *ngIf="getFotoUrl(jugador.jugadorId)" [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
-                          <i *ngIf="!getFotoUrl(jugador.jugadorId)" class="bi bi-person-fill jugador-foto-campo"></i>
+                          <!-- ✅ CORREGIDO: Usar la función mejorada -->
+                          <ng-container *ngIf="getFotoUrl(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono2">
+                            <img [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
+                          </ng-container>
+                          <ng-template #icono2>
+                            <i class="bi bi-person-fill jugador-foto-campo"></i>
+                          </ng-template>
                         </div>
                         <div class="jugador-nombre">{{ getJugadorNombre(jugador.jugadorId) }}</div>
                         <div class="jugador-numero">{{ jugador.numero || '?' }}</div>
@@ -241,8 +247,13 @@ interface Formacion {
                          class="jugador-item"
                          (click)="seleccionarJugador(jugador)">
                       <div class="jugador-avatar-mini">
-                        <img *ngIf="jugador.fotoUrl && jugador.fotoUrl.startsWith('http')" [src]="jugador.fotoUrl" class="jugador-foto-mini" alt="Foto" />
-                        <i *ngIf="!jugador.fotoUrl || !jugador.fotoUrl.startsWith('http')" class="bi bi-person-circle jugador-foto-mini"></i>
+                        <!-- ✅ CORREGIDO: Usar getFotoUrl directamente con el objeto jugador -->
+                        <ng-container *ngIf="getFotoUrl(jugador._id) !== 'assets/img/avatar-default.png'; else iconoMini">
+                          <img [src]="getFotoUrl(jugador._id)" class="jugador-foto-mini" alt="Foto" />
+                        </ng-container>
+                        <ng-template #iconoMini>
+                          <i class="bi bi-person-circle jugador-foto-mini"></i>
+                        </ng-template>
                       </div>
                       <div class="jugador-info">
                         <strong>{{ jugador.nombre }}</strong>
@@ -423,6 +434,7 @@ export class CrearFormacionComponent implements OnInit {
       ...this.formacion.equipos.local.jugadores.map(j => j.jugadorId),
       ...this.formacion.equipos.visitante.jugadores.map(j => j.jugadorId)
     ];
+
     if (!this.filtroJugadores.trim()) {
       this.jugadoresFiltrados = this.jugadores.filter(j => !idsEnFormacion.includes(j._id));
     } else {
@@ -468,15 +480,18 @@ export class CrearFormacionComponent implements OnInit {
     // Verificar si el jugador ya está en algún equipo
     const yaEnLocal = this.formacion.equipos.local.jugadores.some(j => j.jugadorId === jugador._id);
     const yaEnVisitante = this.formacion.equipos.visitante.jugadores.some(j => j.jugadorId === jugador._id);
+
     if (yaEnLocal || yaEnVisitante) {
       alert('Este jugador ya está en la formación');
       return;
     }
+
     const nuevoJugador: JugadorFormacion = {
       jugadorId: jugador._id,
       posicion: { x, y },
       numero: jugador.numero
     };
+
     this.formacion.equipos[this.equipoSeleccionado].jugadores.push(nuevoJugador);
     this.filtrarJugadores(); // Refrescar lista visual
   }
@@ -518,17 +533,25 @@ export class CrearFormacionComponent implements OnInit {
     return jugador ? jugador.nombre : 'Jugador';
   }
 
-  // Función robusta para obtener la URL de la foto del jugador (solo _id)
-  getFotoUrl(jugador: any): string {
-    if (!jugador) return 'assets/img/avatar-default.png';
-    // Soporta ambos modelos: jugador puede ser un string (id) o un objeto
-    let obj = jugador;
-    if (typeof jugador === 'string' && this.jugadores) {
-      obj = this.jugadores.find(j => j._id === jugador);
+  // ✅ FUNCIÓN CORREGIDA PARA OBTENER LA URL DE LA FOTO
+  getFotoUrl(jugadorId: string): string {
+    if (!jugadorId || !this.jugadores) {
+      return 'assets/img/avatar-default.png';
     }
-    if (obj && obj.fotoUrl && obj.fotoUrl.startsWith('http')) {
-      return obj.fotoUrl;
+
+    // Buscar el jugador por ID en la lista de jugadores
+    const jugador = this.jugadores.find(j => j._id === jugadorId);
+    
+    if (!jugador) {
+      return 'assets/img/avatar-default.png';
     }
+
+    // Si tiene fotoUrl de Cloudinary, usarla
+    if (jugador.fotoUrl && jugador.fotoUrl.startsWith('http')) {
+      return jugador.fotoUrl;
+    }
+
+    // Si no tiene foto, usar avatar por defecto
     return 'assets/img/avatar-default.png';
   }
 
