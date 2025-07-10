@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../services/config.service';
 
 interface Jugador {
   _id: string;
@@ -358,7 +359,8 @@ export class CrearFormacionComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private configService: ConfigService
   ) {}
 
   ngOnInit(): void {
@@ -374,7 +376,7 @@ export class CrearFormacionComponent implements OnInit {
   }
 
   cargarJugadores(): void {
-    this.http.get<any>('http://localhost:3000/api/formaciones/jugadores-disponibles')
+    this.http.get<any>(this.configService.getFullApiUrl('/formaciones/jugadores-disponibles'))
       .subscribe({
         next: (response) => {
           this.jugadores = response.data;
@@ -387,7 +389,7 @@ export class CrearFormacionComponent implements OnInit {
   }
 
   cargarFormacion(id: string): void {
-    this.http.get<any>(`http://localhost:3000/api/formaciones/${id}`)
+    this.http.get<any>(`${this.configService.getApiUrl()}/api/formaciones/${id}`)
       .subscribe({
         next: (response) => {
           this.formacion = response.data.formacion;
@@ -511,7 +513,7 @@ export class CrearFormacionComponent implements OnInit {
     }
 
     if (this.esEdicion) {
-      this.http.put<any>(`http://localhost:3000/api/formaciones/${this.formacion._id}`, this.formacion)
+      this.http.put<any>(`${this.configService.getApiUrl()}/api/formaciones/${this.formacion._id}`, this.formacion)
         .subscribe({
           next: () => {
             alert('Formación actualizada exitosamente');
@@ -523,7 +525,7 @@ export class CrearFormacionComponent implements OnInit {
           }
         });
     } else {
-      this.http.post<any>('http://localhost:3000/api/formaciones', this.formacion)
+      this.http.post<any>(this.configService.getFullApiUrl('/formaciones'), this.formacion)
         .subscribe({
           next: () => {
             alert('Formación creada exitosamente');

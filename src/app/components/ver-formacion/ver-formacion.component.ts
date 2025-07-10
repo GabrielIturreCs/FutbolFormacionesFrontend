@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
+import { ConfigService } from '../../services/config.service';
 
 interface Jugador {
   _id: string;
@@ -261,7 +262,8 @@ export class VerFormacionComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private configService: ConfigService
   ) {}
 
   ngOnInit(): void {
@@ -270,7 +272,7 @@ export class VerFormacionComponent implements OnInit {
   }
 
   cargarFormacion(): void {
-    this.http.get<any>(`http://localhost:3000/api/formaciones/${this.formacionId}`)
+    this.http.get<any>(`${this.configService.getApiUrl()}/api/formaciones/${this.formacionId}`)
       .subscribe({
         next: (response) => {
           this.formacion = response.data;

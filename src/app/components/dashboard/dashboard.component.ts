@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../services/config.service';
 
 interface Estadisticas {
   totalJugadores: number;
@@ -285,7 +286,7 @@ export class DashboardComponent implements OnInit {
   
   fechaActual = new Date();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   ngOnInit(): void {
     this.cargarEstadisticas();
@@ -293,7 +294,7 @@ export class DashboardComponent implements OnInit {
 
   cargarEstadisticas(): void {
     // Cargar estadísticas de jugadores
-    this.http.get<any>('http://localhost:3000/api/jugadores')
+    this.http.get<any>(this.configService.getFullApiUrl('/jugadores'))
       .subscribe({
         next: (response) => {
           const jugadores = response.data;
@@ -309,7 +310,7 @@ export class DashboardComponent implements OnInit {
       });
 
     // Cargar estadísticas de formaciones
-    this.http.get<any>('http://localhost:3000/api/formaciones')
+    this.http.get<any>(this.configService.getFullApiUrl('/formaciones'))
       .subscribe({
         next: (response) => {
           const formaciones = response.data;

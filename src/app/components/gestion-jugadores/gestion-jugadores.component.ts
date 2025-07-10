@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../services/config.service';
 
 interface Jugador {
   _id: string;
@@ -221,117 +222,169 @@ interface Jugador {
     <div class="modal fade" id="jugadorModal" tabindex="-1">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">{{ esEdicion ? 'Editar' : 'Crear' }} Jugador</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <div class="modal-header bg-dark text-white">
+            <h5 class="modal-title">
+              <i class="bi bi-person-plus-fill me-2"></i>
+              {{ esEdicion ? 'Editar' : 'Crear' }} Jugador
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
             <form>
-              <div class="row">
+              <!-- Información básica -->
+              <div class="row mb-4">
+                <div class="col-12">
+                  <h6 class="text-primary mb-3">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Información Básica
+                  </h6>
+                </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <label class="form-label">Nombre *</label>
-                    <input type="text" class="form-control" 
+                    <label class="form-label fw-bold">
+                      <i class="bi bi-person me-1"></i>
+                      Nombre del Jugador *
+                    </label>
+                    <input type="text" class="form-control form-control-lg" 
                            [(ngModel)]="jugadorForm.nombre" 
-                           name="nombre" required>
+                           name="nombre" 
+                           placeholder="Ej: Lionel Messi"
+                           required>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <label class="form-label">Número</label>
-                    <input type="number" class="form-control" 
+                    <label class="form-label fw-bold">
+                      <i class="bi bi-hash me-1"></i>
+                      Número de Camiseta
+                    </label>
+                    <input type="number" class="form-control form-control-lg" 
                            [(ngModel)]="jugadorForm.numero" 
-                           name="numero" min="1" max="99">
+                           name="numero" 
+                           placeholder="Ej: 10"
+                           min="1" max="99">
                   </div>
                 </div>
               </div>
               
-              <div class="row">
-                <div class="col-md-4">
+              <!-- Equipo y Posición -->
+              <div class="row mb-4">
+                <div class="col-12">
+                  <h6 class="text-success mb-3">
+                    <i class="bi bi-shield me-2"></i>
+                    Equipo y Posición
+                  </h6>
+                </div>
+                <div class="col-md-6">
                   <div class="mb-3">
-                    <label class="form-label">Equipo *</label>
-                    <select class="form-select" [(ngModel)]="jugadorForm.equipo" name="equipo" required>
-                      <option value="">Seleccionar equipo</option>
-                      <option value="rojo">Equipo Rojo</option>
-                      <option value="azul">Equipo Azul</option>
+                    <label class="form-label fw-bold">
+                      <i class="bi bi-people me-1"></i>
+                      Equipo *
+                    </label>
+                    <select class="form-select form-select-lg" [(ngModel)]="jugadorForm.equipo" name="equipo" required>
+                      <option value="">🏟️ Seleccionar equipo</option>
+                      <option value="rojo">🔴 Equipo Rojo</option>
+                      <option value="azul">🔵 Equipo Azul</option>
                     </select>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="mb-3">
-                    <label class="form-label">Posición</label>
-                    <select class="form-select" [(ngModel)]="jugadorForm.posicionJugador" name="posicionJugador">
-                      <option value="">Seleccionar posición</option>
-                      <option value="Portero">Portero</option>
-                      <option value="Defensa">Defensa</option>
-                      <option value="Mediocampista">Mediocampista</option>
-                      <option value="Delantero">Delantero</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label class="form-label">Estado</label>
-                    <select class="form-select" [(ngModel)]="jugadorForm.activo" name="activo">
-                      <option [ngValue]="true">Activo</option>
-                      <option [ngValue]="false">Inactivo</option>
+                    <label class="form-label fw-bold">
+                      <i class="bi bi-geo-alt me-1"></i>
+                      Posición en el Campo
+                    </label>
+                    <select class="form-select form-select-lg" [(ngModel)]="jugadorForm.posicionJugador" name="posicionJugador">
+                      <option value="">⚽ Seleccionar posición</option>
+                      <option value="Portero">🥅 Portero</option>
+                      <option value="Defensa">🛡️ Defensa</option>
+                      <option value="Mediocampista">⚙️ Mediocampista</option>
+                      <option value="Delantero">⚽ Delantero</option>
                     </select>
                   </div>
                 </div>
               </div>
 
-              <div class="row">
+              <!-- Estadísticas -->
+              <div class="row mb-4">
+                <div class="col-12">
+                  <h6 class="text-warning mb-3">
+                    <i class="bi bi-graph-up me-2"></i>
+                    Estadísticas
+                  </h6>
+                </div>
                 <div class="col-md-4">
                   <div class="mb-3">
-                    <label class="form-label">Goles</label>
-                    <input type="number" class="form-control" 
+                    <label class="form-label fw-bold">
+                      <i class="bi bi-trophy me-1"></i>
+                      Goles Marcados
+                    </label>
+                    <input type="number" class="form-control form-control-lg" 
                            [(ngModel)]="jugadorForm.goles" 
-                           name="goles" min="0">
+                           name="goles" 
+                           placeholder="0"
+                           min="0">
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="mb-3">
-                    <label class="form-label">Asistencias</label>
-                    <input type="number" class="form-control" 
+                    <label class="form-label fw-bold">
+                      <i class="bi bi-hand-index me-1"></i>
+                      Asistencias
+                    </label>
+                    <input type="number" class="form-control form-control-lg" 
                            [(ngModel)]="jugadorForm.asistencias" 
-                           name="asistencias" min="0">
+                           name="asistencias" 
+                           placeholder="0"
+                           min="0">
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="mb-3">
-                    <label class="form-label">Partidos Jugados</label>
-                    <input type="number" class="form-control" 
+                    <label class="form-label fw-bold">
+                      <i class="bi bi-calendar-event me-1"></i>
+                      Partidos Jugados
+                    </label>
+                    <input type="number" class="form-control form-control-lg" 
                            [(ngModel)]="jugadorForm.partidosJugados" 
-                           name="partidosJugados" min="0">
+                           name="partidosJugados" 
+                           placeholder="0"
+                           min="0">
                   </div>
                 </div>
               </div>
 
+              <!-- Estado -->
               <div class="row">
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label">Posición X (%)</label>
-                    <input type="number" class="form-control" 
-                           [(ngModel)]="jugadorForm.posicion.x" 
-                           name="posicionX" min="0" max="100">
-                  </div>
+                <div class="col-12">
+                  <h6 class="text-info mb-3">
+                    <i class="bi bi-toggle-on me-2"></i>
+                    Estado del Jugador
+                  </h6>
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <label class="form-label">Posición Y (%)</label>
-                    <input type="number" class="form-control" 
-                           [(ngModel)]="jugadorForm.posicion.y" 
-                           name="posicionY" min="0" max="100">
+                    <label class="form-label fw-bold">
+                      <i class="bi bi-person-check me-1"></i>
+                      Estado
+                    </label>
+                    <select class="form-select form-select-lg" [(ngModel)]="jugadorForm.activo" name="activo">
+                      <option [ngValue]="true">✅ Activo</option>
+                      <option [ngValue]="false">❌ Inactivo</option>
+                    </select>
                   </div>
                 </div>
               </div>
             </form>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" (click)="guardarJugador()">
-              <i class="bi bi-check-lg me-1"></i>
-              {{ esEdicion ? 'Actualizar' : 'Crear' }}
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">
+              <i class="bi bi-x-circle me-1"></i>
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-success btn-lg" (click)="guardarJugador()">
+              <i class="bi bi-check-circle me-1"></i>
+              {{ esEdicion ? 'Actualizar' : 'Crear' }} Jugador
             </button>
           </div>
         </div>
@@ -375,7 +428,6 @@ export class GestionJugadoresComponent implements OnInit {
     goles: 0,
     asistencias: 0,
     partidosJugados: 0,
-    posicion: { x: 50, y: 50 },
     activo: true
   };
   
@@ -385,14 +437,14 @@ export class GestionJugadoresComponent implements OnInit {
   confirmacionMensaje = '';
   accionConfirmar: (() => void) | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   ngOnInit(): void {
     this.cargarJugadores();
   }
 
   cargarJugadores(): void {
-    this.http.get<any>('http://localhost:3000/api/jugadores')
+    this.http.get<any>(this.configService.getFullApiUrl('/jugadores'))
       .subscribe({
         next: (response) => {
           this.jugadores = response.data;
@@ -426,7 +478,6 @@ export class GestionJugadoresComponent implements OnInit {
       goles: 0,
       asistencias: 0,
       partidosJugados: 0,
-      posicion: { x: 50, y: 50 },
       activo: true
     };
     const modal = new (window as any).bootstrap.Modal(document.getElementById('jugadorModal'));
@@ -449,7 +500,7 @@ export class GestionJugadoresComponent implements OnInit {
 
     if (this.esEdicion && this.jugadorSeleccionado) {
       // Actualizar jugador existente
-      this.http.put<any>(`http://localhost:3000/api/jugadores/${this.jugadorSeleccionado._id}`, this.jugadorForm)
+      this.http.put<any>(`${this.configService.getApiUrl()}/api/jugadores/${this.jugadorSeleccionado._id}`, this.jugadorForm)
         .subscribe({
           next: () => {
             this.cargarJugadores();
@@ -463,7 +514,7 @@ export class GestionJugadoresComponent implements OnInit {
         });
     } else {
       // Crear nuevo jugador
-      this.http.post<any>('http://localhost:3000/api/jugadores', this.jugadorForm)
+      this.http.post<any>(this.configService.getFullApiUrl('/jugadores'), this.jugadorForm)
         .subscribe({
           next: () => {
             this.cargarJugadores();
@@ -480,7 +531,7 @@ export class GestionJugadoresComponent implements OnInit {
 
   cambiarGoles(jugador: Jugador, cantidad: number): void {
     const nuevosGoles = Math.max(0, jugador.goles + cantidad);
-    this.http.put<any>(`http://localhost:3000/api/jugadores/${jugador._id}`, {
+    this.http.put<any>(`${this.configService.getApiUrl()}/api/jugadores/${jugador._id}`, {
       ...jugador,
       goles: nuevosGoles
     }).subscribe({
@@ -495,7 +546,7 @@ export class GestionJugadoresComponent implements OnInit {
 
   cambiarAsistencias(jugador: Jugador, cantidad: number): void {
     const nuevasAsistencias = Math.max(0, jugador.asistencias + cantidad);
-    this.http.put<any>(`http://localhost:3000/api/jugadores/${jugador._id}`, {
+    this.http.put<any>(`${this.configService.getApiUrl()}/api/jugadores/${jugador._id}`, {
       ...jugador,
       asistencias: nuevasAsistencias
     }).subscribe({
@@ -513,7 +564,7 @@ export class GestionJugadoresComponent implements OnInit {
     this.confirmacionMensaje = `¿Estás seguro de que quieres ${jugador.activo ? 'desactivar' : 'activar'} a ${jugador.nombre}?`;
     this.jugadorSeleccionado = jugador;
     this.accionConfirmar = () => {
-      this.http.put<any>(`http://localhost:3000/api/jugadores/${jugador._id}`, {
+      this.http.put<any>(`${this.configService.getApiUrl()}/api/jugadores/${jugador._id}`, {
         ...jugador,
         activo: !jugador.activo
       }).subscribe({
@@ -536,7 +587,7 @@ export class GestionJugadoresComponent implements OnInit {
     this.confirmacionMensaje = `¿Estás seguro de que quieres eliminar a ${jugador.nombre}? Esta acción no se puede deshacer.`;
     this.jugadorSeleccionado = jugador;
     this.accionConfirmar = () => {
-      this.http.delete<any>(`http://localhost:3000/api/jugadores/${jugador._id}`)
+      this.http.delete<any>(`${this.configService.getApiUrl()}/api/jugadores/${jugador._id}`)
         .subscribe({
           next: () => {
             this.cargarJugadores();

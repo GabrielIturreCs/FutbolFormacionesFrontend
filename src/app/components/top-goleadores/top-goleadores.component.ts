@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../services/config.service';
 
 interface Jugador {
   _id: string;
@@ -206,7 +207,7 @@ export class TopGoleadoresComponent implements OnInit {
   jugadorSeleccionado: Jugador | null = null;
   loading = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   ngOnInit(): void {
     this.cargarGoleadores();
@@ -214,7 +215,7 @@ export class TopGoleadoresComponent implements OnInit {
 
   cargarGoleadores(): void {
     this.loading = true;
-    this.http.get<any>('http://localhost:3000/api/jugadores')
+    this.http.get<any>(this.configService.getFullApiUrl('/jugadores'))
       .subscribe({
         next: (response) => {
           this.goleadores = response.data
@@ -255,7 +256,7 @@ export class TopGoleadoresComponent implements OnInit {
   confirmarAgregarGol(): void {
     if (!this.jugadorSeleccionado) return;
 
-    this.http.put<any>(`http://localhost:3000/api/jugadores/${this.jugadorSeleccionado._id}/goles`, {
+    this.http.put<any>(`${this.configService.getApiUrl()}/api/jugadores/${this.jugadorSeleccionado._id}/goles`, {
       cantidad: 1
     }).subscribe({
       next: (response) => {
@@ -274,7 +275,7 @@ export class TopGoleadoresComponent implements OnInit {
   confirmarAgregarAsistencia(): void {
     if (!this.jugadorSeleccionado) return;
 
-    this.http.put<any>(`http://localhost:3000/api/jugadores/${this.jugadorSeleccionado._id}/asistencias`, {
+    this.http.put<any>(`${this.configService.getApiUrl()}/api/jugadores/${this.jugadorSeleccionado._id}/asistencias`, {
       cantidad: 1
     }).subscribe({
       next: (response) => {

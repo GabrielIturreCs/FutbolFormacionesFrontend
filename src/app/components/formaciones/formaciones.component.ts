@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../services/config.service';
 import { FormsModule } from '@angular/forms';
 
 interface Jugador {
@@ -291,14 +292,14 @@ export class FormacionesComponent implements OnInit {
   filtroBusqueda = '';
   formacionSeleccionada: Formacion | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   ngOnInit(): void {
     this.cargarFormaciones();
   }
 
   cargarFormaciones(): void {
-    this.http.get<any>('http://localhost:3000/api/formaciones')
+    this.http.get<any>(this.configService.getFullApiUrl('/formaciones'))
       .subscribe({
         next: (response) => {
           this.formaciones = response.data;
@@ -332,7 +333,7 @@ export class FormacionesComponent implements OnInit {
   confirmarEliminar(): void {
     if (!this.formacionSeleccionada) return;
 
-    this.http.delete<any>(`http://localhost:3000/api/formaciones/${this.formacionSeleccionada._id}`)
+          this.http.delete<any>(`${this.configService.getApiUrl()}/api/formaciones/${this.formacionSeleccionada._id}`)
       .subscribe({
         next: () => {
           this.cargarFormaciones();
