@@ -36,16 +36,23 @@ export class JugadorService {
   }
 
   agregarJugador(jugador: Omit<Jugador, "id" | "posicion">): void {
-    const equiposActuales = this.equiposSubject.value
+    const equiposActuales = this.equiposSubject.value;
+    const nombreLower = jugador.nombre.trim().toLowerCase();
+    // Verificar duplicados en ambos equipos
+    const existe = equiposActuales.rojo.some(j => j.nombre.trim().toLowerCase() === nombreLower) ||
+                   equiposActuales.azul.some(j => j.nombre.trim().toLowerCase() === nombreLower);
+    if (existe) {
+      alert('Ya existe un jugador con ese nombre en la cancha.');
+      return;
+    }
     const nuevoJugador: Jugador = {
       ...jugador,
       id: this.generarId(),
       posicion: this.generarPosicionAleatoria(jugador.equipo),
-    }
-
-    equiposActuales[jugador.equipo].push(nuevoJugador)
-    this.equiposSubject.next(equiposActuales)
-    this.guardarDatos()
+    };
+    equiposActuales[jugador.equipo].push(nuevoJugador);
+    this.equiposSubject.next(equiposActuales);
+    this.guardarDatos();
   }
 
   editarJugador(id: string, nuevoNombre: string): void {
