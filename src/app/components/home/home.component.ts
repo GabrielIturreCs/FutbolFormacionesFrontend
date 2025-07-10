@@ -50,8 +50,8 @@ import { FormsModule } from '@angular/forms';
       <div class="campo-container py-4">
         <div class="container">
         <!-- CANCHA DE FÚTBOL -->
-          <div class="campo-futbol mx-auto position-relative" 
-               (dragover)="onDragOver($event)" 
+          <div class="campo-futbol mx-auto position-relative"
+               (dragover)="onDragOver($event)"
                (drop)="onDrop($event)">
           <!-- LÍNEAS Y ELEMENTOS DEL CAMPO -->
             <div class="linea-central"></div>
@@ -63,7 +63,7 @@ import { FormsModule } from '@angular/forms';
             <div class="arco-izquierdo"></div>
             <div class="arco-derecho"></div>
           <!-- JUGADORES DEL EQUIPO ROJO -->
-            <div *ngFor="let jugador of equipoRojo" 
+            <div *ngFor="let jugador of equipoRojo"
                  class="jugador jugador-rojo"
                  [style.left.%]="jugador.posicion.x"
                  [style.top.%]="jugador.posicion.y"
@@ -76,7 +76,7 @@ import { FormsModule } from '@angular/forms';
               <div class="jugador-nombre">{{ jugador.nombre }}</div>
             </div>
           <!-- JUGADORES DEL EQUIPO AZUL -->
-            <div *ngFor="let jugador of equipoAzul" 
+            <div *ngFor="let jugador of equipoAzul"
                  class="jugador jugador-azul"
                  [style.left.%]="jugador.posicion.x"
                  [style.top.%]="jugador.posicion.y"
@@ -114,7 +114,7 @@ import { FormsModule } from '@angular/forms';
           <div class="modal-body">
             <div class="mb-3">
               <label class="form-label">Nombre del jugador:</label>
-              <input type="text" class="form-control" [(ngModel)]="jugadorEditando.nombre" 
+              <input type="text" class="form-control" [(ngModel)]="jugadorEditando.nombre"
                      (keyup.enter)="guardarEdicion()">
             </div>
           </div>
