@@ -150,9 +150,15 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
                    class="jugador-item jugador-rojo mb-3 p-3 rounded">
                 <div class="d-flex align-items-center">
                   <div class="jugador-avatar-small me-3">
-                    <i class="bi bi-person-fill"></i>
+                    <ng-container *ngIf="jugador.fotoUrl; else icono">
+                      <img [src]="jugador.fotoUrl" alt="Foto" class="jugador-foto-campo" />
+                    </ng-container>
+                    <ng-template #icono>
+                      <i class="bi bi-person-circle jugador-foto-campo"></i>
+                    </ng-template>
                   </div>
-                  <div class="flex-grow-1">
+                  <div class="flex-grow-1 text-center">
+                    <div class="jugador-numero mb-1">{{ jugador.numero || 'N/A' }}</div>
                     <h6 class="mb-1 fw-bold">{{ jugador.nombre }}</h6>
                     <small class="text-muted">Jugador #{{ i + 1 }}</small>
                   </div>
@@ -199,9 +205,15 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
                    class="jugador-item jugador-azul mb-3 p-3 rounded">
                 <div class="d-flex align-items-center">
                   <div class="jugador-avatar-small me-3">
-                    <i class="bi bi-person-fill"></i>
+                    <ng-container *ngIf="jugador.fotoUrl; else icono">
+                      <img [src]="jugador.fotoUrl" alt="Foto" class="jugador-foto-campo" />
+                    </ng-container>
+                    <ng-template #icono>
+                      <i class="bi bi-person-circle jugador-foto-campo"></i>
+                    </ng-template>
                   </div>
-                  <div class="flex-grow-1">
+                  <div class="flex-grow-1 text-center">
+                    <div class="jugador-numero mb-1">{{ jugador.numero || 'N/A' }}</div>
                     <h6 class="mb-1 fw-bold">{{ jugador.nombre }}</h6>
                     <small class="text-muted">Jugador #{{ i + 1 }}</small>
                   </div>

@@ -396,4 +396,23 @@
   border-radius: 50%;
   border: 1.5px solid #1e824c;
   background: #fff;
-} 
+}
+
+.jugador-foto-campo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  background: #e9ecef;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  font-size: 32px;
+  color: #adb5bd;
+}
+
+.jugador-numero {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2px;
+}

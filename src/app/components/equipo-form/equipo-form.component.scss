@@ -131,6 +131,25 @@
   background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
 }
 
+.jugador-foto-campo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  background: #e9ecef;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  font-size: 38px;
+  color: #adb5bd;
+}
+
+.jugador-numero {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2px;
+}
+
 // Animaciones
 @keyframes slideInUp {
   from {

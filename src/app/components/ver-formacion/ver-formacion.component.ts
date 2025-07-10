@@ -11,6 +11,7 @@ interface Jugador {
   equipo: string;
   goles: number;
   asistencias: number;
+  fotoUrl?: string; // Permite mostrar la foto/avatar en el campo
 }
 
 interface JugadorFormacion {
@@ -148,6 +149,10 @@ interface Formacion {
                              [style.top]="jugador.posicion.y + '%'"
                              [title]="jugador.jugadorId.nombre + ' - ' + jugador.jugadorId.goles + ' goles'">
                           <div class="player-number">{{ jugador.numero || jugador.jugadorId.numero || '?' }}</div>
+                          <div class="player-avatar">
+                            <img *ngIf="jugador.jugadorId.fotoUrl" [src]="jugador.jugadorId.fotoUrl" alt="Foto" class="jugador-foto-campo" />
+                            <i *ngIf="!jugador.jugadorId.fotoUrl" class="bi bi-person-circle jugador-foto-campo"></i>
+                          </div>
                           <div class="player-name">{{ jugador.jugadorId.nombre }}</div>
                           <div class="player-stats">
                             <small>{{ jugador.jugadorId.goles }}⚽ {{ jugador.jugadorId.asistencias }}🎯</small>
@@ -169,6 +174,10 @@ interface Formacion {
                              [style.top]="jugador.posicion.y + '%'"
                              [title]="jugador.jugadorId.nombre + ' - ' + jugador.jugadorId.goles + ' goles'">
                           <div class="player-number">{{ jugador.numero || jugador.jugadorId.numero || '?' }}</div>
+                          <div class="player-avatar">
+                            <img *ngIf="jugador.jugadorId.fotoUrl" [src]="jugador.jugadorId.fotoUrl" alt="Foto" class="jugador-foto-campo" />
+                            <i *ngIf="!jugador.jugadorId.fotoUrl" class="bi bi-person-circle jugador-foto-campo"></i>
+                          </div>
                           <div class="player-name">{{ jugador.jugadorId.nombre }}</div>
                           <div class="player-stats">
                             <small>{{ jugador.jugadorId.goles }}⚽ {{ jugador.jugadorId.asistencias }}🎯</small>

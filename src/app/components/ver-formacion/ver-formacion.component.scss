@@ -477,3 +477,22 @@
   .player:hover {
     animation: pulse 1s infinite;
   }
+  
+  .player-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  
+  .jugador-foto-campo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    background: #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    font-size: 44px;
+    color: #adb5bd;
+  }

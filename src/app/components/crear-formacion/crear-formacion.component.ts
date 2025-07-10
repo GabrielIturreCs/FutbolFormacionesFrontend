@@ -407,12 +407,18 @@ export class CrearFormacionComponent implements OnInit {
   }
 
   filtrarJugadores(): void {
+    // Obtener IDs de jugadores ya seleccionados en ambos equipos
+    const idsEnFormacion = [
+      ...this.formacion.equipos.local.jugadores.map(j => j.jugadorId),
+      ...this.formacion.equipos.visitante.jugadores.map(j => j.jugadorId)
+    ];
     if (!this.filtroJugadores.trim()) {
-      this.jugadoresFiltrados = this.jugadores;
+      this.jugadoresFiltrados = this.jugadores.filter(j => !idsEnFormacion.includes(j._id));
     } else {
       this.jugadoresFiltrados = this.jugadores.filter(jugador =>
-        jugador.nombre.toLowerCase().includes(this.filtroJugadores.toLowerCase()) ||
-        (jugador.numero && jugador.numero.toString().includes(this.filtroJugadores))
+        (!idsEnFormacion.includes(jugador._id)) &&
+        (jugador.nombre.toLowerCase().includes(this.filtroJugadores.toLowerCase()) ||
+        (jugador.numero && jugador.numero.toString().includes(this.filtroJugadores)))
       );
     }
   }

@@ -124,13 +124,18 @@ interface Jugador {
                   <tr *ngFor="let jugador of jugadoresFiltrados">
                     <td>
                       <div class="d-flex align-items-center">
-                        <div class="jugador-avatar me-3" 
+                        <div class="jugador-avatar me-3"
                              [class.equipo-rojo]="jugador.equipo === 'rojo'"
                              [class.equipo-azul]="jugador.equipo === 'azul'">
-                          <img *ngIf="jugador.fotoUrl" [src]="jugador.fotoUrl" alt="Foto" class="jugador-foto-small" />
-                          <i *ngIf="!jugador.fotoUrl" class="bi bi-person-fill"></i>
+                          <ng-container *ngIf="jugador.fotoUrl; else icono">
+                            <img [src]="jugador.fotoUrl" alt="Foto" class="jugador-foto-campo" />
+                          </ng-container>
+                          <ng-template #icono>
+                            <i class="bi bi-person-circle jugador-foto-campo"></i>
+                          </ng-template>
                         </div>
-                        <div>
+                        <div class="flex-grow-1 text-center">
+                          <div class="jugador-numero mb-1">{{ jugador.numero || 'N/A' }}</div>
                           <strong>{{ jugador.nombre }}</strong>
                           <br>
                           <small class="text-muted">ID: {{ jugador._id.slice(-6) }}</small>
@@ -377,6 +382,21 @@ interface Jugador {
                   </div>
                 </div>
               </div>
+
+              <!-- Foto del Jugador (opcional) -->
+              <div class="row mb-4">
+                <div class="col-12">
+                  <h6 class="text-secondary mb-3">
+                    <i class="bi bi-image me-2"></i>
+                    Foto del Jugador (opcional)
+                  </h6>
+                  <input type="file" class="form-control" accept="image/*"
+                         (change)="onFotoChange($event)">
+                  <div *ngIf="fotoPreview" class="mt-2">
+                    <img [src]="fotoPreview" alt="Preview" style="max-width: 120px; border-radius: 8px; border: 1px solid #ccc;" />
+                  </div>
+                </div>
+              </div>
             </form>
           </div>
           <div class="modal-footer bg-light">
@@ -438,6 +458,8 @@ export class GestionJugadoresComponent implements OnInit {
   confirmacionTitulo = '';
   confirmacionMensaje = '';
   accionConfirmar: (() => void) | null = null;
+  fotoFile: File | null = null;
+  fotoPreview: string | null = null;
 
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
@@ -470,6 +492,21 @@ export class GestionJugadoresComponent implements OnInit {
     }
   }
 
+  onFotoChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.fotoFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.fotoPreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.fotoFile = null;
+      this.fotoPreview = null;
+    }
+  }
+
   abrirModalCrear(): void {
     this.esEdicion = false;
     this.jugadorForm = {
@@ -480,8 +517,11 @@ export class GestionJugadoresComponent implements OnInit {
       goles: 0,
       asistencias: 0,
       partidosJugados: 0,
-      activo: true
+      activo: true,
+      fotoUrl: ''
     };
+    this.fotoFile = null;
+    this.fotoPreview = null;
     const modal = new (window as any).bootstrap.Modal(document.getElementById('jugadorModal'));
     modal.show();
   }
@@ -490,6 +530,8 @@ export class GestionJugadoresComponent implements OnInit {
     this.esEdicion = true;
     this.jugadorSeleccionado = jugador;
     this.jugadorForm = { ...jugador };
+    this.fotoFile = null;
+    this.fotoPreview = jugador.fotoUrl || null;
     const modal = new (window as any).bootstrap.Modal(document.getElementById('jugadorModal'));
     modal.show();
   }
@@ -500,34 +542,53 @@ export class GestionJugadoresComponent implements OnInit {
       return;
     }
 
-    if (this.esEdicion && this.jugadorSeleccionado) {
-      // Actualizar jugador existente
-      this.http.put<any>(`${this.configService.getApiUrl()}/api/jugadores/${this.jugadorSeleccionado._id}`, this.jugadorForm)
+    const guardar = (fotoUrl?: string) => {
+      const jugadorData = { ...this.jugadorForm, fotoUrl: fotoUrl || this.jugadorForm.fotoUrl };
+      if (this.esEdicion && this.jugadorSeleccionado) {
+        this.http.put<any>(`${this.configService.getApiUrl()}/api/jugadores/${this.jugadorSeleccionado._id}`, jugadorData)
+          .subscribe({
+            next: () => {
+              this.cargarJugadores();
+              const modal = (window as any).bootstrap.Modal.getInstance(document.getElementById('jugadorModal'));
+              modal.hide();
+            },
+            error: (error) => {
+              console.error('Error actualizando jugador:', error);
+              alert('Error al actualizar jugador');
+            }
+          });
+      } else {
+        this.http.post<any>(this.configService.getFullApiUrl('/jugadores'), jugadorData)
+          .subscribe({
+            next: () => {
+              this.cargarJugadores();
+              const modal = (window as any).bootstrap.Modal.getInstance(document.getElementById('jugadorModal'));
+              modal.hide();
+            },
+            error: (error) => {
+              console.error('Error creando jugador:', error);
+              alert('Error al crear jugador');
+            }
+          });
+      }
+    };
+
+    if (this.fotoFile) {
+      const formData = new FormData();
+      formData.append('foto', this.fotoFile);
+      this.http.post<any>(`${this.configService.getApiUrl()}/api/jugadores/upload-foto`, formData)
         .subscribe({
-          next: () => {
-            this.cargarJugadores();
-            const modal = (window as any).bootstrap.Modal.getInstance(document.getElementById('jugadorModal'));
-            modal.hide();
+          next: (res) => {
+            guardar(res.url);
           },
           error: (error) => {
-            console.error('Error actualizando jugador:', error);
-            alert('Error al actualizar jugador');
+            console.error('Error subiendo foto:', error);
+            alert('Error al subir la foto');
+            guardar();
           }
         });
     } else {
-      // Crear nuevo jugador
-      this.http.post<any>(this.configService.getFullApiUrl('/jugadores'), this.jugadorForm)
-        .subscribe({
-          next: () => {
-            this.cargarJugadores();
-            const modal = (window as any).bootstrap.Modal.getInstance(document.getElementById('jugadorModal'));
-            modal.hide();
-          },
-          error: (error) => {
-            console.error('Error creando jugador:', error);
-            alert('Error al crear jugador');
-          }
-        });
+      guardar();
     }
   }
 
@@ -622,4 +683,4 @@ export class GestionJugadoresComponent implements OnInit {
   get totalGoles(): number {
     return this.jugadores.reduce((total, jugador) => total + jugador.goles, 0);
   }
-} 
+}
