@@ -21,15 +21,27 @@ import { CommonModule } from "@angular/common"
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a class="nav-link" routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <i class="bi bi-house-fill me-1"></i>
-                Cancha
+                Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/equipo-form" routerLinkActive="active">
-                <i class="bi bi-person-plus-fill me-1"></i>
-                Gestionar Equipos
+              <a class="nav-link" routerLink="/gestion-jugadores" routerLinkActive="active">
+                <i class="bi bi-people-fill me-1"></i>
+                Jugadores
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/formaciones" routerLinkActive="active">
+                <i class="bi bi-diagram-3-fill me-1"></i>
+                Formaciones
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/top-goleadores" routerLinkActive="active">
+                <i class="bi bi-trophy-fill me-1"></i>
+                Top Goleadores
               </a>
             </li>
           </ul>

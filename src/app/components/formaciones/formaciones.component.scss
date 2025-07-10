@@ -1,0 +1,255 @@
+// Estilos para el componente Formaciones
+
+.hero-section {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    opacity: 0.3;
+  }
+}
+
+.stat-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+  
+  i {
+    opacity: 0.8;
+  }
+  
+  h3 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+}
+
+.formacion-card {
+  transition: all 0.3s ease;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  }
+  
+  &.formacion-inactiva {
+    opacity: 0.7;
+    
+    .card-header {
+      background: #6c757d !important;
+    }
+  }
+}
+
+.equipo-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  .equipo-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.1);
+  }
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  
+  .stat-item {
+    text-align: center;
+    
+    i {
+      font-size: 1.2rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    span {
+      display: block;
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    small {
+      color: #6c757d;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.btn {
+  border-radius: 25px;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  
+  &.btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 20px;
+  }
+  
+  &.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+  }
+}
+
+// Input group personalizado
+.input-group {
+  .input-group-text {
+    background: linear-gradient(135deg, #007bff, #6610f2);
+    border: none;
+    color: white;
+  }
+  
+  .form-control {
+    border-radius: 0 25px 25px 0;
+    border: 1px solid #dee2e6;
+    
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      border-color: #80bdff;
+    }
+  }
+}
+
+// Modal styles
+.modal-content {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding: 1.5rem;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(0,0,0,0.1);
+  padding: 1.5rem;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 2rem 0 !important;
+    
+    h1 {
+      font-size: 2rem !important;
+    }
+  }
+  
+  .stat-card {
+    margin-bottom: 1rem;
+    
+    h3 {
+      font-size: 2rem;
+    }
+  }
+  
+  .formacion-card {
+    margin-bottom: 1rem;
+  }
+  
+  .stats-row {
+    flex-direction: column;
+    gap: 1rem;
+    
+    .stat-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      
+      i, span, small {
+        margin: 0;
+      }
+    }
+  }
+}
+
+// Animaciones
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+// Estados de formaciones
+.formacion-inactiva {
+  .card-body {
+    opacity: 0.8;
+  }
+  
+  .stats-row {
+    opacity: 0.7;
+  }
+}
+
+// Efectos hover para las tarjetas
+.formacion-card {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover::after {
+    transform: scaleX(1);
+  }
+} 

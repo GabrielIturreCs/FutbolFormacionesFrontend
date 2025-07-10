@@ -1,0 +1,223 @@
+// Campo de fútbol
+.football-field {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  background: linear-gradient(135deg, #2d5a27, #1a3d17);
+  border: 3px solid #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+// Líneas del campo
+.field-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  
+  .center-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+  }
+  
+  .center-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: #fff;
+  }
+  
+  .penalty-area-left {
+    position: absolute;
+    top: 20%;
+    left: 0;
+    width: 25%;
+    height: 60%;
+    border: 2px solid #fff;
+    border-right: none;
+  }
+  
+  .penalty-area-right {
+    position: absolute;
+    top: 20%;
+    right: 0;
+    width: 25%;
+    height: 60%;
+    border: 2px solid #fff;
+    border-left: none;
+  }
+  
+  .goal-area-left {
+    position: absolute;
+    top: 35%;
+    left: 0;
+    width: 10%;
+    height: 30%;
+    border: 2px solid #fff;
+    border-right: none;
+  }
+  
+  .goal-area-right {
+    position: absolute;
+    top: 35%;
+    right: 0;
+    width: 10%;
+    height: 30%;
+    border: 2px solid #fff;
+    border-left: none;
+  }
+}
+
+// Equipos
+.team {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  
+  .team-info {
+    position: absolute;
+    top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    
+    .team-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+  }
+  
+  .players-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.local-team {
+  left: 0;
+  
+  .team-info {
+    left: 10px;
+  }
+}
+
+.visitor-team {
+  right: 0;
+  
+  .team-info {
+    right: 10px;
+  }
+}
+
+// Jugadores
+.player {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 10;
+  }
+  
+  .player-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
+  
+  .player-name {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-align: center;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .player-stats {
+    font-size: 0.6rem;
+    text-align: center;
+    opacity: 0.8;
+  }
+}
+
+.local-player {
+  .player-number {
+    background: #007bff;
+    color: white;
+  }
+  
+  .player-name {
+    color: #007bff;
+  }
+}
+
+.visitor-player {
+  .player-number {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .player-name {
+    color: #dc3545;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .football-field {
+    height: 400px;
+  }
+  
+  .player {
+    .player-name {
+      font-size: 0.6rem;
+      max-width: 60px;
+    }
+    
+    .player-stats {
+      font-size: 0.5rem;
+    }
+  }
+}
+
+// Animaciones
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.05); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.player:hover {
+  animation: pulse 1s infinite;
+} 
