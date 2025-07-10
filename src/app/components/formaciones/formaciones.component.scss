@@ -1,255 +1,433 @@
 // Estilos para el componente Formaciones
-
 .hero-section {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-    opacity: 0.3;
-  }
-}
-
-.stat-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: none;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  }
-  
-  i {
-    opacity: 0.8;
-  }
-  
-  h3 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin: 0.5rem 0;
-  }
-  
-  p {
-    font-size: 0.9rem;
-    opacity: 0.9;
-  }
-}
-
-.formacion-card {
-  transition: all 0.3s ease;
-  border: none;
-  border-radius: 15px;
-  overflow: hidden;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-  }
-  
-  &.formacion-inactiva {
-    opacity: 0.7;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    position: relative;
+    overflow: hidden;
     
-    .card-header {
-      background: #6c757d !important;
-    }
-  }
-}
-
-.equipo-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  
-  .equipo-color {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 2px solid rgba(0,0,0,0.1);
-  }
-}
-
-.stats-row {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(0,0,0,0.1);
-  
-  .stat-item {
-    text-align: center;
-    
-    i {
-      font-size: 1.2rem;
-      margin-bottom: 0.25rem;
-    }
-    
-    span {
-      display: block;
-      font-weight: bold;
-      font-size: 1.1rem;
-      margin-bottom: 0.25rem;
-    }
-    
-    small {
-      color: #6c757d;
-      font-size: 0.8rem;
-    }
-  }
-}
-
-.btn {
-  border-radius: 25px;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  }
-  
-  &.btn-sm {
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
-    border-radius: 20px;
-  }
-  
-  &.btn-lg {
-    padding: 0.75rem 1.5rem;
-    font-size: 1.1rem;
-  }
-}
-
-// Input group personalizado
-.input-group {
-  .input-group-text {
-    background: linear-gradient(135deg, #007bff, #6610f2);
-    border: none;
-    color: white;
-  }
-  
-  .form-control {
-    border-radius: 0 25px 25px 0;
-    border: 1px solid #dee2e6;
-    
-    &:focus {
-      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-      border-color: #80bdff;
-    }
-  }
-}
-
-// Modal styles
-.modal-content {
-  border-radius: 15px;
-  border: none;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-}
-
-.modal-header {
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-  padding: 1.5rem;
-}
-
-.modal-body {
-  padding: 1.5rem;
-}
-
-.modal-footer {
-  border-top: 1px solid rgba(0,0,0,0.1);
-  padding: 1.5rem;
-}
-
-// Responsive
-@media (max-width: 768px) {
-  .hero-section {
-    padding: 2rem 0 !important;
-    
-    h1 {
-      font-size: 2rem !important;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+      opacity: 0.3;
     }
   }
   
   .stat-card {
-    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    
+    i {
+      opacity: 0.8;
+    }
     
     h3 {
-      font-size: 2rem;
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 0.5rem 0;
+    }
+    
+    p {
+      font-size: 0.9rem;
+      opacity: 0.9;
     }
   }
   
   .formacion-card {
-    margin-bottom: 1rem;
-  }
-  
-  .stats-row {
-    flex-direction: column;
-    gap: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     
-    .stat-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+    
+    &.formacion-inactiva {
+      opacity: 0.7;
       
-      i, span, small {
-        margin: 0;
+      .card-header {
+        background: #6c757d !important;
       }
     }
   }
-}
-
-// Animaciones
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+  
+  // Vista previa de la cancha en miniatura
+  .campo-preview {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .campo-mini {
+    width: 100%;
+    max-width: 200px;
+    height: 120px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border: 2px solid #fff;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/></svg>') repeat;
+      opacity: 0.3;
+    }
   }
-}
-
-.container {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-// Estados de formaciones
-.formacion-inactiva {
-  .card-body {
-    opacity: 0.8;
+  
+  // Líneas del campo mini
+  .linea-central-mini {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    background: rgba(255,255,255,0.8);
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+  
+  .circulo-central-mini {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+  
+  // Jugadores en miniatura
+  .jugador-mini {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid white;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    
+    &.jugador-local-mini {
+      // Color dinámico aplicado via style
+    }
+    
+    &.jugador-visitante-mini {
+      // Color dinámico aplicado via style
+    }
+  }
+  
+  .equipo-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    .equipo-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
   }
   
   .stats-row {
-    opacity: 0.7;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    
+    .stat-item {
+      text-align: center;
+      
+      i {
+        font-size: 1.2rem;
+        margin-bottom: 0.25rem;
+      }
+      
+      span {
+        display: block;
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 0.25rem;
+      }
+      
+      small {
+        color: #6c757d;
+        font-size: 0.8rem;
+      }
+    }
   }
-}
-
-// Efectos hover para las tarjetas
-.formacion-card {
-  position: relative;
   
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
+  // Botones personalizados
+  .btn-custom {
+    border-radius: 25px;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
   }
   
-  &:hover::after {
-    transform: scaleX(1);
+  .btn {
+    border-radius: 25px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    &.btn-sm {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.875rem;
+      border-radius: 20px;
+    }
+    
+    &.btn-lg {
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+    }
   }
-} 
+  
+  // Input group personalizado
+  .input-group {
+    .input-group-text {
+      background: linear-gradient(135deg, #007bff, #6610f2);
+      border: none;
+      color: white;
+      border-radius: 25px 0 0 25px;
+    }
+    
+    .form-control {
+      border-radius: 0 25px 25px 0;
+      border: 1px solid #dee2e6;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s ease;
+      
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        border-color: #80bdff;
+        transform: translateY(-1px);
+      }
+    }
+  }
+  
+  // Modal styles
+  .modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+  
+  .modal-header {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #007bff, #6610f2);
+    color: white;
+    
+    .modal-title {
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .btn-close {
+      filter: invert(1);
+    }
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .modal-footer {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding: 1.5rem;
+  }
+  
+  // Responsive
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 2rem 0 !important;
+      
+      h1 {
+        font-size: 2rem !important;
+      }
+      
+      .lead {
+        font-size: 1rem;
+      }
+    }
+    
+    .stat-card {
+      margin-bottom: 1rem;
+      
+      h3 {
+        font-size: 2rem;
+      }
+    }
+    
+    .formacion-card {
+      margin-bottom: 1rem;
+    }
+    
+    .campo-mini {
+      max-width: 150px;
+      height: 90px;
+    }
+    
+    .jugador-mini {
+      width: 6px;
+      height: 6px;
+    }
+    
+    .circulo-central-mini {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .stats-row {
+      flex-direction: column;
+      gap: 1rem;
+      
+      .stat-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        
+        i, span, small {
+          margin: 0;
+        }
+      }
+    }
+    
+    .btn-custom {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .campo-mini {
+      max-width: 120px;
+      height: 70px;
+    }
+    
+    .jugador-mini {
+      width: 5px;
+      height: 5px;
+    }
+    
+    .circulo-central-mini {
+      width: 15px;
+      height: 15px;
+    }
+  }
+  
+  // Animaciones
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .container {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  // Estados de formaciones
+  .formacion-inactiva {
+    .card-body {
+      opacity: 0.8;
+    }
+    
+    .stats-row {
+      opacity: 0.7;
+    }
+    
+    .campo-mini {
+      opacity: 0.6;
+    }
+  }
+  
+  // Efectos hover para las tarjetas
+  .formacion-card {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover::after {
+      transform: scaleX(1);
+    }
+    
+    &:hover .campo-mini {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+  }
+  
+  // Efectos adicionales
+  .campo-mini {
+    transition: all 0.3s ease;
+  }
+  
+  .jugador-mini {
+    transition: all 0.2s ease;
+  }
+  
+  .formacion-card:hover .jugador-mini {
+    transform: translate(-50%, -50%) scale(1.2);
+  }

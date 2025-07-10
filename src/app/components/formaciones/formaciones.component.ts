@@ -74,43 +74,43 @@ interface Estadisticas {
             Formaciones
           </h1>
           <p class="lead">Gestiona tus tácticas y formaciones de partido</p>
+          
+          <!-- Estadísticas generales en el header -->
+          <div class="row mt-4">
+            <div class="col-md-3">
+              <div class="stat-card bg-primary text-white rounded p-3 text-center">
+                <i class="bi bi-diagram-3-fill fs-2"></i>
+                <h3>{{ formaciones.length }}</h3>
+                <p class="mb-0">Total Formaciones</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-card bg-success text-white rounded p-3 text-center">
+                <i class="bi bi-calendar-check fs-2"></i>
+                <h3>{{ formacionesActivas.length }}</h3>
+                <p class="mb-0">Formaciones Activas</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-card bg-info text-white rounded p-3 text-center">
+                <i class="bi bi-people-fill fs-2"></i>
+                <h3>{{ totalJugadores }}</h3>
+                <p class="mb-0">Total Jugadores</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-card bg-warning text-white rounded p-3 text-center">
+                <i class="bi bi-clock-history fs-2"></i>
+                <h3>{{ formacionesRecientes.length }}</h3>
+                <p class="mb-0">Este Mes</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Contenido principal -->
       <div class="container py-4">
-        <!-- Estadísticas generales -->
-        <div class="row mb-4">
-          <div class="col-md-3">
-            <div class="stat-card bg-primary text-white rounded p-3 text-center">
-              <i class="bi bi-diagram-3-fill fs-2"></i>
-              <h3>{{ formaciones.length }}</h3>
-              <p class="mb-0">Total Formaciones</p>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="stat-card bg-success text-white rounded p-3 text-center">
-              <i class="bi bi-calendar-check fs-2"></i>
-              <h3>{{ formacionesActivas.length }}</h3>
-              <p class="mb-0">Formaciones Activas</p>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="stat-card bg-info text-white rounded p-3 text-center">
-              <i class="bi bi-people-fill fs-2"></i>
-              <h3>{{ totalJugadores }}</h3>
-              <p class="mb-0">Total Jugadores</p>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="stat-card bg-warning text-white rounded p-3 text-center">
-              <i class="bi bi-clock-history fs-2"></i>
-              <h3>{{ formacionesRecientes.length }}</h3>
-              <p class="mb-0">Este Mes</p>
-            </div>
-          </div>
-        </div>
-
         <!-- Barra de acciones -->
         <div class="row mb-4">
           <div class="col-md-6">
@@ -118,18 +118,18 @@ interface Estadisticas {
               <span class="input-group-text">
                 <i class="bi bi-search"></i>
               </span>
-              <input type="text" class="form-control" 
-                     placeholder="Buscar formación..." 
+              <input type="text" class="form-control"
+                     placeholder="Buscar formación..."
                      [(ngModel)]="filtroBusqueda"
                      (input)="filtrarFormaciones()">
             </div>
           </div>
           <div class="col-md-6 text-end">
-            <a routerLink="/crear-formacion" class="btn btn-success btn-lg me-3">
+            <a routerLink="/crear-formacion" class="btn btn-success btn-lg me-3 btn-custom">
               <i class="bi bi-plus-circle-fill me-2"></i>
               Nueva Formación
             </a>
-            <a routerLink="/dashboard" class="btn btn-primary btn-lg">
+            <a routerLink="/dashboard" class="btn btn-primary btn-lg btn-custom">
               <i class="bi bi-speedometer2 me-2"></i>
               Dashboard
             </a>
@@ -143,7 +143,7 @@ interface Estadisticas {
               <i class="bi bi-diagram-3 text-muted" style="font-size: 4rem;"></i>
               <h3 class="text-muted mt-3">No hay formaciones</h3>
               <p class="text-muted">Crea tu primera formación para comenzar</p>
-              <a routerLink="/crear-formacion" class="btn btn-primary btn-lg">
+              <a routerLink="/crear-formacion" class="btn btn-primary btn-lg btn-custom">
                 <i class="bi bi-plus-circle me-2"></i>
                 Crear Primera Formación
               </a>
@@ -151,7 +151,7 @@ interface Estadisticas {
           </div>
           
           <div class="col-md-6 col-lg-4 mb-4" *ngFor="let formacion of formacionesFiltradas">
-            <div class="card h-100 shadow-sm formacion-card" 
+            <div class="card h-100 shadow-sm formacion-card"
                  [class.formacion-inactiva]="!formacion.activa">
               <div class="card-header d-flex justify-content-between align-items-center"
                    [style.background]="formacion.activa ? 'linear-gradient(135deg, #28a745, #20c997)' : '#6c757d'">
@@ -159,7 +159,7 @@ interface Estadisticas {
                   <i class="bi bi-diagram-3 me-2"></i>
                   {{ formacion.nombre }}
                 </h5>
-                <span class="badge" 
+                <span class="badge"
                       [class.bg-success]="formacion.activa"
                       [class.bg-secondary]="!formacion.activa">
                   {{ formacion.activa ? 'Activa' : 'Inactiva' }}
@@ -171,10 +171,35 @@ interface Estadisticas {
                   {{ formacion.descripcion }}
                 </p>
                 
+                <!-- Vista previa de la cancha -->
+                <div class="campo-preview mb-3">
+                  <div class="campo-mini">
+                    <!-- Líneas básicas del campo -->
+                    <div class="linea-central-mini"></div>
+                    <div class="circulo-central-mini"></div>
+                    
+                    <!-- Jugadores del equipo local -->
+                    <div *ngFor="let jugador of formacion.equipos.local.jugadores" 
+                         class="jugador-mini jugador-local-mini"
+                         [style.left.%]="jugador.posicion.x"
+                         [style.top.%]="jugador.posicion.y"
+                         [style.background-color]="formacion.equipos.local.color">
+                    </div>
+                    
+                    <!-- Jugadores del equipo visitante -->
+                    <div *ngFor="let jugador of formacion.equipos.visitante.jugadores" 
+                         class="jugador-mini jugador-visitante-mini"
+                         [style.left.%]="jugador.posicion.x"
+                         [style.top.%]="jugador.posicion.y"
+                         [style.background-color]="formacion.equipos.visitante.color">
+                    </div>
+                  </div>
+                </div>
+                
                 <div class="row mb-3">
                   <div class="col-6">
                     <div class="equipo-info">
-                      <div class="equipo-color" 
+                      <div class="equipo-color"
                            [style.background-color]="formacion.equipos.local.color"></div>
                       <div>
                         <strong>{{ formacion.equipos.local.nombre }}</strong>
@@ -185,7 +210,7 @@ interface Estadisticas {
                   </div>
                   <div class="col-6">
                     <div class="equipo-info">
-                      <div class="equipo-color" 
+                      <div class="equipo-color"
                            [style.background-color]="formacion.equipos.visitante.color"></div>
                       <div>
                         <strong>{{ formacion.equipos.visitante.nombre }}</strong>
@@ -222,17 +247,17 @@ interface Estadisticas {
               
               <div class="card-footer bg-transparent">
                 <div class="btn-group w-100" role="group">
-                  <a [routerLink]="['/formacion', formacion._id]" 
+                  <a [routerLink]="['/formacion', formacion._id]"
                      class="btn btn-outline-success btn-sm">
                     <i class="bi bi-eye me-1"></i>
                     Ver en Campo
                   </a>
-                  <a [routerLink]="['/editar-formacion', formacion._id]" 
+                  <a [routerLink]="['/editar-formacion', formacion._id]"
                      class="btn btn-outline-warning btn-sm">
                     <i class="bi bi-pencil me-1"></i>
                     Editar
                   </a>
-                  <button class="btn btn-outline-danger btn-sm" 
+                  <button class="btn btn-outline-danger btn-sm"
                           (click)="eliminarFormacion(formacion)">
                     <i class="bi bi-trash me-1"></i>
                     Eliminar
@@ -245,15 +270,15 @@ interface Estadisticas {
 
         <!-- Botones de acción -->
         <div class="text-center mt-4">
-          <button class="btn btn-primary btn-lg me-3" (click)="cargarFormaciones()">
+          <button class="btn btn-primary btn-lg me-3 btn-custom" (click)="cargarFormaciones()">
             <i class="bi bi-arrow-clockwise me-2"></i>
             Actualizar
           </button>
-          <a routerLink="/" class="btn btn-outline-secondary btn-lg me-3">
+          <a routerLink="/" class="btn btn-outline-secondary btn-lg me-3 btn-custom">
             <i class="bi bi-house me-2"></i>
             Volver al Campo
           </a>
-          <a routerLink="/gestion-jugadores" class="btn btn-warning btn-lg">
+          <a routerLink="/gestion-jugadores" class="btn btn-warning btn-lg btn-custom">
             <i class="bi bi-gear me-2"></i>
             Gestión Jugadores
           </a>
@@ -332,8 +357,8 @@ export class FormacionesComponent implements OnInit {
 
   confirmarEliminar(): void {
     if (!this.formacionSeleccionada) return;
-
-          this.http.delete<any>(`${this.configService.getApiUrl()}/api/formaciones/${this.formacionSeleccionada._id}`)
+        
+    this.http.delete<any>(`${this.configService.getApiUrl()}/api/formaciones/${this.formacionSeleccionada._id}`)
       .subscribe({
         next: () => {
           this.cargarFormaciones();
@@ -380,4 +405,4 @@ export class FormacionesComponent implements OnInit {
     return this.formaciones.reduce((total, formacion) => 
       total + this.getTotalJugadores(formacion), 0);
   }
-} 
+}
