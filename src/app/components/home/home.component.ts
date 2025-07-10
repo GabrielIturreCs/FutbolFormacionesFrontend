@@ -92,25 +92,9 @@ import { FormsModule } from '@angular/forms';
           </div>
           
           <div class="text-center mt-4">
-            <a routerLink="/dashboard" class="btn btn-primary btn-lg btn-custom me-3">
-              <i class="bi bi-speedometer2 me-2"></i>
-              Dashboard
-            </a>
-            <a routerLink="/equipo-form" class="btn btn-secondary btn-lg btn-custom me-3">
+            <a routerLink="/equipo-form" class="btn btn-primary btn-lg btn-custom me-3">
               <i class="bi bi-person-plus-fill me-2"></i>
               Agregar Jugadores
-            </a>
-            <a routerLink="/formaciones" class="btn btn-info btn-lg btn-custom me-3">
-              <i class="bi bi-diagram-3-fill me-2"></i>
-              Formaciones
-            </a>
-            <a routerLink="/gestion-jugadores" class="btn btn-warning btn-lg btn-custom me-3">
-              <i class="bi bi-gear-fill me-2"></i>
-              Gestión Jugadores
-            </a>
-            <a routerLink="/top-goleadores" class="btn btn-success btn-lg btn-custom me-3">
-              <i class="bi bi-trophy-fill me-2"></i>
-              Top Goleadores
             </a>
             <button class="btn btn-outline-danger btn-lg btn-custom" (click)="limpiarTodo()">
               <i class="bi bi-trash-fill me-2"></i>
@@ -207,27 +191,25 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Funciones para drag and drop
   onDragStart(event: DragEvent, jugador: Jugador): void {
-    this.jugadorArrastrado = jugador
-    event.dataTransfer?.setData("text/plain", jugador.id)
+    this.jugadorArrastrado = jugador;
+    event.dataTransfer?.setData("text/plain", jugador.id);
+    // Opcional: cambiar el cursor o el avatar mientras se arrastra
   }
 
   onDragOver(event: DragEvent): void {
-    event.preventDefault()
+    event.preventDefault();
   }
 
   onDrop(event: DragEvent): void {
-    event.preventDefault()
-    if (this.jugadorArrastrado) {
-      const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()
-      const x = ((event.clientX - rect.left) / rect.width) * 100
-      const y = ((event.clientY - rect.top) / rect.height) * 100
-
-      // Limitar las posiciones dentro del campo
-      const posicionX = Math.max(5, Math.min(95, x))
-      const posicionY = Math.max(5, Math.min(95, y))
-
-      this.jugadorService.moverJugador(this.jugadorArrastrado.id, { x: posicionX, y: posicionY })
-      this.jugadorArrastrado = null
-    }
+    event.preventDefault();
+    if (!this.jugadorArrastrado) return;
+    const campo = (event.target as HTMLElement).closest('.campo-futbol') as HTMLElement;
+    if (!campo) return;
+    const rect = campo.getBoundingClientRect();
+    // Calcular posición relativa en %
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    this.jugadorService.moverJugador(this.jugadorArrastrado.id, { x, y });
+    this.jugadorArrastrado = null;
   }
 }
