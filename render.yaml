@@ -6,4 +6,4 @@ services:
     staticPublishPath: ./dist/futbol-equipos-app
     envVars:
       - key: NODE_VERSION
-        value: 18.17.0
+        value: 20.19.0
