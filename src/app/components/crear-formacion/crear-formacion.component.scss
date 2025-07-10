@@ -29,14 +29,12 @@
   }
 }
 
-// Contenedor del campo
+// Fondo de césped futbolero
 .campo-container {
-  background: linear-gradient(45deg, var(--campo-verde-claro) 0%, var(--campo-verde) 100%);
-  min-height: 70vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem 0;
+  background: repeating-linear-gradient(90deg, #2d5a27 0 40px, #4a7c59 40px 80px);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  border: 2px solid #fff;
 }
 
 // Campo de fútbol principal
@@ -169,10 +167,15 @@
   transition: all 0.3s ease;
   transform: translate(-50%, -50%);
   z-index: 10;
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.18), 0 0 0 4px rgba(255,255,255,0.12);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
   
   &:hover {
     transform: translate(-50%, -50%) scale(1.1);
     z-index: 20;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.28), 0 0 0 8px #ffe066;
+    background: rgba(255,255,255,0.18);
     
     .jugador-nombre {
       opacity: 1;
@@ -316,13 +319,18 @@
   align-items: center;
   padding: 8px 12px;
   border-radius: 12px;
-  background: #f8f9fa;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  background: linear-gradient(90deg, #e0eafc 0%, #cfdef3 100%);
+  border-left: 6px solid #28a745;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(40,167,69,0.08);
+  font-weight: 600;
+  transition: border-color 0.2s, box-shadow 0.2s;
   cursor: pointer;
-  transition: background 0.2s;
   
   &:hover {
-    background: #e2e6ea;
+    border-color: #ffe066;
+    box-shadow: 0 4px 16px rgba(40,167,69,0.18);
+    background: #fffbe6;
   }
 }
 
@@ -350,14 +358,25 @@
   margin-right: 10px;
 }
 
-.jugador-foto-mini {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-  font-size: 28px;
-  color: #adb5bd;
-  background: #e9ecef;
+// Mejorar responsividad para móviles
+@media (max-width: 480px) {
+  .campo-futbol {
+    height: 180px;
+    border-radius: 10px;
+  }
+  .jugador {
+    width: 28px;
+    height: 36px;
+    .jugador-foto-campo {
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+    }
+  }
+  .jugador-nombre {
+    font-size: 8px;
+    padding: 1px 2px;
+  }
 }
 
 // Responsive Design

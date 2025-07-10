@@ -464,23 +464,20 @@ export class CrearFormacionComponent implements OnInit {
     // Verificar si el jugador ya está en algún equipo
     const yaEnLocal = this.formacion.equipos.local.jugadores.some(j => j.jugadorId === jugador._id);
     const yaEnVisitante = this.formacion.equipos.visitante.jugadores.some(j => j.jugadorId === jugador._id);
-    
     if (yaEnLocal || yaEnVisitante) {
       alert('Este jugador ya está en la formación');
       return;
     }
-
     const nuevoJugador: JugadorFormacion = {
       jugadorId: jugador._id,
       posicion: { x, y },
       numero: jugador.numero
     };
-    
     this.formacion.equipos[this.equipoSeleccionado].jugadores.push(nuevoJugador);
+    this.filtrarJugadores(); // Refrescar lista visual
   }
 
   seleccionarJugador(jugador: Jugador): void {
-    // Agregar jugador al equipo seleccionado en posición central
     this.agregarJugador(jugador, 50, 50);
   }
 
@@ -488,6 +485,7 @@ export class CrearFormacionComponent implements OnInit {
     this.formacion.equipos[equipo].jugadores = this.formacion.equipos[equipo].jugadores.filter(
       j => j.jugadorId !== jugador.jugadorId
     );
+    this.filtrarJugadores(); // Refrescar lista visual
   }
 
   editarJugador(jugador: JugadorFormacion, equipo: 'local' | 'visitante'): void {
@@ -516,9 +514,9 @@ export class CrearFormacionComponent implements OnInit {
     return jugador ? jugador.nombre : 'Jugador';
   }
 
-  // Añadir función para obtener la foto del jugador
+  // Mejorar getFotoUrl para soportar ambos modelos
   getFotoUrl(jugadorId: string): string {
-    const jugador = this.jugadores.find(j => j._id === jugadorId);
+    let jugador = this.jugadores.find(j => (j as any)._id === jugadorId || (j as any).id === jugadorId);
     return jugador && jugador.fotoUrl && jugador.fotoUrl.startsWith('http')
       ? jugador.fotoUrl
       : '';
