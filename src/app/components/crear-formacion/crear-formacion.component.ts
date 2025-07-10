@@ -520,7 +520,7 @@ export class CrearFormacionComponent implements OnInit {
 
   // Función robusta para obtener la URL de la foto del jugador (solo _id)
   getFotoUrl(jugador: any): string {
-    if (!jugador) return '';
+    if (!jugador) return 'assets/img/avatar-default.png';
     // Soporta ambos modelos: jugador puede ser un string (id) o un objeto
     let obj = jugador;
     if (typeof jugador === 'string' && this.jugadores) {
@@ -529,7 +529,7 @@ export class CrearFormacionComponent implements OnInit {
     if (obj && obj.fotoUrl && obj.fotoUrl.startsWith('http')) {
       return obj.fotoUrl;
     }
-    return '';
+    return 'assets/img/avatar-default.png';
   }
 
   // FUNCIONES DE DRAG AND DROP MEJORADAS
