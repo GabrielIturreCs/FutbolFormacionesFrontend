@@ -514,13 +514,13 @@ export class CrearFormacionComponent implements OnInit {
     return jugador ? jugador.nombre : 'Jugador';
   }
 
-  // Función robusta para obtener la URL de la foto del jugador
+  // Función robusta para obtener la URL de la foto del jugador (solo _id)
   getFotoUrl(jugador: any): string {
     if (!jugador) return '';
     // Soporta ambos modelos: jugador puede ser un string (id) o un objeto
     let obj = jugador;
     if (typeof jugador === 'string' && this.jugadores) {
-      obj = this.jugadores.find(j => j._id === jugador || j.id === jugador);
+      obj = this.jugadores.find(j => j._id === jugador);
     }
     if (obj && obj.fotoUrl && obj.fotoUrl.startsWith('http')) {
       return obj.fotoUrl;
