@@ -177,7 +177,7 @@ interface Formacion {
                            (dragstart)="onDragStart($event, jugador, 'local')"
                            (click)="editarJugador(jugador, 'local')">
                         <div class="jugador-avatar" [style.background-color]="formacion.equipos.local.color">
-                          <ng-container *ngIf="getFotoUrl(jugador.jugadorId); else icono">
+                          <ng-container *ngIf="getFotoUrl(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono">
                             <img [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
                           </ng-container>
                           <ng-template #icono>

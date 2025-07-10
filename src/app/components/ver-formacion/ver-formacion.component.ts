@@ -150,7 +150,7 @@ interface Formacion {
                              [title]="jugador.jugadorId.nombre + ' - ' + jugador.jugadorId.goles + ' goles'">
                           <div class="player-number">{{ jugador.numero || jugador.jugadorId.numero || '?' }}</div>
                           <div class="player-avatar">
-                            <ng-container *ngIf="getFotoUrl(jugador.jugadorId); else icono">
+                            <ng-container *ngIf="getFotoUrl(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono">
                               <img [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
                             </ng-container>
                             <ng-template #icono>
@@ -179,7 +179,7 @@ interface Formacion {
                              [title]="jugador.jugadorId.nombre + ' - ' + jugador.jugadorId.goles + ' goles'">
                           <div class="player-number">{{ jugador.numero || jugador.jugadorId.numero || '?' }}</div>
                           <div class="player-avatar">
-                            <ng-container *ngIf="getFotoUrl(jugador.jugadorId); else icono">
+                            <ng-container *ngIf="getFotoUrl(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono">
                               <img [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
                             </ng-container>
                             <ng-template #icono>
