@@ -127,8 +127,8 @@ interface Jugador {
                         <div class="jugador-avatar me-3"
                              [class.equipo-rojo]="jugador.equipo === 'rojo'"
                              [class.equipo-azul]="jugador.equipo === 'azul'">
-                          <ng-container *ngIf="jugador.fotoUrl; else icono">
-                            <img [src]="jugador.fotoUrl" alt="Foto" class="jugador-foto-campo" />
+                          <ng-container *ngIf="getFotoUrl(jugador) !== 'assets/img/avatar-default.png'; else icono">
+                            <img [src]="getFotoUrl(jugador)" alt="Foto" class="jugador-foto-campo" />
                           </ng-container>
                           <ng-template #icono>
                             <i class="bi bi-person-circle jugador-foto-campo"></i>
@@ -690,5 +690,12 @@ export class GestionJugadoresComponent implements OnInit {
 
   get totalGoles(): number {
     return this.jugadores.reduce((total, jugador) => total + jugador.goles, 0);
+  }
+
+  getFotoUrl(jugador: Jugador): string {
+    if (!jugador.fotoUrl) return 'assets/img/avatar-default.png'; // Cambia por tu ícono por defecto
+    if (jugador.fotoUrl.startsWith('http')) return jugador.fotoUrl;
+    // Si la URL es relativa, anteponer el dominio del backend
+    return this.configService.getApiUrl() + jugador.fotoUrl;
   }
 }
