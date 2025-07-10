@@ -227,8 +227,8 @@
     height: 48px;
     border-radius: 50%;
     overflow: hidden;
-    background: #e9ecef;
-    border: 2px solid #fff;
+    background: transparent !important;
+    border: 2px solid #ffd700;
     box-shadow: 0 2px 8px rgba(0,0,0,0.18);
   }
   
@@ -371,7 +371,7 @@
   object-fit: cover;
   font-size: 44px;
   color: #adb5bd;
-  background: #e9ecef;
+  background: transparent !important;
 }
 
 .jugador-avatar-mini {
