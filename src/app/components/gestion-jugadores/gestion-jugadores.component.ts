@@ -550,6 +550,8 @@ export class GestionJugadoresComponent implements OnInit {
           .subscribe({
             next: () => {
               this.cargarJugadores();
+              this.fotoFile = null;
+              this.fotoPreview = null;
               const modal = (window as any).bootstrap.Modal.getInstance(document.getElementById('jugadorModal'));
               modal.hide();
             },
@@ -563,6 +565,8 @@ export class GestionJugadoresComponent implements OnInit {
           .subscribe({
             next: () => {
               this.cargarJugadores();
+              this.fotoFile = null;
+              this.fotoPreview = null;
               const modal = (window as any).bootstrap.Modal.getInstance(document.getElementById('jugadorModal'));
               modal.hide();
             },
