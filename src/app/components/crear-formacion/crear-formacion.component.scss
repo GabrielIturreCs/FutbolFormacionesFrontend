@@ -41,7 +41,7 @@
 .campo-futbol {
   width: 100%;
   max-width: 800px;
-  height: 500px;
+  aspect-ratio: 16/10; // Proporción realista, reemplaza height fijo
   background: linear-gradient(135deg, #28a745, #20c997);
   border: 3px solid #fff;
   border-radius: 15px;
@@ -49,6 +49,8 @@
   cursor: crosshair;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  min-height: 180px;
+  min-width: 220px;
   
   &::before {
     content: '';
@@ -59,6 +61,26 @@
     bottom: 0;
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/></svg>') repeat;
     opacity: 0.5;
+  }
+}
+
+@media (max-width: 900px) {
+  .campo-futbol {
+    max-width: 99vw;
+    aspect-ratio: 16/10;
+    border-radius: 10px;
+    min-height: 120px;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .campo-futbol {
+    max-width: 99vw;
+    aspect-ratio: 16/10;
+    border-radius: 8px;
+    min-height: 80px;
+    min-width: 80px;
   }
 }
 
