@@ -177,8 +177,12 @@ interface Formacion {
                            (dragstart)="onDragStart($event, jugador, 'local')"
                            (click)="editarJugador(jugador, 'local')">
                         <div class="jugador-avatar" [style.background-color]="formacion.equipos.local.color">
-                          <img *ngIf="getFotoUrl(jugador.jugadorId)" [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
-                          <i *ngIf="!getFotoUrl(jugador.jugadorId)" class="bi bi-person-fill jugador-foto-campo"></i>
+                          <ng-container *ngIf="getFotoUrl(jugador.jugadorId); else icono">
+                            <img [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
+                          </ng-container>
+                          <ng-template #icono>
+                            <i class="bi bi-person-fill jugador-foto-campo"></i>
+                          </ng-template>
                         </div>
                         <div class="jugador-nombre">{{ getJugadorNombre(jugador.jugadorId) }}</div>
                         <div class="jugador-numero">{{ jugador.numero || '?' }}</div>

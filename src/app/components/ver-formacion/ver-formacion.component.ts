@@ -150,8 +150,12 @@ interface Formacion {
                              [title]="jugador.jugadorId.nombre + ' - ' + jugador.jugadorId.goles + ' goles'">
                           <div class="player-number">{{ jugador.numero || jugador.jugadorId.numero || '?' }}</div>
                           <div class="player-avatar">
-                            <img *ngIf="getFotoUrl(jugador.jugadorId)" [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
-                            <i *ngIf="!getFotoUrl(jugador.jugadorId)" class="bi bi-person-circle jugador-foto-campo"></i>
+                            <ng-container *ngIf="getFotoUrl(jugador.jugadorId); else icono">
+                              <img [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
+                            </ng-container>
+                            <ng-template #icono>
+                              <i class="bi bi-person-circle jugador-foto-campo"></i>
+                            </ng-template>
                           </div>
                           <div class="player-name">{{ jugador.jugadorId.nombre }}</div>
                           <div class="player-stats">
@@ -175,8 +179,12 @@ interface Formacion {
                              [title]="jugador.jugadorId.nombre + ' - ' + jugador.jugadorId.goles + ' goles'">
                           <div class="player-number">{{ jugador.numero || jugador.jugadorId.numero || '?' }}</div>
                           <div class="player-avatar">
-                            <img *ngIf="getFotoUrl(jugador.jugadorId)" [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
-                            <i *ngIf="!getFotoUrl(jugador.jugadorId)" class="bi bi-person-circle jugador-foto-campo"></i>
+                            <ng-container *ngIf="getFotoUrl(jugador.jugadorId); else icono">
+                              <img [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
+                            </ng-container>
+                            <ng-template #icono>
+                              <i class="bi bi-person-circle jugador-foto-campo"></i>
+                            </ng-template>
                           </div>
                           <div class="player-name">{{ jugador.jugadorId.nombre }}</div>
                           <div class="player-stats">
