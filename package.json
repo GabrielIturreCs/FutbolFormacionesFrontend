@@ -6,7 +6,8 @@
     "build": "ng build --configuration=production",
     "dev": "ng serve",
     "start": "ng serve",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "postbuild": "copy _redirects dist\\futbol-equipos-app\\_redirects"
   },
   "dependencies": {
     "@angular/animations": "latest",
