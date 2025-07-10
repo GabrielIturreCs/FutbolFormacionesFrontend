@@ -29,24 +29,27 @@
   }
 }
 
-// Fondo de césped futbolero
+// Fondo de césped futbolero y centrado de la cancha
 .campo-container {
-  /* Eliminar fondo de rayas para evitar relleno extra */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
   background: none;
   border-radius: 18px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  border: 2px solid #fff;
+  border: none;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
 }
 
 // Campo de fútbol principal
 .campo-futbol {
   width: 100%;
   max-width: 800px;
-  aspect-ratio: 16/10; // Proporción realista, reemplaza height fijo
-  background: linear-gradient(135deg, #28a745, #20c997);
-  border: 3px solid #fff;
+  aspect-ratio: 16/10;
+  background: linear-gradient(135deg, #184d27 0%, #1b2e1f 100%);
+  border: 3px solid #ffd700;
   border-radius: 15px;
   position: relative;
   cursor: crosshair;
@@ -54,17 +57,17 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   min-height: 180px;
   min-width: 220px;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="0" y="0" width="100" height="100" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/></svg>') repeat;
-    opacity: 0.5;
-  }
+}
+
+.campo-futbol::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: none;
+  opacity: 1;
 }
 
 @media (max-width: 900px) {
@@ -94,7 +97,7 @@
   left: 50%;
   width: 3px;
   height: 100%;
-  background: rgba(255,255,255,0.9);
+  background: #1e90ff;
   transform: translateX(-50%);
   z-index: 1;
 }
@@ -105,7 +108,7 @@
   left: 50%;
   width: 120px;
   height: 120px;
-  border: 3px solid rgba(255,255,255,0.9);
+  border: 3px solid #ffd700;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
@@ -117,7 +120,7 @@
     top: 50%;
     width: 8px;
     height: 8px;
-    background: rgba(255,255,255,0.9);
+    background: #1e90ff;
     border-radius: 50%;
     transform: translate(-50%, -50%);
   }
@@ -129,7 +132,7 @@
   top: 20%;
   width: 120px;
   height: 60%;
-  border: 3px solid rgba(255,255,255,0.9);
+  border: 3px solid #1e90ff;
   z-index: 1;
 }
 
@@ -149,7 +152,7 @@
   top: 35%;
   width: 60px;
   height: 30%;
-  border: 3px solid rgba(255,255,255,0.9);
+  border: 3px solid #ffd700;
   z-index: 1;
 }
 
@@ -169,7 +172,7 @@
   top: 42%;
   width: 8px;
   height: 16%;
-  background: rgba(255,255,255,0.9);
+  background: #ffd700;
   z-index: 1;
 }
 
