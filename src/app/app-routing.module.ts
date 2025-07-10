@@ -39,7 +39,7 @@ export const routes: Routes = [
     loadComponent: () => import("./components/ver-formacion/ver-formacion.component").then((m) => m.VerFormacionComponent),
   },
   {
-    path: "**",
-    redirectTo: "",
+    path: '**',
+    loadComponent: () => import('./components/not-found/not-found.component').then(m => m.NotFoundComponent),
   },
 ]
