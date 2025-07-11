@@ -178,8 +178,8 @@ interface Formacion {
                            (click)="editarJugador(jugador, 'local')">
                         <div class="jugador-avatar" [style.background-color]="formacion.equipos.local.color">
                           <!-- ✅ CORREGIDO: Usar la función mejorada -->
-                          <ng-container *ngIf="getFotoUrl(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono">
-                            <img [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
+                          <ng-container *ngIf="getFotoUrlById(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono">
+                            <img [src]="getFotoUrlById(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
                           </ng-container>
                           <ng-template #icono>
                             <i class="bi bi-person-fill jugador-foto-campo"></i>
@@ -199,8 +199,8 @@ interface Formacion {
                            (click)="editarJugador(jugador, 'visitante')">
                         <div class="jugador-avatar" [style.background-color]="formacion.equipos.visitante.color">
                           <!-- ✅ CORREGIDO: Usar la función mejorada -->
-                          <ng-container *ngIf="getFotoUrl(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono2">
-                            <img [src]="getFotoUrl(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
+                          <ng-container *ngIf="getFotoUrlById(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono2">
+                            <img [src]="getFotoUrlById(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
                           </ng-container>
                           <ng-template #icono2>
                             <i class="bi bi-person-fill jugador-foto-campo"></i>
@@ -248,8 +248,8 @@ interface Formacion {
                          (click)="seleccionarJugador(jugador)">
                       <div class="jugador-avatar-mini">
                         <!-- ✅ CORREGIDO: Usar getFotoUrl directamente con el objeto jugador -->
-                        <ng-container *ngIf="getFotoUrl(jugador._id) !== 'assets/img/avatar-default.png'; else iconoMini">
-                          <img [src]="getFotoUrl(jugador._id)" class="jugador-foto-mini" alt="Foto" />
+                        <ng-container *ngIf="getFotoUrl(jugador) !== 'assets/img/avatar-default.png'; else iconoMini">
+                          <img [src]="getFotoUrl(jugador)" class="jugador-foto-mini" alt="Foto" />
                         </ng-container>
                         <ng-template #iconoMini>
                           <i class="bi bi-person-circle jugador-foto-mini"></i>
@@ -534,19 +534,18 @@ export class CrearFormacionComponent implements OnInit {
   }
 
   // Función robusta para obtener la URL del jugador (igual que en gestión jugadores)
-  getFotoUrl(jugadorId: string): string {
-    if (!jugadorId || !this.jugadores) {
-      return 'assets/img/avatar-default.png';
-    }
-    // Buscar el jugador por ID en la lista de jugadores
-    const jugador = this.jugadores.find(j => j._id === jugadorId);
-    if (!jugador) {
-      return 'assets/img/avatar-default.png';
-    }
+  getFotoUrl(jugador: Jugador | any): string {
+    if (!jugador) return 'assets/img/avatar-default.png';
     if (jugador.fotoUrl && typeof jugador.fotoUrl === 'string' && jugador.fotoUrl.startsWith('http')) {
       return jugador.fotoUrl;
     }
     return 'assets/img/avatar-default.png';
+  }
+
+  // Función auxiliar para obtener la foto de un jugador por ID
+  getFotoUrlById(jugadorId: string): string {
+    const jugador = this.jugadores.find(j => j._id === jugadorId);
+    return this.getFotoUrl(jugador);
   }
 
   // FUNCIONES DE DRAG AND DROP MEJORADAS

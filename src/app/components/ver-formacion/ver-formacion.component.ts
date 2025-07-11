@@ -11,7 +11,7 @@ interface Jugador {
   equipo: string;
   goles: number;
   asistencias: number;
-  fotoUrl?: string; // Permite mostrar la foto/avatar en el campo
+  fotoUrl?: string;
 }
 
 interface JugadorFormacion {
