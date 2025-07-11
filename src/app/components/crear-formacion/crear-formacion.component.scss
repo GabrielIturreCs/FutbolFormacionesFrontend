@@ -195,9 +195,7 @@
   transition: all 0.3s ease;
   transform: translate(-50%, -50%);
   z-index: 10;
-  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.18), 0 0 0 4px rgba(255,255,255,0.12);
-  border-radius: 50%;
-  background: rgba(255,255,255,0.05);
+
   
   &:hover {
     transform: translate(-50%, -50%) scale(1.1);
