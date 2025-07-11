@@ -227,9 +227,9 @@
     height: 48px;
     border-radius: 50%;
     overflow: hidden;
-    background: transparent !important;
-    border: 2px solid #ffd700;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    background: none !important;
+    box-shadow: none !important;
+    border: none !important;
   }
   
   // Nombre del jugador

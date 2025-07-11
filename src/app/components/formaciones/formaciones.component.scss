@@ -222,6 +222,17 @@
     }
   }
   
+  .btn-outline-secondary, .btn-outline-secondary:visited, .btn-outline-secondary:active {
+    background: #f8f9fa !important;
+    color: #343a40 !important;
+    border: 1px solid #ced4da !important;
+    opacity: 1 !important;
+  }
+  .btn-outline-secondary:hover {
+    background: #e2e6ea !important;
+    color: #212529 !important;
+  }
+  
   // Input group personalizado
   .input-group {
     .input-group-text {

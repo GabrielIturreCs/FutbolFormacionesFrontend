@@ -248,11 +248,7 @@ interface Estadisticas {
               
               <div class="card-footer bg-transparent">
                 <div class="btn-group w-100" role="group">
-                  <a [routerLink]="['/formacion', formacion._id]"
-                     class="btn btn-outline-success btn-sm">
-                    <i class="bi bi-eye me-1"></i>
-                    Ver en Campo
-                  </a>
+                  <!-- Eliminado el botón Ver en Campo -->
                   <a [routerLink]="['/editar-formacion', formacion._id]"
                      class="btn btn-outline-warning btn-sm">
                     <i class="bi bi-pencil me-1"></i>

@@ -63,14 +63,24 @@ interface Formacion {
               </p>
             </div>
             <div class="btn-group">
-              <button class="btn btn-outline-primary btn-custom" (click)="editarFormacion()">
-                <i class="bi bi-pencil me-1"></i>
-                Editar
-              </button>
-              <a routerLink="/formaciones" class="btn btn-outline-secondary btn-custom">
+              <span class="btn btn-outline-primary btn-custom disabled" style="pointer-events:none;opacity:1;">
+                <i class="bi bi-eye me-1"></i>
+                Ver Formación
+              </span>
+              <a class="btn btn-outline-secondary btn-custom" routerLink="/formaciones">
                 <i class="bi bi-arrow-left me-1"></i>
                 Volver
               </a>
+            </div>
+          </div>
+
+          <!-- Agregar botón Editar dentro de la vista, arriba del campo de fútbol -->
+          <div class="row mb-3">
+            <div class="col-12 text-end">
+              <button class="btn btn-outline-primary btn-lg btn-custom" (click)="editarFormacion()">
+                <i class="bi bi-pencil me-1"></i>
+                Editar
+              </button>
             </div>
           </div>
 
