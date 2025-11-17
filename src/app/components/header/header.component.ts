@@ -11,7 +11,10 @@ import { CommonModule } from "@angular/common"
       <div class="container">
         <a class="navbar-brand d-flex align-items-center" routerLink="/">
           <i class="bi bi-trophy-fill text-warning me-2 fs-4"></i>
-          <span class="fw-bold">Fútbol Manager</span>
+          <div class="d-flex flex-column">
+            <span class="taquito-text">TAQUITO LIGAS</span>
+            <span class="fw-bold main-title">Fútbol Manager</span>
+          </div>
         </a>
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -34,14 +37,26 @@ import { CommonModule } from "@angular/common"
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/formaciones" routerLinkActive="active">
-                <i class="bi bi-diagram-3-fill me-1"></i>
-                Formaciones
+                <i class="bi bi-calendar-event-fill me-1"></i>
+                Partidos
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/top-goleadores" routerLinkActive="active">
                 <i class="bi bi-trophy-fill me-1"></i>
                 Top Goleadores
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/top-asistencias" routerLinkActive="active">
+                <i class="bi bi-award-fill me-1"></i>
+                Top Asistencias
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/top-tarjetas" routerLinkActive="active">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                Tarjetas
               </a>
             </li>
           </ul>
@@ -52,8 +67,21 @@ import { CommonModule } from "@angular/common"
   styles: [
     `
     .navbar-brand {
-      font-size: 1.5rem;
+      font-size: 1rem;
       transition: all 0.3s ease;
+    }
+    
+    .taquito-text {
+      font-size: 0.7rem;
+      color: #ffd700;
+      font-weight: 600;
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+    
+    .main-title {
+      font-size: 1.3rem;
+      line-height: 1.2;
     }
     
     .navbar-brand:hover {

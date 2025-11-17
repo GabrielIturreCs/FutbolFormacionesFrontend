@@ -9,16 +9,16 @@ interface Jugador {
   nombre: string;
   numero?: number;
   equipo: 'rojo' | 'azul';
-  posicionJugador?: string;
+  posicion?: string; // Posición del jugador: Portero, Defensa, etc.
   goles: number;
   asistencias: number;
   partidosJugados: number;
-  posicion: {
+  posicionCampo?: { // Coordenadas x,y en el campo (solo para visualización)
     x: number;
     y: number;
   };
   activo: boolean;
-  fotoUrl?: string; // Added fotoUrl to the interface
+  fotoUrl?: string;
 }
 
 @Component({
@@ -146,7 +146,7 @@ interface Jugador {
                       <span class="badge bg-dark">{{ jugador.numero || 'N/A' }}</span>
                     </td>
                     <td class="text-center">
-                      <span class="badge bg-secondary">{{ jugador.posicionJugador || 'N/A' }}</span>
+                      <span class="badge bg-secondary">{{ jugador.posicion || 'N/A' }}</span>
                     </td>
                     <td class="text-center">
                       <span class="badge" 
@@ -301,7 +301,7 @@ interface Jugador {
                       <i class="bi bi-geo-alt me-1"></i>
                       Posición en el Campo
                     </label>
-                    <select class="form-select form-select-lg" [(ngModel)]="jugadorForm.posicionJugador" name="posicionJugador">
+                    <select class="form-select form-select-lg" [(ngModel)]="jugadorForm.posicion" name="posicion">
                       <option value="">⚽ Seleccionar posición</option>
                       <option value="Portero">🥅 Portero</option>
                       <option value="Defensa">🛡️ Defensa</option>
@@ -446,7 +446,7 @@ export class GestionJugadoresComponent implements OnInit {
     nombre: '',
     numero: null,
     equipo: '',
-    posicionJugador: '',
+    posicion: '',
     goles: 0,
     asistencias: 0,
     partidosJugados: 0,
@@ -514,7 +514,7 @@ export class GestionJugadoresComponent implements OnInit {
       nombre: '',
       numero: null,
       equipo: '',
-      posicionJugador: '',
+      posicion: '',
       goles: 0,
       asistencias: 0,
       partidosJugados: 0,
@@ -557,7 +557,11 @@ export class GestionJugadoresComponent implements OnInit {
             },
             error: (error) => {
               console.error('Error actualizando jugador:', error);
-              alert('Error al actualizar jugador');
+              let errorMsg = 'Error al actualizar jugador';
+              if (error?.error?.error) {
+                errorMsg = error.error.error;
+              }
+              alert(errorMsg);
             }
           });
       } else {
@@ -572,7 +576,11 @@ export class GestionJugadoresComponent implements OnInit {
             },
             error: (error) => {
               console.error('Error creando jugador:', error);
-              alert('Error al crear jugador');
+              let errorMsg = 'Error al crear jugador';
+              if (error?.error?.error) {
+                errorMsg = error.error.error;
+              }
+              alert(errorMsg);
             }
           });
       }

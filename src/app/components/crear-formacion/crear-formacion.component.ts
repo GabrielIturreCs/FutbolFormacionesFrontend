@@ -12,7 +12,14 @@ interface Jugador {
   equipo: string;
   goles: number;
   asistencias: number;
-  fotoUrl?: string; // Agregado campo fotoUrl
+  fotoUrl?: string;
+}
+
+interface EstadisticasPartido {
+  goles: number;
+  asistencias: number;
+  tarjetasAmarillas: number;
+  tarjetasRojas: number;
 }
 
 interface JugadorFormacion {
@@ -22,6 +29,7 @@ interface JugadorFormacion {
     y: number;
   };
   numero?: number;
+  estadisticas?: EstadisticasPartido;
 }
 
 interface Equipo {
@@ -30,10 +38,12 @@ interface Equipo {
   jugadores: JugadorFormacion[];
 }
 
-interface Formacion {
+interface Partido {
   _id?: string;
   nombre: string;
   descripcion?: string;
+  fecha?: Date;
+  hora?: string;
   equipos: {
     local: Equipo;
     visitante: Equipo;
@@ -50,10 +60,10 @@ interface Formacion {
       <div class="hero-section text-center py-4 bg-dark text-white">
         <div class="container">
           <h1 class="display-4 fw-bold mb-3">
-            <i class="bi bi-diagram-3-fill text-warning me-3"></i>
-            {{ esEdicion ? 'Editar' : 'Crear' }} Formación
+            <i class="bi bi-calendar-event-fill text-warning me-3"></i>
+            {{ esEdicion ? 'Editar' : 'Crear' }} Partido
           </h1>
-          <p class="lead">{{ esEdicion ? 'Modifica' : 'Crea' }} tu formación táctica</p>
+          <p class="lead">{{ esEdicion ? 'Modifica' : 'Crea' }} tu partido y registra estadísticas</p>
         </div>
       </div>
 
@@ -65,23 +75,41 @@ interface Formacion {
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header">
-                  <h5><i class="bi bi-info-circle me-2"></i>Información de la Formación</h5>
+                  <h5><i class="bi bi-info-circle me-2"></i>Información del Partido</h5>
                 </div>
                 <div class="card-body">
                   <div class="mb-3">
-                    <label class="form-label">Nombre de la Formación *</label>
+                    <label class="form-label">Nombre del Partido *</label>
                     <input type="text" class="form-control"
                            [(ngModel)]="formacion.nombre"
                            name="nombre" required
                            placeholder="Ej: Final 2024, Amistoso vs Azul">
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="mb-3">
+                        <label class="form-label">Fecha *</label>
+                        <input type="date" class="form-control"
+                               [(ngModel)]="formacion.fecha"
+                               name="fecha" required>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="mb-3">
+                        <label class="form-label">Hora *</label>
+                        <input type="time" class="form-control"
+                               [(ngModel)]="formacion.hora"
+                               name="hora" required>
+                      </div>
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Descripción</label>
                     <textarea class="form-control"
                               [(ngModel)]="formacion.descripcion"
                               name="descripcion"
-                              rows="3"
-                              placeholder="Descripción opcional de la formación"></textarea>
+                              rows="2"
+                              placeholder="Descripción opcional del partido"></textarea>
                   </div>
                 </div>
               </div>
@@ -168,41 +196,21 @@ interface Formacion {
                       <div class="arco-izquierdo"></div>
                       <div class="arco-derecho"></div>
                       
-                      <!-- Jugadores del equipo local -->
-                      <div *ngFor="let jugador of formacion.equipos.local.jugadores; let i = index"
-                           class="jugador jugador-local"
+                      <!-- Jugadores del equipo seleccionado -->
+                      <div *ngFor="let jugador of formacion.equipos[equipoSeleccionado].jugadores; let i = index"
+                           class="jugador"
+                           [class.jugador-local]="equipoSeleccionado === 'local'"
+                           [class.jugador-visitante]="equipoSeleccionado === 'visitante'"
                            [style.left.%]="jugador.posicion.x"
                            [style.top.%]="jugador.posicion.y"
                            [attr.draggable]="true"
-                           (dragstart)="onDragStart($event, jugador, 'local')"
-                           (click)="editarJugador(jugador, 'local')">
-                        <div class="jugador-avatar" [style.background-color]="formacion.equipos.local.color">
-                          <!-- ✅ CORREGIDO: Usar la función mejorada -->
+                           (dragstart)="onDragStart($event, jugador, equipoSeleccionado)"
+                           (click)="editarJugador(jugador, equipoSeleccionado)">
+                        <div class="jugador-avatar" [style.background-color]="formacion.equipos[equipoSeleccionado].color">
                           <ng-container *ngIf="getFotoUrlById(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono">
                             <img [src]="getFotoUrlById(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
                           </ng-container>
                           <ng-template #icono>
-                            <i class="bi bi-person-fill jugador-foto-campo"></i>
-                          </ng-template>
-                        </div>
-                        <div class="jugador-nombre">{{ getJugadorNombre(jugador.jugadorId) }}</div>
-                        <div class="jugador-numero">{{ jugador.numero || '?' }}</div>
-                      </div>
-                      
-                      <!-- Jugadores del equipo visitante -->
-                      <div *ngFor="let jugador of formacion.equipos.visitante.jugadores; let i = index"
-                           class="jugador jugador-visitante"
-                           [style.left.%]="jugador.posicion.x"
-                           [style.top.%]="jugador.posicion.y"
-                           [attr.draggable]="true"
-                           (dragstart)="onDragStart($event, jugador, 'visitante')"
-                           (click)="editarJugador(jugador, 'visitante')">
-                        <div class="jugador-avatar" [style.background-color]="formacion.equipos.visitante.color">
-                          <!-- ✅ CORREGIDO: Usar la función mejorada -->
-                          <ng-container *ngIf="getFotoUrlById(jugador.jugadorId) !== 'assets/img/avatar-default.png'; else icono2">
-                            <img [src]="getFotoUrlById(jugador.jugadorId)" class="jugador-foto-campo" alt="Foto" />
-                          </ng-container>
-                          <ng-template #icono2>
                             <i class="bi bi-person-fill jugador-foto-campo"></i>
                           </ng-template>
                         </div>
@@ -245,9 +253,10 @@ interface Formacion {
                   <div class="jugadores-lista">
                     <div *ngFor="let jugador of jugadoresFiltrados"
                          class="jugador-item"
+                         [class.equipo-rojo]="jugador.equipo === 'rojo'"
+                         [class.equipo-azul]="jugador.equipo === 'azul'"
                          (click)="seleccionarJugador(jugador)">
                       <div class="jugador-avatar-mini">
-                        <!-- ✅ CORREGIDO: Usar getFotoUrl directamente con el objeto jugador -->
                         <ng-container *ngIf="getFotoUrl(jugador) !== 'assets/img/avatar-default.png'; else iconoMini">
                           <img [src]="getFotoUrl(jugador)" class="jugador-foto-mini" alt="Foto" />
                         </ng-container>
@@ -255,13 +264,13 @@ interface Formacion {
                           <i class="bi bi-person-circle jugador-foto-mini"></i>
                         </ng-template>
                       </div>
-                      <div class="jugador-info">
+                      <div class="jugador-info flex-grow-1">
                         <strong>{{ jugador.nombre }}</strong>
-                        <small class="text-muted">#{{ jugador.numero || 'N/A' }}</small>
+                        <small class="text-muted d-block">#{{ jugador.numero || 'N/A' }} · {{ jugador.equipo === 'rojo' ? 'Equipo Rojo' : 'Equipo Azul' }}</small>
                       </div>
                       <div class="jugador-stats">
-                        <span class="badge bg-success me-1">{{ jugador.goles }} goles</span>
-                        <span class="badge bg-info">{{ jugador.asistencias }} asistencias</span>
+                        <span class="badge bg-success me-1">{{ jugador.goles }}⚽</span>
+                        <span class="badge bg-info">{{ jugador.asistencias }}🅰️</span>
                       </div>
                     </div>
                   </div>
@@ -272,39 +281,59 @@ interface Formacion {
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header">
-                  <h5><i class="bi bi-list-check me-2"></i>Jugadores en Formación</h5>
+                  <h5><i class="bi bi-list-check me-2"></i>Jugadores en el Partido - {{ equipoSeleccionado === 'local' ? formacion.equipos.local.nombre : formacion.equipos.visitante.nombre }}</h5>
                 </div>
                 <div class="card-body">
-                  <div class="row">
-                    <div class="col-6">
-                      <h6>{{ formacion.equipos.local.nombre || 'Local' }}</h6>
-                      <div class="jugadores-formacion">
-                        <div *ngFor="let jugador of formacion.equipos.local.jugadores"
-                             class="jugador-formacion-item">
-                          <div class="jugador-info">
-                            <strong>{{ getJugadorNombre(jugador.jugadorId) }}</strong>
-                            <small class="text-muted">#{{ jugador.numero || '?' }}</small>
-                          </div>
-                          <button type="button" class="btn btn-sm btn-outline-danger"
-                                  (click)="removerJugador(jugador, 'local')">
-                            <i class="bi bi-trash"></i>
-                          </button>
+                  <div *ngIf="formacion.equipos[equipoSeleccionado].jugadores.length === 0" class="text-center text-muted py-4">
+                    <i class="bi bi-person-x fs-1 mb-3"></i>
+                    <p>No hay jugadores en el partido</p>
+                  </div>
+                  
+                  <div class="jugadores-formacion">
+                    <div *ngFor="let jugador of formacion.equipos[equipoSeleccionado].jugadores; let i = index"
+                         class="jugador-formacion-item mb-3">
+                      <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="jugador-info">
+                          <strong>{{ getJugadorNombre(jugador.jugadorId) }}</strong>
+                          <small class="text-muted d-block">#{{ jugador.numero || '?' }}</small>
                         </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                (click)="removerJugador(jugador, equipoSeleccionado)">
+                          <i class="bi bi-trash"></i>
+                        </button>
                       </div>
-                    </div>
-                    <div class="col-6">
-                      <h6>{{ formacion.equipos.visitante.nombre || 'Visitante' }}</h6>
-                      <div class="jugadores-formacion">
-                        <div *ngFor="let jugador of formacion.equipos.visitante.jugadores"
-                             class="jugador-formacion-item">
-                          <div class="jugador-info">
-                            <strong>{{ getJugadorNombre(jugador.jugadorId) }}</strong>
-                            <small class="text-muted">#{{ jugador.numero || '?' }}</small>
+                      
+                      <!-- Estadísticas del partido -->
+                      <div class="estadisticas-partido">
+                        <div class="row g-2">
+                          <div class="col-3">
+                            <label class="form-label small">⚽ Goles</label>
+                            <input type="number" class="form-control form-control-sm" min="0" max="20"
+                                   [(ngModel)]="jugador.estadisticas.goles"
+                                   [name]="'goles-' + i"
+                                   placeholder="0">
                           </div>
-                          <button type="button" class="btn btn-sm btn-outline-danger"
-                                  (click)="removerJugador(jugador, 'visitante')">
-                            <i class="bi bi-trash"></i>
-                          </button>
+                          <div class="col-3">
+                            <label class="form-label small">👟 Asist.</label>
+                            <input type="number" class="form-control form-control-sm" min="0" max="20"
+                                   [(ngModel)]="jugador.estadisticas.asistencias"
+                                   [name]="'asist-' + i"
+                                   placeholder="0">
+                          </div>
+                          <div class="col-3">
+                            <label class="form-label small">🟨</label>
+                            <input type="number" class="form-control form-control-sm" min="0" max="2"
+                                   [(ngModel)]="jugador.estadisticas.tarjetasAmarillas"
+                                   [name]="'amar-' + i"
+                                   placeholder="0">
+                          </div>
+                          <div class="col-3">
+                            <label class="form-label small">🟥</label>
+                            <input type="number" class="form-control form-control-sm" min="0" max="1"
+                                   [(ngModel)]="jugador.estadisticas.tarjetasRojas"
+                                   [name]="'roja-' + i"
+                                   placeholder="0">
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -363,9 +392,11 @@ interface Formacion {
   styleUrls: ['./crear-formacion.component.scss']
 })
 export class CrearFormacionComponent implements OnInit {
-  formacion: Formacion = {
+  formacion: Partido = {
     nombre: '',
     descripcion: '',
+    fecha: new Date(),
+    hora: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
     equipos: {
       local: { nombre: 'Equipo Local', color: '#dc3545', jugadores: [] },
       visitante: { nombre: 'Equipo Visitante', color: '#007bff', jugadores: [] }
@@ -431,15 +462,21 @@ export class CrearFormacionComponent implements OnInit {
   filtrarJugadores(): void {
     // Obtener IDs de jugadores ya seleccionados en ambos equipos
     const idsEnFormacion = [
-      ...this.formacion.equipos.local.jugadores.map(j => j.jugadorId),
-      ...this.formacion.equipos.visitante.jugadores.map(j => j.jugadorId)
+      ...this.formacion.equipos.local.jugadores.map((j: JugadorFormacion) => j.jugadorId),
+      ...this.formacion.equipos.visitante.jugadores.map((j: JugadorFormacion) => j.jugadorId)
     ];
 
+    // Filtrar por equipo según selección: rojo = local, azul = visitante
+    const equipoPermitido = this.equipoSeleccionado === 'local' ? 'rojo' : 'azul';
+
+    let jugadoresFiltradosPorEquipo = this.jugadores.filter(j => 
+      j.equipo === equipoPermitido && !idsEnFormacion.includes(j._id)
+    );
+
     if (!this.filtroJugadores.trim()) {
-      this.jugadoresFiltrados = this.jugadores.filter(j => !idsEnFormacion.includes(j._id));
+      this.jugadoresFiltrados = jugadoresFiltradosPorEquipo;
     } else {
-      this.jugadoresFiltrados = this.jugadores.filter(jugador =>
-        (!idsEnFormacion.includes(jugador._id)) &&
+      this.jugadoresFiltrados = jugadoresFiltradosPorEquipo.filter(jugador =>
         (jugador.nombre.toLowerCase().includes(this.filtroJugadores.toLowerCase()) ||
         (jugador.numero && jugador.numero.toString().includes(this.filtroJugadores)))
       );
@@ -448,6 +485,7 @@ export class CrearFormacionComponent implements OnInit {
 
   seleccionarEquipo(equipo: 'local' | 'visitante'): void {
     this.equipoSeleccionado = equipo;
+    this.filtrarJugadores(); // Actualizar lista cuando cambia el equipo seleccionado
   }
 
   agregarJugadorEnPosicion(event: MouseEvent): void {
@@ -478,18 +516,24 @@ export class CrearFormacionComponent implements OnInit {
 
   agregarJugador(jugador: Jugador, x: number, y: number): void {
     // Verificar si el jugador ya está en algún equipo
-    const yaEnLocal = this.formacion.equipos.local.jugadores.some(j => j.jugadorId === jugador._id);
-    const yaEnVisitante = this.formacion.equipos.visitante.jugadores.some(j => j.jugadorId === jugador._id);
+    const yaEnLocal = this.formacion.equipos.local.jugadores.some((j: JugadorFormacion) => j.jugadorId === jugador._id);
+    const yaEnVisitante = this.formacion.equipos.visitante.jugadores.some((j: JugadorFormacion) => j.jugadorId === jugador._id);
 
     if (yaEnLocal || yaEnVisitante) {
-      alert('Este jugador ya está en la formación');
+      alert('Este jugador ya está en el partido');
       return;
     }
 
     const nuevoJugador: JugadorFormacion = {
       jugadorId: jugador._id,
       posicion: { x, y },
-      numero: jugador.numero
+      numero: jugador.numero,
+      estadisticas: {
+        goles: 0,
+        asistencias: 0,
+        tarjetasAmarillas: 0,
+        tarjetasRojas: 0
+      }
     };
 
     this.formacion.equipos[this.equipoSeleccionado].jugadores.push(nuevoJugador);
@@ -502,7 +546,7 @@ export class CrearFormacionComponent implements OnInit {
 
   removerJugador(jugador: JugadorFormacion, equipo: 'local' | 'visitante'): void {
     this.formacion.equipos[equipo].jugadores = this.formacion.equipos[equipo].jugadores.filter(
-      j => j.jugadorId !== jugador.jugadorId
+      (j: JugadorFormacion) => j.jugadorId !== jugador.jugadorId
     );
     this.filtrarJugadores(); // Refrescar lista visual
   }

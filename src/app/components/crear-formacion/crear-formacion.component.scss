@@ -344,45 +344,118 @@
 .jugador-item {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
+  padding: 14px 18px;
   border-radius: 12px;
-  background: linear-gradient(90deg, #e0eafc 0%, #cfdef3 100%);
-  border-left: 6px solid #28a745;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 8px rgba(40,167,69,0.08);
+  background: #ffffff;
+  border: 3px solid transparent;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   font-weight: 600;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
   cursor: pointer;
   
   &:hover {
-    border-color: #ffe066;
-    box-shadow: 0 4px 16px rgba(40,167,69,0.18);
-    background: #fffbe6;
+    transform: translateX(5px);
+    box-shadow: 0 6px 20px rgba(255, 214, 10, 0.6);
+    border-color: var(--amarillo-tarjeta);
+  }
+  
+  .jugador-info {
+    flex-grow: 1;
+    
+    strong {
+      color: #000000;
+      font-size: 16px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    
+    small {
+      color: #333333 !important;
+      font-size: 13px;
+      font-weight: 500;
+    }
+  }
+  
+  &.equipo-rojo {
+    border-left: 6px solid var(--equipo-rojo);
+    
+    &:hover {
+      border-color: var(--equipo-rojo);
+      box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
+    }
+    
+    .jugador-info small::after {
+      content: " 🔴";
+    }
+  }
+  
+  &.equipo-azul {
+    border-left: 6px solid #1d3557;
+    
+    &:hover {
+      border-color: #1d3557;
+      box-shadow: 0 6px 20px rgba(29, 53, 87, 0.6);
+    }
+    
+    .jugador-info small::after {
+      content: " 🔵";
+    }
+  }
+  
+  .jugador-stats {
+    display: flex;
+    gap: 6px;
+    
+    .badge {
+      font-size: 14px;
+      padding: 6px 12px;
+      font-weight: 700;
+    }
   }
 }
 
-// Estilos para fotos de jugadores
+// Estilos para fotos de jugadores - MEJORADOS
 .jugador-foto-campo {
-  width: 44px;
-  height: 44px;
+  width: 48px !important;
+  height: 48px !important;
   border-radius: 50%;
-  object-fit: cover;
-  font-size: 44px;
-  color: #adb5bd;
+  object-fit: cover !important;
+  object-position: center !important;
+  font-size: 32px;
+  color: #fff;
   background: transparent !important;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.jugador-foto-mini {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50%;
+  object-fit: cover !important;
+  object-position: center !important;
+  font-size: 28px;
+  color: #495057;
+  background: transparent !important;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .jugador-avatar-mini {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  background: #e9ecef;
-  border: 1.5px solid #fff;
-  margin-right: 10px;
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  margin-right: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 // Mejorar responsividad para móviles
@@ -548,6 +621,73 @@
   &:hover::before {
     width: 70px;
     height: 70px;
+  }
+}
+
+// Card headers con mejor visibilidad
+.card-header {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: #ffffff !important;
+  border-bottom: 3px solid var(--amarillo-tarjeta);
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  
+  h5, h6 {
+    color: #ffffff !important;
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  
+  i {
+    color: var(--amarillo-tarjeta);
+  }
+}
+
+// Estilos para jugadores en formación (panel derecho)
+.jugador-formacion-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #ffffff;
+  border-left: 4px solid var(--equipo-rojo);
+  margin-bottom: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateX(3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+  }
+  
+  .jugador-info {
+    flex-grow: 1;
+    
+    strong {
+      color: #000000;
+      font-size: 15px;
+      display: block;
+      margin-bottom: 3px;
+      font-weight: 700;
+    }
+    
+    small {
+      color: #333333 !important;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+  
+  .btn-outline-danger {
+    border-color: #e63946;
+    color: #e63946;
+    
+    &:hover {
+      background: #e63946;
+      color: white;
+    }
   }
 }
 

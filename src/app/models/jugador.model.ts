@@ -8,6 +8,11 @@ export interface Jugador {
   }
   numero?: number
   fotoUrl?: string
+  goles?: number
+  asistencias?: number
+  tarjetasAmarillas?: number
+  tarjetasRojas?: number
+  partidosJugados?: number
 }
 
 export interface Equipo {

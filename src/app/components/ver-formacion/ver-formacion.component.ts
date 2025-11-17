@@ -11,7 +11,16 @@ interface Jugador {
   equipo: string;
   goles: number;
   asistencias: number;
+  tarjetasAmarillas?: number;
+  tarjetasRojas?: number;
   fotoUrl?: string;
+}
+
+interface EstadisticasPartido {
+  goles: number;
+  asistencias: number;
+  tarjetasAmarillas: number;
+  tarjetasRojas: number;
 }
 
 interface JugadorFormacion {
@@ -21,6 +30,7 @@ interface JugadorFormacion {
     y: number;
   };
   numero?: number;
+  estadisticas?: EstadisticasPartido;
 }
 
 interface Equipo {
@@ -168,8 +178,13 @@ interface Formacion {
                             </ng-template>
                           </div>
                           <div class="player-name">{{ jugador.jugadorId.nombre }}</div>
-                          <div class="player-stats">
-                            <small>{{ jugador.jugadorId.goles }}⚽ {{ jugador.jugadorId.asistencias }}🎯</small>
+                          <div class="player-stats" *ngIf="jugador.estadisticas">
+                            <small>
+                              <span *ngIf="jugador.estadisticas.goles > 0">⚽{{ jugador.estadisticas.goles }} </span>
+                              <span *ngIf="jugador.estadisticas.asistencias > 0">👟{{ jugador.estadisticas.asistencias }} </span>
+                              <span *ngIf="jugador.estadisticas.tarjetasAmarillas > 0">🟨{{ jugador.estadisticas.tarjetasAmarillas }} </span>
+                              <span *ngIf="jugador.estadisticas.tarjetasRojas > 0">🟥{{ jugador.estadisticas.tarjetasRojas }} </span>
+                            </small>
                           </div>
                         </div>
                       </div>
@@ -197,8 +212,13 @@ interface Formacion {
                             </ng-template>
                           </div>
                           <div class="player-name">{{ jugador.jugadorId.nombre }}</div>
-                          <div class="player-stats">
-                            <small>{{ jugador.jugadorId.goles }}⚽ {{ jugador.jugadorId.asistencias }}🎯</small>
+                          <div class="player-stats" *ngIf="jugador.estadisticas">
+                            <small>
+                              <span *ngIf="jugador.estadisticas.goles > 0">⚽{{ jugador.estadisticas.goles }} </span>
+                              <span *ngIf="jugador.estadisticas.asistencias > 0">👟{{ jugador.estadisticas.asistencias }} </span>
+                              <span *ngIf="jugador.estadisticas.tarjetasAmarillas > 0">🟨{{ jugador.estadisticas.tarjetasAmarillas }} </span>
+                              <span *ngIf="jugador.estadisticas.tarjetasRojas > 0">🟥{{ jugador.estadisticas.tarjetasRojas }} </span>
+                            </small>
                           </div>
                         </div>
                       </div>
@@ -226,16 +246,20 @@ interface Formacion {
                         <tr>
                           <th>#</th>
                           <th>Nombre</th>
-                          <th>Goles</th>
-                          <th>Asistencias</th>
+                          <th>⚽</th>
+                          <th>👟</th>
+                          <th>🟨</th>
+                          <th>🟥</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr *ngFor="let jugador of formacion?.equipos?.local?.jugadores || []">
                           <td>{{ jugador.numero || jugador.jugadorId.numero || '-' }}</td>
                           <td>{{ jugador.jugadorId.nombre }}</td>
-                          <td>{{ jugador.jugadorId.goles }}</td>
-                          <td>{{ jugador.jugadorId.asistencias }}</td>
+                          <td><span class="badge bg-success">{{ jugador.estadisticas?.goles || 0 }}</span></td>
+                          <td><span class="badge bg-info">{{ jugador.estadisticas?.asistencias || 0 }}</span></td>
+                          <td><span class="badge bg-warning text-dark">{{ jugador.estadisticas?.tarjetasAmarillas || 0 }}</span></td>
+                          <td><span class="badge bg-danger">{{ jugador.estadisticas?.tarjetasRojas || 0 }}</span></td>
                         </tr>
                       </tbody>
                     </table>

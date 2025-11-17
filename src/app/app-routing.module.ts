@@ -19,6 +19,14 @@ export const routes: Routes = [
     loadComponent: () => import("./components/top-goleadores/top-goleadores.component").then((m) => m.TopGoleadoresComponent),
   },
   {
+    path: "top-asistencias",
+    loadComponent: () => import("./components/top-asistencias/top-asistencias.component").then((m) => m.TopAsistenciasComponent),
+  },
+  {
+    path: "top-tarjetas",
+    loadComponent: () => import("./components/top-tarjetas/top-tarjetas.component").then((m) => m.TopTarjetasComponent),
+  },
+  {
     path: "gestion-jugadores",
     loadComponent: () => import("./components/gestion-jugadores/gestion-jugadores.component").then((m) => m.GestionJugadoresComponent),
   },
