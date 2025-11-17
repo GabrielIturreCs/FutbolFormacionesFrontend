@@ -494,11 +494,6 @@ export class CrearFormacionComponent implements OnInit {
           
           // Usar Promise.resolve() para asegurar que se ejecuta después de Angular rendering
           Promise.resolve().then(() => {
-            console.log('Sincronizando fotos de jugadores...');
-            console.log('Jugadores disponibles:', this.jugadores.length);
-            console.log('Jugadores local:', this.formacion.equipos.local.jugadores.length);
-            console.log('Jugadores visitante:', this.formacion.equipos.visitante.jugadores.length);
-            
             this.sincronizarFotosJugadores();
           });
         },
@@ -510,23 +505,20 @@ export class CrearFormacionComponent implements OnInit {
 
   sincronizarFotosJugadores(): void {
     // Sincronizar fotos de jugadores en ambos equipos
-    console.log('Iniciando sincronización de fotos...');
-    
     this.formacion.equipos.local.jugadores.forEach((jugadorFormacion: JugadorFormacion) => {
       const jugadorCompleto = this.jugadores.find(j => j._id === jugadorFormacion.jugadorId);
       if (jugadorCompleto && jugadorCompleto.fotoUrl) {
-        console.log(`Foto sincronizada para ${jugadorCompleto.nombre}: ${jugadorCompleto.fotoUrl}`);
+        // Foto disponible para sincronizar
       }
     });
     
     this.formacion.equipos.visitante.jugadores.forEach((jugadorFormacion: JugadorFormacion) => {
       const jugadorCompleto = this.jugadores.find(j => j._id === jugadorFormacion.jugadorId);
       if (jugadorCompleto && jugadorCompleto.fotoUrl) {
-        console.log(`Foto sincronizada para ${jugadorCompleto.nombre}: ${jugadorCompleto.fotoUrl}`);
+        // Foto disponible para sincronizar
       }
     });
     
-    console.log('Ejecutando filtrarJugadores() después de sincronización');
     this.filtrarJugadores();
   }
 
@@ -548,20 +540,12 @@ export class CrearFormacionComponent implements OnInit {
       })
     ];
 
-    console.log('IDs en formación (normalizados):', idsEnFormacion);
-    console.log('Total jugadores disponibles:', this.jugadores.length);
-    console.log('Equipo seleccionado:', this.equipoSeleccionado);
-
     // Filtrar por equipo según selección: rojo = local, azul = visitante
     const equipoPermitido = this.equipoSeleccionado === 'local' ? 'rojo' : 'azul';
-    console.log('Equipo permitido:', equipoPermitido);
 
     let jugadoresFiltradosPorEquipo = this.jugadores.filter(j => 
       j.equipo === equipoPermitido && !idsEnFormacion.includes(j._id)
     );
-
-    console.log('Jugadores filtrados por equipo:', jugadoresFiltradosPorEquipo.length);
-    console.log('Jugadores:', jugadoresFiltradosPorEquipo.map(j => ({ nombre: j.nombre, equipo: j.equipo, _id: j._id })));
 
     if (!this.filtroJugadores.trim()) {
       this.jugadoresFiltrados = jugadoresFiltradosPorEquipo;
@@ -571,8 +555,6 @@ export class CrearFormacionComponent implements OnInit {
         (jugador.numero && jugador.numero.toString().includes(this.filtroJugadores)))
       );
     }
-
-    console.log('Jugadores filtrados finales:', this.jugadoresFiltrados.length);
   }
 
   seleccionarEquipo(equipo: 'local' | 'visitante'): void {
