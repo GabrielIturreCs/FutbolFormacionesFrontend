@@ -48,13 +48,13 @@
   width: 100%;
   max-width: 800px;
   aspect-ratio: 16/10;
-  background: linear-gradient(135deg, #184d27 0%, #1b2e1f 100%);
+  background: linear-gradient(135deg, #1a472d 0%, #0f2818 100%);
   border: 3px solid #ffd700;
   border-radius: 15px;
   position: relative;
   cursor: crosshair;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   min-height: 180px;
   min-width: 220px;
 }
@@ -233,19 +233,37 @@
   // Nombre del jugador
   .jugador-nombre {
     display: block;
-    background: rgba(0,0,0,0.7);
-    color: #fff;
-    font-size: 0.95rem;
-    font-weight: 600;
+    background: rgba(0,0,0,0.85);
+    color: #ffd700;
+    font-size: 0.7rem;
+    font-weight: 700;
     text-align: center;
     border-radius: 12px;
-    padding: 2px 8px;
+    padding: 4px 5px;
     margin: 2px auto 0 auto;
-    max-width: 90px;
-    white-space: nowrap;
+    width: 90px;
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.2;
     overflow: hidden;
-    text-overflow: ellipsis;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    max-height: 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    z-index: 2;
+  }
+  
+  // Número del jugador en el campo
+  .jugador-numero {
+    display: block;
+    background: rgba(0,0,0,0.85);
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 10px;
+    padding: 2px 4px;
+    margin: 1px auto 0 auto;
+    width: 100%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     z-index: 2;
   }
 }
@@ -311,11 +329,14 @@
 
 .modal-body {
   padding: 1.5rem;
+  background: #2d3748;
+  color: #ffffff;
 }
 
 .modal-footer {
-  border-top: 1px solid rgba(0,0,0,0.1);
+  border-top: 1px solid rgba(0,0,0,0.3);
   padding: 1.5rem;
+  background: #2d3748;
 }
 
 // Form controls
@@ -344,62 +365,85 @@
 .jugador-item {
   display: flex;
   align-items: center;
-  padding: 14px 18px;
-  border-radius: 12px;
-  background: #ffffff;
-  border: 3px solid transparent;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1a2332 0%, #0f1419 100%);
+  border: 2px solid transparent;
   margin-bottom: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   font-weight: 600;
   transition: all 0.3s ease;
   cursor: pointer;
   
   &:hover {
-    transform: translateX(5px);
-    box-shadow: 0 6px 20px rgba(255, 214, 10, 0.6);
-    border-color: var(--amarillo-tarjeta);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  }
+  
+  &.equipo-rojo {
+    border-color: #dc3545;
+    
+    &:hover {
+      box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+    }
+  }
+  
+  &.equipo-azul {
+    border-color: #0d6efd;
+    
+    &:hover {
+      box-shadow: 0 8px 25px rgba(13, 110, 253, 0.3);
+    }
+  }
+  
+  .jugador-avatar-mini {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.1);
+    
+    &.equipo-rojo {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      border-color: rgba(220, 53, 69, 0.5);
+    }
+    
+    &.equipo-azul {
+      background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+      border-color: rgba(13, 110, 253, 0.5);
+    }
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+    }
   }
   
   .jugador-info {
     flex-grow: 1;
     
     strong {
-      color: #000000;
-      font-size: 16px;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
     }
     
     small {
-      color: #333333 !important;
-      font-size: 13px;
+      color: #a0aec0;
+      font-size: 12px;
       font-weight: 500;
-    }
-  }
-  
-  &.equipo-rojo {
-    border-left: 6px solid var(--equipo-rojo);
-    
-    &:hover {
-      border-color: var(--equipo-rojo);
-      box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
-    }
-    
-    .jugador-info small::after {
-      content: " 🔴";
-    }
-  }
-  
-  &.equipo-azul {
-    border-left: 6px solid #1d3557;
-    
-    &:hover {
-      border-color: #1d3557;
-      box-shadow: 0 6px 20px rgba(29, 53, 87, 0.6);
-    }
-    
-    .jugador-info small::after {
-      content: " 🔵";
+      display: block;
     }
   }
   
@@ -408,9 +452,15 @@
     gap: 6px;
     
     .badge {
-      font-size: 14px;
-      padding: 6px 12px;
+      font-size: 12px;
+      padding: 4px 8px;
       font-weight: 700;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      
+      &.bg-info {
+        background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%) !important;
+      }
     }
   }
 }
@@ -433,11 +483,11 @@
 .jugador-foto-mini {
   width: 36px !important;
   height: 36px !important;
-  border-radius: 50%;
+  border-radius: 6px;
   object-fit: cover !important;
   object-position: center !important;
   font-size: 28px;
-  color: #495057;
+  color: #ffffff;
   background: transparent !important;
   display: block;
   image-rendering: -webkit-optimize-contrast;
@@ -447,15 +497,15 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
   overflow: hidden;
-  background: #ffffff;
-  border: 2px solid #e0e0e0;
+  background: linear-gradient(135deg, #1a2332 0%, #0f1419 100%);
+  border: 2px solid rgba(255,255,255,0.1);
   margin-right: 12px;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 // Mejorar responsividad para móviles
@@ -474,8 +524,9 @@
     }
   }
   .jugador-nombre {
-    font-size: 8px;
-    padding: 1px 2px;
+    font-size: 7px;
+    padding: 2px 3px;
+    width: 70px;
   }
 }
 
@@ -509,9 +560,10 @@
     }
     
     .jugador-nombre {
-      font-size: 10px;
+      font-size: 9px;
       top: -25px;
-      padding: 2px 6px;
+      padding: 2px 5px;
+      width: 75px;
     }
   }
   
@@ -553,9 +605,10 @@
     }
     
     .jugador-nombre {
-      font-size: 9px;
+      font-size: 8px;
       top: -20px;
-      padding: 1px 4px;
+      padding: 1px 3px;
+      width: 65px;
     }
   }
   
@@ -691,6 +744,177 @@
   }
 }
 
+// Estilos profesionales para jugadores en el partido
+.jugador-partido-item {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1a2332 0%, #0f1419 100%);
+  border: 2px solid transparent;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  }
+  
+  &.border-danger {
+    border-color: #dc3545;
+    
+    &:hover {
+      box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+    }
+  }
+  
+  &.border-primary {
+    border-color: #0d6efd;
+    
+    &:hover {
+      box-shadow: 0 8px 25px rgba(13, 110, 253, 0.3);
+    }
+  }
+  
+  .d-flex.align-items-center.justify-content-between {
+    margin-bottom: 12px;
+    
+    > div:first-child {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+  }
+  
+  .jugador-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.1);
+    
+    &.equipo-rojo {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      border-color: rgba(220, 53, 69, 0.5);
+    }
+    
+    &.equipo-azul {
+      background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+      border-color: rgba(13, 110, 253, 0.5);
+    }
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+  }
+  
+  h6 {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+  
+  small {
+    color: #a0aec0;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+    padding: 4px 8px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: #dc3545;
+      color: white;
+    }
+  }
+}
+
+// Estadísticas del partido - mejorado
+.estadisticas-partido {
+  background: linear-gradient(135deg, #1e2938 0%, #141b27 100%);
+  padding: 14px;
+  border-radius: 10px;
+  margin-top: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  
+  .row {
+    display: flex;
+    gap: 10px;
+    
+    .col-3 {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+  
+  .form-label {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .form-control-sm {
+    background: #0f1419;
+    border: 1px solid #2d3748;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: center;
+    padding: 8px 6px;
+    transition: all 0.3s ease;
+    
+    &:focus {
+      border-color: #ffd700;
+      box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.2);
+      background: #1a232d;
+    }
+    
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    &[type=number] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+  }
+}
+
+.form-label {
+  color: #ffffff;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.text-light {
+  color: #e0e0e0 !important;
+}
+
 // Estados de validación para formularios
 .form-control.ng-invalid.ng-touched {
   border-color: #dc3545;
@@ -701,3 +925,6 @@
   border-color: #28a745;
   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
 }
+
+// Estilos para h6 en card-body (Equipo Local, Equipo Visitante)
+h6 { color: #ffffff !important; }

@@ -221,7 +221,7 @@ interface Partido {
                   </div>
                   
                   <div class="text-center mt-3">
-                    <p class="text-muted">
+                    <p class="text-secondary">
                       <i class="bi bi-info-circle me-1"></i>
                       Haz clic en el campo para agregar jugadores del equipo {{ equipoSeleccionado === 'local' ? formacion.equipos.local.nombre : formacion.equipos.visitante.nombre }}
                     </p>
@@ -266,7 +266,7 @@ interface Partido {
                       </div>
                       <div class="jugador-info flex-grow-1">
                         <strong>{{ jugador.nombre }}</strong>
-                        <small class="text-muted d-block">#{{ jugador.numero || 'N/A' }} · {{ jugador.equipo === 'rojo' ? 'Equipo Rojo' : 'Equipo Azul' }}</small>
+                        <small class="text-secondary d-block fw-500">#{{ jugador.numero || 'N/A' }} · {{ jugador.equipo === 'rojo' ? 'Equipo Rojo' : 'Equipo Azul' }}</small>
                       </div>
                       <div class="jugador-stats">
                         <span class="badge bg-success me-1">{{ jugador.goles }}⚽</span>
@@ -284,27 +284,42 @@ interface Partido {
                   <h5><i class="bi bi-list-check me-2"></i>Jugadores en el Partido - {{ equipoSeleccionado === 'local' ? formacion.equipos.local.nombre : formacion.equipos.visitante.nombre }}</h5>
                 </div>
                 <div class="card-body">
-                  <div *ngIf="formacion.equipos[equipoSeleccionado].jugadores.length === 0" class="text-center text-muted py-4">
+                  <div *ngIf="formacion.equipos[equipoSeleccionado].jugadores.length === 0" class="text-center text-secondary py-4">
                     <i class="bi bi-person-x fs-1 mb-3"></i>
                     <p>No hay jugadores en el partido</p>
                   </div>
                   
                   <div class="jugadores-formacion">
                     <div *ngFor="let jugador of formacion.equipos[equipoSeleccionado].jugadores; let i = index"
-                         class="jugador-formacion-item mb-3">
-                      <div class="d-flex align-items-center justify-content-between mb-2">
-                        <div class="jugador-info">
-                          <strong>{{ getJugadorNombre(jugador.jugadorId) }}</strong>
-                          <small class="text-muted d-block">#{{ jugador.numero || '?' }}</small>
+                         class="jugador-partido-item mb-3 p-3 rounded border"
+                         [class.border-danger]="getEquipoJugador(jugador.jugadorId)?.equipo === 'rojo'"
+                         [class.border-primary]="getEquipoJugador(jugador.jugadorId)?.equipo === 'azul'">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center flex-grow-1">
+                          <div class="jugador-avatar me-3" 
+                               [class.equipo-rojo]="getEquipoJugador(jugador.jugadorId)?.equipo === 'rojo'"
+                               [class.equipo-azul]="getEquipoJugador(jugador.jugadorId)?.equipo === 'azul'">
+                            <img *ngIf="getFotoJugador(jugador.jugadorId)" 
+                                 [src]="getFotoJugador(jugador.jugadorId)" 
+                                 class="jugador-foto-small" alt="Foto" />
+                            <i *ngIf="!getFotoJugador(jugador.jugadorId)" class="bi bi-person-fill"></i>
+                          </div>
+                          <div>
+                            <h6 class="mb-1 fw-bold">{{ getJugadorNombre(jugador.jugadorId) }}</h6>
+                            <small class="text-light fw-500">
+                              #{{ jugador.numero || '?' }} · 
+                              {{ getEquipoJugador(jugador.jugadorId)?.equipo === 'rojo' ? 'Equipo Rojo' : 'Equipo Azul' }}
+                            </small>
+                          </div>
                         </div>
-                        <button type="button" class="btn btn-sm btn-outline-danger"
+                        <button type="button" class="btn btn-sm btn-outline-danger ms-2"
                                 (click)="removerJugador(jugador, equipoSeleccionado)">
                           <i class="bi bi-trash"></i>
                         </button>
                       </div>
                       
                       <!-- Estadísticas del partido -->
-                      <div class="estadisticas-partido">
+                      <div class="estadisticas-partido mt-3">
                         <div class="row g-2">
                           <div class="col-3">
                             <label class="form-label small">⚽ Goles</label>
@@ -345,6 +360,15 @@ interface Partido {
 
           <!-- Botones de acción -->
           <div class="text-center">
+            <div *ngIf="formacion.equipos.local.jugadores.length < 5 || formacion.equipos.visitante.jugadores.length < 5" class="alert alert-warning mb-3">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              Se requieren <strong>5 jugadores mínimo</strong> en cada equipo para guardar el partido
+              <br>
+              <small>
+                Equipo Local: {{ formacion.equipos.local.jugadores.length }}/5 · 
+                Equipo Visitante: {{ formacion.equipos.visitante.jugadores.length }}/5
+              </small>
+            </div>
             <button type="submit" class="btn btn-success btn-lg me-3" [disabled]="!formacionValida()">
               <i class="bi bi-check-circle me-2"></i>
               {{ esEdicion ? 'Actualizar' : 'Guardar' }} Formación
@@ -423,15 +447,30 @@ export class CrearFormacionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cargarJugadores();
-    this.filtrarJugadores();
-    
-    // Verificar si es edición
+    // Verificar si es edición antes de cargar jugadores
     const formacionId = this.route.snapshot.params['id'];
     if (formacionId) {
       this.esEdicion = true;
-      this.cargarFormacion(formacionId);
+      this.cargarFormacionYJugadores(formacionId);
+    } else {
+      // Si es nuevo, solo cargar jugadores
+      this.cargarJugadores();
     }
+  }
+
+  cargarFormacionYJugadores(formacionId: string): void {
+    // Cargar jugadores primero
+    this.http.get<any>(this.configService.getFullApiUrl('/formaciones/jugadores-disponibles'))
+      .subscribe({
+        next: (response) => {
+          this.jugadores = response.data;
+          // Luego cargar la formación
+          this.cargarFormacion(formacionId);
+        },
+        error: (error) => {
+          console.error('Error cargando jugadores:', error);
+        }
+      });
   }
 
   cargarJugadores(): void {
@@ -452,6 +491,16 @@ export class CrearFormacionComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.formacion = response.data.formacion;
+          
+          // Usar Promise.resolve() para asegurar que se ejecuta después de Angular rendering
+          Promise.resolve().then(() => {
+            console.log('Sincronizando fotos de jugadores...');
+            console.log('Jugadores disponibles:', this.jugadores.length);
+            console.log('Jugadores local:', this.formacion.equipos.local.jugadores.length);
+            console.log('Jugadores visitante:', this.formacion.equipos.visitante.jugadores.length);
+            
+            this.sincronizarFotosJugadores();
+          });
         },
         error: (error) => {
           console.error('Error cargando formación:', error);
@@ -459,19 +508,60 @@ export class CrearFormacionComponent implements OnInit {
       });
   }
 
+  sincronizarFotosJugadores(): void {
+    // Sincronizar fotos de jugadores en ambos equipos
+    console.log('Iniciando sincronización de fotos...');
+    
+    this.formacion.equipos.local.jugadores.forEach((jugadorFormacion: JugadorFormacion) => {
+      const jugadorCompleto = this.jugadores.find(j => j._id === jugadorFormacion.jugadorId);
+      if (jugadorCompleto && jugadorCompleto.fotoUrl) {
+        console.log(`Foto sincronizada para ${jugadorCompleto.nombre}: ${jugadorCompleto.fotoUrl}`);
+      }
+    });
+    
+    this.formacion.equipos.visitante.jugadores.forEach((jugadorFormacion: JugadorFormacion) => {
+      const jugadorCompleto = this.jugadores.find(j => j._id === jugadorFormacion.jugadorId);
+      if (jugadorCompleto && jugadorCompleto.fotoUrl) {
+        console.log(`Foto sincronizada para ${jugadorCompleto.nombre}: ${jugadorCompleto.fotoUrl}`);
+      }
+    });
+    
+    console.log('Ejecutando filtrarJugadores() después de sincronización');
+    this.filtrarJugadores();
+  }
+
   filtrarJugadores(): void {
     // Obtener IDs de jugadores ya seleccionados en ambos equipos
+    // Normalizar IDs: si es un objeto, extraer el _id; si es string, usar directamente
     const idsEnFormacion = [
-      ...this.formacion.equipos.local.jugadores.map((j: JugadorFormacion) => j.jugadorId),
-      ...this.formacion.equipos.visitante.jugadores.map((j: JugadorFormacion) => j.jugadorId)
+      ...this.formacion.equipos.local.jugadores.map((j: JugadorFormacion) => {
+        if (typeof j.jugadorId === 'object' && j.jugadorId !== null) {
+          return (j.jugadorId as any)._id || (j.jugadorId as any);
+        }
+        return j.jugadorId;
+      }),
+      ...this.formacion.equipos.visitante.jugadores.map((j: JugadorFormacion) => {
+        if (typeof j.jugadorId === 'object' && j.jugadorId !== null) {
+          return (j.jugadorId as any)._id || (j.jugadorId as any);
+        }
+        return j.jugadorId;
+      })
     ];
+
+    console.log('IDs en formación (normalizados):', idsEnFormacion);
+    console.log('Total jugadores disponibles:', this.jugadores.length);
+    console.log('Equipo seleccionado:', this.equipoSeleccionado);
 
     // Filtrar por equipo según selección: rojo = local, azul = visitante
     const equipoPermitido = this.equipoSeleccionado === 'local' ? 'rojo' : 'azul';
+    console.log('Equipo permitido:', equipoPermitido);
 
     let jugadoresFiltradosPorEquipo = this.jugadores.filter(j => 
       j.equipo === equipoPermitido && !idsEnFormacion.includes(j._id)
     );
+
+    console.log('Jugadores filtrados por equipo:', jugadoresFiltradosPorEquipo.length);
+    console.log('Jugadores:', jugadoresFiltradosPorEquipo.map(j => ({ nombre: j.nombre, equipo: j.equipo, _id: j._id })));
 
     if (!this.filtroJugadores.trim()) {
       this.jugadoresFiltrados = jugadoresFiltradosPorEquipo;
@@ -481,6 +571,8 @@ export class CrearFormacionComponent implements OnInit {
         (jugador.numero && jugador.numero.toString().includes(this.filtroJugadores)))
       );
     }
+
+    console.log('Jugadores filtrados finales:', this.jugadoresFiltrados.length);
   }
 
   seleccionarEquipo(equipo: 'local' | 'visitante'): void {
@@ -489,18 +581,8 @@ export class CrearFormacionComponent implements OnInit {
   }
 
   agregarJugadorEnPosicion(event: MouseEvent): void {
-    // Solo procesar si el click es directamente en el campo
-    if ((event.target as HTMLElement).classList.contains('campo-futbol')) {
-      const rect = (event.target as HTMLElement).getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-      
-      // Limitar posiciones dentro del campo
-      const posicionX = Math.max(5, Math.min(95, x));
-      const posicionY = Math.max(5, Math.min(95, y));
-      
-      this.mostrarModalSeleccionJugador(posicionX, posicionY);
-    }
+    // Función deshabilitada - Los jugadores solo se agregan desde la lista de disponibles
+    // haciendo click en el jugador específico
   }
 
   mostrarModalSeleccionJugador(x: number, y: number): void {
@@ -572,8 +654,10 @@ export class CrearFormacionComponent implements OnInit {
     modal.hide();
   }
 
-  getJugadorNombre(jugadorId: string): string {
-    const jugador = this.jugadores.find(j => j._id === jugadorId);
+  getJugadorNombre(jugadorId: any): string {
+    // Normalizar ID: si es un objeto, extraer el _id
+    const normalizedId = typeof jugadorId === 'object' && jugadorId !== null ? jugadorId._id : jugadorId;
+    const jugador = this.jugadores.find(j => j._id === normalizedId);
     return jugador ? jugador.nombre : 'Jugador';
   }
 
@@ -587,9 +671,23 @@ export class CrearFormacionComponent implements OnInit {
   }
 
   // Función auxiliar para obtener la foto de un jugador por ID
-  getFotoUrlById(jugadorId: string): string {
-    const jugador = this.jugadores.find(j => j._id === jugadorId);
+  getFotoUrlById(jugadorId: any): string {
+    // Normalizar ID: si es un objeto, extraer el _id
+    const normalizedId = typeof jugadorId === 'object' && jugadorId !== null ? jugadorId._id : jugadorId;
+    const jugador = this.jugadores.find(j => j._id === normalizedId);
     return this.getFotoUrl(jugador);
+  }
+
+  getFotoJugador(jugadorId: any): string {
+    // Normalizar ID: si es un objeto, extraer el _id
+    const normalizedId = typeof jugadorId === 'object' && jugadorId !== null ? jugadorId._id : jugadorId;
+    return this.getFotoUrlById(normalizedId);
+  }
+
+  getEquipoJugador(jugadorId: any): Jugador | undefined {
+    // Normalizar ID: si es un objeto, extraer el _id
+    const normalizedId = typeof jugadorId === 'object' && jugadorId !== null ? jugadorId._id : jugadorId;
+    return this.jugadores.find(j => j._id === normalizedId);
   }
 
   // FUNCIONES DE DRAG AND DROP MEJORADAS
@@ -673,7 +771,9 @@ export class CrearFormacionComponent implements OnInit {
       this.formacion.equipos.local.nombre &&
       this.formacion.equipos.visitante.nombre &&
       this.formacion.equipos.local.color &&
-      this.formacion.equipos.visitante.color
+      this.formacion.equipos.visitante.color &&
+      this.formacion.equipos.local.jugadores.length >= 5 &&
+      this.formacion.equipos.visitante.jugadores.length >= 5
     );
   }
 }

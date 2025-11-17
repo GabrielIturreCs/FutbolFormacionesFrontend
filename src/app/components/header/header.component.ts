@@ -12,8 +12,8 @@ import { CommonModule } from "@angular/common"
         <a class="navbar-brand d-flex align-items-center" routerLink="/">
           <i class="bi bi-trophy-fill text-warning me-2 fs-4"></i>
           <div class="d-flex flex-column">
-            <span class="taquito-text">TAQUITO LIGAS</span>
-            <span class="fw-bold main-title">Fútbol Manager</span>
+            <span class="taquito-text">DE TAQUITO</span>
+            <span class="fw-bold main-title">Ligas</span>
           </div>
         </a>
         
