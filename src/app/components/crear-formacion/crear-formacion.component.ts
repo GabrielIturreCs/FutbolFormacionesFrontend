@@ -309,28 +309,28 @@ interface Partido {
                           <div class="col-3">
                             <label class="form-label small">⚽ Goles</label>
                             <input type="number" class="form-control form-control-sm" min="0" max="20"
-                                   [(ngModel)]="jugador.estadisticas.goles"
+                                   [(ngModel)]="jugador.estadisticas!.goles"
                                    [name]="'goles-' + i"
                                    placeholder="0">
                           </div>
                           <div class="col-3">
                             <label class="form-label small">👟 Asist.</label>
                             <input type="number" class="form-control form-control-sm" min="0" max="20"
-                                   [(ngModel)]="jugador.estadisticas.asistencias"
+                                   [(ngModel)]="jugador.estadisticas!.asistencias"
                                    [name]="'asist-' + i"
                                    placeholder="0">
                           </div>
                           <div class="col-3">
                             <label class="form-label small">🟨</label>
                             <input type="number" class="form-control form-control-sm" min="0" max="2"
-                                   [(ngModel)]="jugador.estadisticas.tarjetasAmarillas"
+                                   [(ngModel)]="jugador.estadisticas!.tarjetasAmarillas"
                                    [name]="'amar-' + i"
                                    placeholder="0">
                           </div>
                           <div class="col-3">
                             <label class="form-label small">🟥</label>
                             <input type="number" class="form-control form-control-sm" min="0" max="1"
-                                   [(ngModel)]="jugador.estadisticas.tarjetasRojas"
+                                   [(ngModel)]="jugador.estadisticas!.tarjetasRojas"
                                    [name]="'roja-' + i"
                                    placeholder="0">
                           </div>
